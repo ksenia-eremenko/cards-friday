@@ -1,0 +1,13 @@
+.profile {
+    .profile-in {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .styled-btn {
+            max-width: 200px;
+        }
+    }
+    .checkboxes {
+        display: flex;
+    }
+}

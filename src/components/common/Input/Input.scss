@@ -1,0 +1,19 @@
+.input-wrapper {
+    .styled-input:focus {
+        border: 1px solid rgb(2, 50, 61);
+        color: rgb(2, 2, 61);
+    }
+
+    .styled-input {
+        outline: none;
+        border-radius: 5px;
+        width: 180px;
+        height: 40px;
+        padding: 0 10px;
+        border: 1px solid rgb(153, 153, 153);
+        color: rgb(153, 153, 153);
+        transition-duration: 0.3s;
+    }
+
+    .input-info {}
+}

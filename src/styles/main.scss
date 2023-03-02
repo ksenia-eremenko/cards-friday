@@ -1,0 +1,21 @@
+//common
+@import "./global/variables.scss",
+        "./global/mixins.scss",
+        "./global/typography.scss",
+        "./global/common.scss";
+
+// blocks/common
+@import "../components/common/Input/Input",
+        "../components/common/Button/Button",
+        "../components/common/Checkbox/Checkbox",
+        "../components/common/BgOverlay/BgOverlay";
+
+// blocks
+@import "../components/Profile/Profile",
+        "../components/Header/Header",
+        "../components/Nav/Nav",
+        "../components/Login/Login",
+        "../components/RecoveryPassword/RecoveryPassword",
+        "../components/NewPassword/NewPassword",
+        "../components/NotFound/NotFound";
+       

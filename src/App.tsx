@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import './App.scss';
+import "./styles/main.scss";
+import Header from './components/Header/Header';
+import Login from './components/Login/Login';
+import NewPassword from './components/NewPassword/NewPassword';
+import NotFound from './components/NotFound/NotFound';
+import Profile from './components/Profile/Profile';
+import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
+import Registration from './components/Registration/Registration';
+import BgOverlay from './components/common/BgOverlay/BgOverlay';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BgOverlay />
+      <Header />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Profile />} />
+          <Route path="/home" element={<Profile />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/recovery-password" element={<RecoveryPassword />} />
+          <Route path="/new-password" element={<NewPassword />} />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </div>
     </div>
   );
 }

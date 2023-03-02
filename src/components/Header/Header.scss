@@ -1,0 +1,133 @@
+.header {
+    background: $color2;
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+    .nav-wrapper {
+        @include mb {
+            display: flex;
+            justify-content: flex-end
+        }
+
+        .open-menu-icon {
+            @include animate;
+            position: relative;
+            width: 26px;
+            height: 16px;
+            cursor: pointer;
+
+            span {
+                display: block;
+            }
+
+            span,
+            &:before,
+            &:after {
+                width: 100%;
+                height: 2px;
+                background-color: $color1;
+                @include animate;
+                border-radius: 2px;
+            }
+
+            &:before,
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+            }
+
+            &:before {
+                top: 0;
+            }
+
+            &:after {
+                bottom: 0;
+            }
+
+            &.active {
+                span {
+                    opacity: 0;
+                }
+
+                &:before,
+                &:after {
+                    top: 50%;
+                    margin-top: -1px;
+                }
+
+                &:before {
+                    transform: rotate(45deg);
+                }
+
+                &:after {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+
+        .menu-icon {
+            flex-shrink: 0;
+            width: 26px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+
+            @include full {
+                display: none;
+            }
+
+            span {
+                display: block;
+            }
+
+            span,
+            &:before,
+            &:after {
+                width: 100%;
+                height: 2px;
+                background-color: $color1;
+                @include animate;
+                border-radius: 2px;
+            }
+
+            &:before,
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+            }
+
+            &:before {
+                top: 0;
+            }
+
+            &:after {
+                bottom: 0;
+            }
+
+            &.active {
+                span {
+                    opacity: 0;
+                }
+
+                &:before,
+                &:after {
+                    top: 50%;
+                    margin-top: -1px;
+                }
+
+                &:before {
+                    transform: rotate(45deg);
+                }
+
+                &:after {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+}

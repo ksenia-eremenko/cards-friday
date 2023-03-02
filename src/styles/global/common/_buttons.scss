@@ -1,0 +1,62 @@
+.styled-btn {
+    @include animate;
+    text-align: center;
+    text-decoration: none!important;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    border: 0;
+    font-family: 'Rubik', sans-serif;
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+    }
+    &.styled-btn-1,
+    &.styled-btn-2 {
+        border-radius: 2px;
+        border: 1px solid transparent;
+        padding: 0px 15px;
+        min-height: 45px;
+        min-width: 200px;
+        align-items: center;
+        justify-content: center;
+        display: inline-flex;
+        background-color: $color2;
+        color: $color1;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: 400;
+        @include nbtbmb {
+            font-size: 15px;
+            line-height: 15px;
+            min-width: 180px;
+        }
+        @include tbmb {
+            min-width: 180px;
+            min-height: 45px;
+        }
+        @include mb {
+            min-width: inherit;
+            width: 100%;
+        }
+        &:after {
+            content:'';
+            min-height:inherit;
+            font-size:0;
+        }
+    }
+    &.styled-btn-1 {
+        &:hover {
+            background-color: lighten($color2, 7%);
+        }
+    }
+    &.styled-btn-2 {
+        background: $color1;
+        border-color: $color2;
+        color: $color2;
+        &:hover {
+            background-color: darken($color1, 7%);
+        }
+    }
+}
