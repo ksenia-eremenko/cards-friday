@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import BgOverlay from '../components/common/BgOverlay/BgOverlay';
+import Header from '../components/Header/Header';
+import Login from '../components/Login/Login';
+import NewPassword from '../components/NewPassword/NewPassword';
+import NotFound from '../components/NotFound/NotFound';
+import RecoveryPassword from '../components/RecoveryPassword/RecoveryPassword';
+import Registration from '../components/Registration/Registration';
+import Profile from '../pages/Profile/Profile';
 import './App.scss';
-import "./styles/main.scss";
-import Header from './components/Header/Header';
-import Login from './components/Login/Login';
-import NewPassword from './components/NewPassword/NewPassword';
-import NotFound from './components/NotFound/NotFound';
-import Profile from './components/Profile/Profile';
-import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
-import Registration from './components/Registration/Registration';
-import BgOverlay from './components/common/BgOverlay/BgOverlay';
+import "../styles/main.scss";
+
 
 function App() {
   return (
