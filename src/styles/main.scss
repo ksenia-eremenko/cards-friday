@@ -11,12 +11,12 @@
 
 // blocks
 @import "../components/Header/Header",
-        "../components/Nav/Nav",
-        "../components/Login/Login",
-        "../components/RecoveryPassword/RecoveryPassword",
-        "../components/NewPassword/NewPassword",
-        "../components/NotFound/NotFound";
+        "../components/Nav/Nav";
        
 // pages
-@import "../pages/Profile/Profile";
+@import "../pages/Profile/Profile",
+        "../pages/RecoveryPassword/RecoveryPassword",
+        "../pages/Login/Login",
+        "../pages/NewPassword/NewPassword",
+        "../pages/NotFound/NotFound";
        

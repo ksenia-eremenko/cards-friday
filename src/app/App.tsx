@@ -2,14 +2,14 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import BgOverlay from '../components/common/BgOverlay/BgOverlay';
 import Header from '../components/Header/Header';
-import Login from '../components/Login/Login';
-import NewPassword from '../components/NewPassword/NewPassword';
-import NotFound from '../components/NotFound/NotFound';
-import RecoveryPassword from '../components/RecoveryPassword/RecoveryPassword';
-import Registration from '../components/Registration/Registration';
+import Login from '../pages/Login/Login';
+import NewPassword from '../pages/NewPassword/NewPassword';
+import NotFound from '../pages/NotFound/NotFound';
+import Registration from '../pages/Registration/Registration';
 import Profile from '../pages/Profile/Profile';
 import './App.scss';
 import "../styles/main.scss";
+import RecoveryPassword from '../pages/RecoveryPassword/RecoveryPassword';
 
 
 function App() {

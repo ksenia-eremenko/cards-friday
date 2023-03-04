@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import Input from '../common/Input/Input'
+import Input from '../../components/common/Input/Input'
 
 const Registration = () => {
   return (
