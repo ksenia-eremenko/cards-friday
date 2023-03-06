@@ -1,0 +1,131 @@
+Index: src/pages/Login/Login.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.info {\r\n  margin-bottom: 7px;\r\n}\r\n\r\n.link-registration {\r\n  color: $color4;\r\n  text-decoration: none;\r\n\r\n  &:hover {\r\n    text-decoration: underline;\r\n  }\r\n}\r\n\r\n.link-recovery {\r\n  display: inline-block;\r\n  float: right;\r\n  color: $color2;\r\n  text-decoration: none;\r\n\r\n  &:hover {\r\n    text-decoration: underline;\r\n  }\r\n}\r\n\r\n.rememberMe {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-top: 24px;\r\n  margin-bottom: 29px;\r\n\r\n  & label {\r\n    cursor: pointer;\r\n  }\r\n\r\n  & input[type='checkbox'] {\r\n    width: 18px;\r\n    height: 18px;\r\n    margin-right: 12px;\r\n  }\r\n}\r\n\r\n.password-wrapper {\r\n  margin-top: 12px;\r\n  position: relative;\r\n}\r\n\r\n.eye {\r\n  display: inline-block;\r\n  position: absolute;\r\n  right: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n  font-size: 22px;\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/Login/Login.scss b/src/pages/Login/Login.scss
+--- a/src/pages/Login/Login.scss	(revision be4db1acbfff71dbcfb1e8b778d3533cd2eed842)
++++ b/src/pages/Login/Login.scss	(date 1678122031016)
+@@ -55,3 +55,60 @@
+ }
+ 
+ 
++.info {
++  margin-bottom: 7px;
++}
++
++.link-registration {
++  color: $color4;
++  text-decoration: none;
++
++  &:hover {
++    text-decoration: underline;
++  }
++}
++
++.link-recovery {
++  display: inline-block;
++  float: right;
++  color: $color2;
++  text-decoration: none;
++
++  &:hover {
++    text-decoration: underline;
++  }
++}
++
++.rememberMe {
++  display: flex;
++  align-items: center;
++  margin-top: 24px;
++  margin-bottom: 29px;
++
++  & label {
++    cursor: pointer;
++  }
++
++  & input[type='checkbox'] {
++    width: 18px;
++    height: 18px;
++    margin-right: 12px;
++  }
++}
++
++.password-wrapper {
++  margin-top: 12px;
++  position: relative;
++}
++
++.eye {
++  display: inline-block;
++  position: absolute;
++  right: 0;
++  top: 50%;
++  transform: translateY(-50%);
++  font-size: 22px;
++  cursor: pointer;
++}
++
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"4f022b62-9089-4682-9964-3ddff03c22ba\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/src/App.scss\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/App.scss\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2MVtB2I1nChpYq8zciG45jirHvO\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"last_opened_file_path\": \"/Users/ksenia/Projects/incubator/friday\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"yarn\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"start\" type=\"js.build_tools.npm\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <package-json value=\"$PROJECT_DIR$/package.json\" />\r\n      <command value=\"run\" />\r\n      <scripts>\r\n        <script value=\"start\" />\r\n      </scripts>\r\n      <node-interpreter value=\"project\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"npm.start\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"4f022b62-9089-4682-9964-3ddff03c22ba\" name=\"Changes\" comment=\"\" />\r\n      <created>1677864439082</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1677864439082</updated>\r\n      <workItem from=\"1677864441914\" duration=\"774000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"origin/main\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision be4db1acbfff71dbcfb1e8b778d3533cd2eed842)
++++ b/.idea/workspace.xml	(date 1678122031016)
+@@ -1,8 +1,11 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+     <list default="true" id="4f022b62-9089-4682-9964-3ddff03c22ba" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -10,11 +13,19 @@
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="login1" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
++  <component name="ProblemsViewState">
++    <option name="selectedTabId" value="CurrentFile" />
++  </component>
+   <component name="ProjectId" id="2MVtB2I1nChpYq8zciG45jirHvO" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+@@ -28,7 +39,9 @@
+     "last_opened_file_path": "/Users/ksenia/Projects/incubator/friday",
+     "node.js.detected.package.eslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "yarn",
++    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+@@ -87,4 +100,4 @@
+       </map>
+     </option>
+   </component>
+-</project>
+\ No newline at end of file
++</project>
