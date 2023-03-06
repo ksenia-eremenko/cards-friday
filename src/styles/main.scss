@@ -1,3 +1,6 @@
+//reset & normalize styles
+@import "../../node_modules/reset-css/sass/_reset.scss";
+
 //common
 @import "./global/variables.scss",
         "./global/mixins.scss",

@@ -1,13 +1,23 @@
 .profile {
-    .profile-in {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        .styled-btn {
-            max-width: 200px;
+    .auth-form {
+        align-items: center;
+        .name-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:not(:first-child) {
+                margin-top: 15px;
+            }
         }
-    }
-    .checkboxes {
-        display: flex;
+
+        .email {
+            &:not(:first-child) {
+                margin-top: 15px;
+            }
+        }
+        .styled-btn {
+            width: auto;
+        }
     }
 }

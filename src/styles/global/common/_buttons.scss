@@ -1,62 +1,81 @@
 .styled-btn {
     @include animate;
     text-align: center;
-    text-decoration: none!important;
+    text-decoration: none !important;
     outline: none;
     cursor: pointer;
     position: relative;
     border: 0;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+
     &:hover,
     &:focus,
     &:active {
         text-decoration: none;
     }
+
     &.styled-btn-1,
     &.styled-btn-2 {
         border-radius: 2px;
-        border: 1px solid transparent;
+        border: 0;
         padding: 0px 15px;
-        min-height: 45px;
+        min-height: 36px;
         min-width: 200px;
         align-items: center;
         justify-content: center;
         display: inline-flex;
-        background-color: $color2;
         color: $color1;
         font-size: 16px;
         line-height: 16px;
-        font-weight: 400;
+        font-weight: 500;
+        background: $color4;
+        box-shadow: 0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+        border-radius: 30px;
+
         @include nbtbmb {
             font-size: 15px;
             line-height: 15px;
             min-width: 180px;
         }
+
         @include tbmb {
             min-width: 180px;
             min-height: 45px;
         }
+
         @include mb {
             min-width: inherit;
             width: 100%;
         }
+
         &:after {
-            content:'';
-            min-height:inherit;
-            font-size:0;
+            content: '';
+            min-height: inherit;
+            font-size: 0;
         }
     }
+
     &.styled-btn-1 {
         &:hover {
-            background-color: lighten($color2, 7%);
+            background-color: darken($color4, 10%);
         }
     }
+
     &.styled-btn-2 {
-        background: $color1;
-        border-color: $color2;
         color: $color2;
+        min-width: 130px;
+        background: $color7;
+        box-shadow: 0px 2px 10px rgba(109, 109, 109, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+
+        svg {
+            fill: $color2;
+            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+        }
+
         &:hover {
-            background-color: darken($color1, 7%);
+            box-shadow: 0px 2px 10px rgba(109, 109, 109, 0.7), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
         }
     }
 }

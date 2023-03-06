@@ -10,6 +10,7 @@ import Profile from '../pages/Profile/Profile';
 import './App.scss';
 import "../styles/main.scss";
 import RecoveryPassword from '../pages/RecoveryPassword/RecoveryPassword';
+import CheckEmail from '../pages/CheckEmail/CheckEmail';
 
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recovery-password" element={<RecoveryPassword />} />
-          <Route path="/new-password" element={<NewPassword />} />
+          <Route path="/set-new-password/:token" element={<NewPassword />} />
+          <Route path="/check-email" element={<CheckEmail />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>

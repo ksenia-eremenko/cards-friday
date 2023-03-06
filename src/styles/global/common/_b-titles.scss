@@ -109,7 +109,23 @@
         }
         @include mb {
             font-size: 18px;
-            line-height: 254px;
+            line-height: 24px;
+        }
+    }
+    &.bt26 {
+        font-size: 26px;
+        line-height: 32px;
+        @include nb {
+            font-size: 24px;
+            line-height: 30px;
+        }
+        @include tb {
+            font-size: 22px;
+            line-height: 28px;
+        }
+        @include mb {
+            font-size: 20px;
+            line-height: 28px;
         }
     }
     &.bt30 {
@@ -130,6 +146,9 @@
     }
     &.color1 {
         color: $color1;
+    }
+    &.color6 {
+        color: $color6;
     }
     &.align-center {
         text-align: center;
