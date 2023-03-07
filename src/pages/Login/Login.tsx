@@ -4,7 +4,8 @@ import Input from '../../components/common/Input/Input'
 import {useFormik} from 'formik';
 import {useAppDispatch, useAppSelector} from '../../store/store';
 import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai';
-import {login} from '../../store/auth-reducer';
+import {getProfile} from '../../store/profile-reducer';
+
 
 export type LoginFormDataType = {
   email: string
@@ -48,7 +49,7 @@ const Login = () => {
     },
     onSubmit: values => {
       formik.resetForm()
-      dispatch(login(values))
+      dispatch(getProfile(values))
     },
   })
 
