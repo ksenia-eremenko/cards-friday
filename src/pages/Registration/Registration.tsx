@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Navigate, NavLink } from "react-router-dom";
@@ -8,6 +8,7 @@ import Input from "../../components/common/Input/Input";
 import { register } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
+import { setAppError } from '../../store/app-reducer';
 
 
 const Registration = () => {
@@ -39,7 +40,7 @@ const Registration = () => {
             }),
             confirmPassword: Yup.string()
                 .required("Please confirm your password")
-                .oneOf([Yup.ref('password'),], "Passwords do not match"),
+                .oneOf([Yup.ref('password')], "Passwords do not match"),
 
         }),
         onSubmit: data => {
@@ -47,6 +48,10 @@ const Registration = () => {
             dispatch(register(data))
         },
     });
+
+    useEffect(() => {
+        dispatch(setAppError(null))
+    }, [])
     if (status === 'succeeded') {
         return <Navigate to={'/login'} />
     }

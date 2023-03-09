@@ -107,6 +107,9 @@ export const newPassword = (data: newPasswordDataType) => async (dispatch: Dispa
         dispatch(setAppStatus('succeeded'))
     } catch (e: any) {
         console.log(e);
+        dispatch(setAppStatus('failed'))
+    } finally {
+        dispatch(setAppStatus("idle"))
     }
 }
 export const logout = () => async (dispatch: Dispatch<ActionsType>) => {
@@ -114,9 +117,11 @@ export const logout = () => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setIsLoggedIn(false))
     try {
         await authAPI.logout()
-        dispatch(setAppStatus('idle'))
+        dispatch(setAppStatus("succeeded"))
     } catch (e) {
-        dispatch(setAppStatus('failed'))
+        dispatch(setAppStatus("failed"))
+    } finally {
+        dispatch(setAppStatus("idle"))
     }
 }
 export const register = (data: RegisterParamsType) => (dispatch: Dispatch<ActionsType>) => {
@@ -132,6 +137,9 @@ export const register = (data: RegisterParamsType) => (dispatch: Dispatch<Action
                 dispatch(setAppError('Email already exists'))
             }
         })
+        .finally(() => {
+            dispatch(setAppStatus("idle"))
+        })
 }
 export const me = () => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatus('loading'))
@@ -143,5 +151,7 @@ export const me = () => async (dispatch: Dispatch<ActionsType>) => {
     } catch (e: any) {
         dispatch(setAppStatus('failed'))
         dispatch(setIsInitialized(true));
+    } finally {
+        dispatch(setAppStatus("idle"))
     }
 }

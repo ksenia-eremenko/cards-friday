@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, NavLink } from 'react-router-dom'
 import Input from '../../components/common/Input/Input'
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { forgot } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
+import { setAppError } from '../../store/app-reducer';
 
 type FormikErrorType = {
   email?: string
@@ -34,6 +35,9 @@ const RecoveryPassword = () => {
       dispatch(forgot(values.email));
     },
   })
+  useEffect(() => {
+    dispatch(setAppError(null))
+  }, [])
 
   if (status === 'succeeded') {
     return <Navigate to={'/check-email'} />

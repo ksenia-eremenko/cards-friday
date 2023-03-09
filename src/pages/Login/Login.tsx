@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate, NavLink } from 'react-router-dom'
 import Input from '../../components/common/Input/Input'
 import { useFormik } from 'formik';
@@ -7,6 +7,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { getProfile } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
+import { setAppError } from '../../store/app-reducer';
 
 
 export type LoginFormDataType = {
@@ -56,6 +57,10 @@ const Login = () => {
       dispatch(getProfile(values))
     },
   })
+
+  useEffect(() => {
+    dispatch(setAppError(null))
+  }, [])
 
   if (isLoggedIn) {
     return <Navigate to={'/'} />
