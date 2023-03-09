@@ -40,7 +40,6 @@
 
         @include tbmb {
             min-width: 180px;
-            min-height: 45px;
         }
 
         @include mb {
@@ -72,6 +71,11 @@
             margin-right: 5px;
             width: 16px;
             height: 16px;
+
+            @include mb {
+                width: 14px;
+                height: 14px;
+            }
         }
 
         &:hover {

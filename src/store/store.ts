@@ -3,8 +3,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
 import {appReducer} from './app-reducer'
 import { authReducer } from './auth-reducer';
-import {profileReducer} from './profile-reducer';
-import {registerReducer} from "./register-reducer";
+// import {registerReducer} from "./register-reducer";
 
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -12,8 +11,7 @@ import {registerReducer} from "./register-reducer";
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
-    profile: profileReducer,
-    register: registerReducer
+    // register: registerReducer
 })
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));

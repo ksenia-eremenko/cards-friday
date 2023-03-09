@@ -21,7 +21,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path="/" element={<Profile />} />
-          <Route path="/home" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recovery-password" element={<RecoveryPassword />} />

@@ -1,0 +1,25 @@
+.error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $colorError;
+    padding: 2px 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+
+    @include mb {
+        padding: 2px 5px;
+    }
+    .close {
+        cursor: pointer;
+        @include animate;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.not-found {
+    height: calc(100vh - 100px);
+
+    @include mb {
+        height: auto;
+    }
+
+    .container,
+    .in {
+        height: 100%;
+    }
+
+    .in {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+
+        @include nb {
+            gap: 50px;
+        }
+
+        @include tb {
+            gap: 40px;
+        }
+
+        @include mb {
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .left {
+            @include mb {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .b-title {
+                &:not(:first-child) {
+                    margin-top: 20px;
+
+                    @include tb {
+                        margin-top: 15px;
+                    }
+
+                    @include mb {
+                        margin-top: 10px;
+                    }
+                }
+            }
+
+            .styled-btn {
+                &:not(:first-child) {
+                    margin-top: 35px;
+
+                    @include nb {
+                        margin-top: 30px;
+                    }
+
+                    @include tb {
+                        margin-top: 25px;
+                    }
+
+                    @include mb {
+                        margin-top: 15px;
+                    }
+                }
+            }
+        }
+
+        .right {
+            img {
+                @include mb {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

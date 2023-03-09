@@ -188,10 +188,36 @@
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
     border-radius: 2px;
     width: 420px;
+    position: relative;
+
+    @include nb {
+        padding: 25px;
+    }
+
+    @include tb {
+        padding: 20px;
+    }
+
+    @include mb {
+        width: 100%;
+        padding: 15px;
+    }
 
     .title {
         &+form {
             margin-top: 35px;
+
+            @include nb {
+                margin-top: 30px;
+            }
+
+            @include tb {
+                margin-top: 20px;
+            }
+
+            @include mb {
+                margin-top: 15px;
+            }
         }
     }
 
@@ -199,6 +225,18 @@
         display: flex;
         justify-content: center;
         max-height: 108px;
+
+        @include nb {
+            max-height: 100px;
+        }
+
+        @include tb {
+            max-height: 90px;
+        }
+
+        @include mb {
+            max-height: 8ƒ0px;
+        }
 
         &:not(:first-child) {
             margin-top: 30px;
@@ -209,24 +247,81 @@
         }
     }
 
-    .avatar {
-        display: flex;
-        justify-content: center;
+    .avatar-wrapper {
+        position: relative;
 
         &:not(:first-child) {
             margin-top: 30px;
+
+            @include nb {
+                margin-top: 25px;
+            }
+
+            @include tb {
+                margin-top: 20px;
+            }
+
+            @include mb {
+                margin-top: 15px;
+            }
         }
 
-        img {
-            width: 96px;
-            height: 96px;
-            object-fit: cover;
+        .avatar {
+            display: flex;
+            justify-content: center;
+
+            img {
+                width: 96px;
+                height: 96px;
+                object-fit: cover;
+
+                @include nbtb {
+                    width: 86px;
+                    height: 86px;
+                }
+
+                @include mb {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+
+        .icon {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            right: 0;
+            bottom: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid $color1;
+            background: $color8;
+            @include animate;
+
+            svg {
+                fill: $color1;
+            }
+            &:hover {
+                opacity: 0.9;
+            }
         }
     }
 
     .info {
         &:not(:first-child) {
             margin-top: 25px;
+
+            @include nb {
+                margin-top: 20px;
+            }
+
+            @include tbmb {
+                margin-top: 15px;
+            }
         }
     }
 
@@ -235,12 +330,36 @@
 
         &:not(:first-child) {
             margin-top: 65px;
+
+            @include nb {
+                margin-top: 50px;
+            }
+
+            @include tb {
+                margin-top: 30px;
+            }
+
+            @include mb {
+                margin-top: 20px;
+            }
         }
     }
 
     .bottom {
         &:not(:first-child) {
             margin-top: 30px;
+
+            @include nb {
+                margin-top: 25px;
+            }
+
+            @include tb {
+                margin-top: 20px;
+            }
+
+            @include mb {
+                margin-top: 15px;
+            }
         }
 
         .b-title {

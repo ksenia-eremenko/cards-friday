@@ -10,11 +10,11 @@
 @import "../components/common/Input/Input",
         "../components/common/Button/Button",
         "../components/common/Checkbox/Checkbox",
+        "../components/common/Error/Error",
         "../components/common/BgOverlay/BgOverlay";
 
 // blocks
-@import "../components/Header/Header",
-        "../components/Nav/Nav";
+@import "../components/Header/Header";
        
 // pages
 @import "../pages/Profile/Profile",

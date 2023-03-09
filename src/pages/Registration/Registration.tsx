@@ -1,27 +1,28 @@
-import React, {useState} from 'react';
-import {useFormik} from 'formik';
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {NavLink, useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../store/store";
-import {registerTC} from "../../store/register-reducer";
-import {AiFillEye} from "react-icons/ai";
+import { Navigate, NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { AiFillEye } from "react-icons/ai";
 import Input from "../../components/common/Input/Input";
+import { register } from '../../store/auth-reducer';
+import { Error } from '../../components/common/Error/Error';
 
 
 const Registration = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const dispatch = useAppDispatch()
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
-
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const toggleShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch()
+    const status = useAppSelector(state => state.app.status)
+    const error = useAppSelector(state => state.app.error)
 
     const formik = useFormik({
         initialValues: {
@@ -42,14 +43,16 @@ const Registration = () => {
         }),
         onSubmit: data => {
             formik.resetForm()
-            dispatch(registerTC(data))
-            navigate('/login');
+            dispatch(register(data))
         },
     });
-
+    if (status === 'succeeded') {
+        return <Navigate to={'/login'} />
+    }
     return (
         <div className={'form signup'}>
-            <div className={'form-wrapper auth-form'}>
+            <div className='form-wrapper auth-form'>
+                {status === 'failed' ? <Error errorText={error} /> : ''}
                 <div className={'title b-title bt26 semibold align-center'}>Sign Up</div>
                 <form onSubmit={formik.handleSubmit} className={'form-style'}>
                     <div className={'field input-field'}>
@@ -75,7 +78,7 @@ const Registration = () => {
                         {formik.touched.password && formik.errors.password ? (
                             <span className={'error-lbl'}>{formik.errors.password}</span>
                         ) : null}
-                        <span className='eye' onClick={toggleShowPassword}><AiFillEye/></span>
+                        <span className='eye' onClick={toggleShowPassword}><AiFillEye /></span>
                     </div>
 
                     <div className={'password-wrapper'}>
@@ -89,7 +92,7 @@ const Registration = () => {
                         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                             <span className={'error-lbl'}>{formik.errors.confirmPassword}</span>
                         ) : null}
-                        <span className='eye' onClick={toggleShowConfirmPassword}><AiFillEye/></span>
+                        <span className='eye' onClick={toggleShowConfirmPassword}><AiFillEye /></span>
                     </div>
                     <button type="submit" className={'styled-btn styled-btn-1'}>Sign Up</button>
                 </form>

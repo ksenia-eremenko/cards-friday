@@ -1,13 +1,25 @@
 .profile {
     .auth-form {
         align-items: center;
+
         .name-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
 
             &:not(:first-child) {
                 margin-top: 15px;
+            }
+
+            .edit-name {
+                cursor: pointer;
+
+                svg {
+                    width: 18px;
+                    height: 18px;
+                    fill: $color2;
+                }
             }
         }
 
@@ -16,6 +28,7 @@
                 margin-top: 15px;
             }
         }
+
         .styled-btn {
             width: auto;
         }
