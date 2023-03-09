@@ -10,12 +10,12 @@ import { CiEdit } from 'react-icons/ci';
 const Profile = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const profileData = useAppSelector(state => state.auth.profile)
-    console.log(profileData);
-
     const onClickHandler = () => {
         dispatch(logout())
     }
+
+    console.log(isLoggedIn);
+    
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
@@ -35,12 +35,12 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="name-wrapper">
-                        <div className="name b-title bt20 medium">{profileData?.name}</div>
+                        <div className="name b-title bt20 medium">Ivan</div>
                         <div className="icon edit-name">
                             <CiEdit />
                         </div>
                     </div>
-                    <div className="email b-title bt14 color6 align-center">{profileData?.email}</div>
+                    <div className="email b-title bt14 color6 align-center">j&johnson@gmail.com</div>
                     <button className='styled-btn styled-btn-2' onClick={onClickHandler}><AiOutlineLogout />Log out</button>
                 </div>
             </div>

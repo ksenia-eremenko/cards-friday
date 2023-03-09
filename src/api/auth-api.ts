@@ -22,7 +22,10 @@ export const authAPI = {
     },
     register(data: RegisterParamsType) {
         return instance.post(`/auth/register`, data)
-    }
+    },
+    me() {
+        return instance.post('auth/me')
+    },
 }
 
 export const recoveryPasswordAPI = {

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { useFormik } from 'formik';
 import { forgot } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
+import Preloader from '../../components/common/Preloader/Preloader';
 
 type FormikErrorType = {
   email?: string
@@ -37,12 +38,14 @@ const RecoveryPassword = () => {
   if (status === 'succeeded') {
     return <Navigate to={'/check-email'} />
   }
-
+  if (status === 'loading') {
+    return <Preloader />
+  }
   return (
     <div className="recovery-password">
       <div className="container">
         <div className="form-wrapper auth-form">
-          {status === 'failed' ? <Error errorText={error}/> : ''}
+          {status === 'failed' ? <Error errorText={error} /> : ''}
           <div className='title b-title bt26 semibold align-center'>Forgot your password?</div>
           <form className='form-style' onSubmit={formik.handleSubmit}>
             <Input

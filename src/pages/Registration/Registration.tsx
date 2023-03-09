@@ -7,6 +7,7 @@ import { AiFillEye } from "react-icons/ai";
 import Input from "../../components/common/Input/Input";
 import { register } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
+import Preloader from '../../components/common/Preloader/Preloader';
 
 
 const Registration = () => {
@@ -48,6 +49,9 @@ const Registration = () => {
     });
     if (status === 'succeeded') {
         return <Navigate to={'/login'} />
+    }
+    if (status === 'loading') {
+        return <Preloader />
     }
     return (
         <div className={'form signup'}>

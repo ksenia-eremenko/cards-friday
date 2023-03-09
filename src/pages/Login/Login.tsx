@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { getProfile } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
+import Preloader from '../../components/common/Preloader/Preloader';
 
 
 export type LoginFormDataType = {
@@ -60,11 +61,14 @@ const Login = () => {
     return <Navigate to={'/'} />
   }
 
+  if (status === 'loading') {
+    return <Preloader />
+  }
   return (
     <div className="login">
       <div className="container">
         <div className="form-wrapper auth-form">
-          {status === 'failed' ? <Error errorText={error}/> : ''}
+          {status === 'failed' ? <Error errorText={error} /> : ''}
           <h1 className="title b-title bt26 semibold align-center">Sign in</h1>
           <form className="form-style" onSubmit={formik.handleSubmit}>
             <Input

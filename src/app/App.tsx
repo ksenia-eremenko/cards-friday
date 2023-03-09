@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import BgOverlay from '../components/common/BgOverlay/BgOverlay';
 import Header from '../components/Header/Header';
@@ -11,9 +11,22 @@ import './App.scss';
 import "../styles/main.scss";
 import RecoveryPassword from '../pages/RecoveryPassword/RecoveryPassword';
 import CheckEmail from '../pages/CheckEmail/CheckEmail';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { me } from '../store/auth-reducer';
+import Preloader from '../components/common/Preloader/Preloader';
 
 
 function App() {
+  const dispatch = useAppDispatch();
+  const isInitialized = useAppSelector(state => state.auth.isInitialized);
+
+  useEffect(() => {
+    dispatch(me())
+  }, [])
+
+  if (!isInitialized) {
+    return <Preloader />
+  }
   return (
     <div className="App">
       <BgOverlay />
