@@ -7,7 +7,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { getProfile } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { setAppError } from '../../store/app-reducer';
+import { setAppError, setAppStatus } from '../../store/app-reducer';
 
 
 export type LoginFormDataType = {
@@ -60,7 +60,8 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(setAppError(null))
-  }, [])
+    dispatch(setAppStatus("idle"))
+  }, [dispatch])
 
   if (isLoggedIn) {
     return <Navigate to={'/'} />

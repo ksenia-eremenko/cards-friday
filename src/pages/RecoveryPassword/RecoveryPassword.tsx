@@ -37,7 +37,7 @@ const RecoveryPassword = () => {
   })
   useEffect(() => {
     dispatch(setAppError(null))
-  }, [])
+  }, [dispatch])
 
   if (status === 'succeeded') {
     return <Navigate to={'/check-email'} />
