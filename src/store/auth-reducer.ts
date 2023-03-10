@@ -83,8 +83,6 @@ export const getProfile = (data: LoginFormDataType) => async (dispatch: Dispatch
         if (error.response.data.error === 'not correct password /ᐠ-ꞈ-ᐟ\\') {
             dispatch(setAppError('Not correct password'))
         }
-    } finally {
-        dispatch(setAppStatus("idle"))
     }
 }
 export const forgot = (email: string) => async (dispatch: Dispatch<ActionsType>) => {

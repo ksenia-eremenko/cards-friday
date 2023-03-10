@@ -8,7 +8,7 @@ import Input from "../../components/common/Input/Input";
 import { register } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { setAppError, setAppStatus } from '../../store/app-reducer';
+import { setAppError } from '../../store/app-reducer';
 
 
 const Registration = () => {
@@ -51,7 +51,7 @@ const Registration = () => {
 
     useEffect(() => {
         dispatch(setAppError(null))
-    }, [dispatch])
+    }, [])
     if (status === 'succeeded') {
         return <Navigate to={'/login'} />
     }
