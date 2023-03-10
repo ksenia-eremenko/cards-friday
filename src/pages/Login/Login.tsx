@@ -7,7 +7,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { getProfile } from '../../store/auth-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { setAppError } from '../../store/app-reducer';
+import { setAppError, setAppStatus } from '../../store/app-reducer';
 
 
 export type LoginFormDataType = {
@@ -53,13 +53,13 @@ const Login = () => {
       return errors
     },
     onSubmit: values => {
-      formik.resetForm()
       dispatch(getProfile(values))
     },
   })
 
   useEffect(() => {
     dispatch(setAppError(null))
+    dispatch(setAppStatus("idle"))
   }, [])
   if (isLoggedIn) {
     return <Navigate to={'/'} />

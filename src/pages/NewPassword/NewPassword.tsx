@@ -1,10 +1,12 @@
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import Input from '../../components/common/Input/Input'
 import { newPassword } from '../../store/auth-reducer'
-import { useAppDispatch } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { Error } from '../../components/common/Error/Error';
+import Preloader from '../../components/common/Preloader/Preloader'
 
 export type LoginFormDataType = {
   password: string
@@ -15,13 +17,16 @@ type FormikErrorsType = {
 }
 
 const NewPassword = () => {
+  const status = useAppSelector(state => state.app.status)
+  const error = useAppSelector(state => state.app.error)
+  const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(false);
+  const { token } = useParams();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const { token } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch()
+
 
   const formik = useFormik({
     initialValues: {
@@ -37,16 +42,23 @@ const NewPassword = () => {
       return errors
     },
     onSubmit: data => {
-      formik.resetForm()
-      dispatch(newPassword({ password: data.password, resetPasswordToken: token }));
-      navigate('/login');
+      if (token) {
+        dispatch(newPassword({ password: data.password, resetPasswordToken: token }));
+      }
     },
   })
 
+  if (status === 'succeeded') {
+    return <Navigate to={'/login'} />
+  }
+  if (status === 'loading') {
+    return <Preloader />
+  }
   return (
     <div className="new-password">
       <div className="container">
         <div className="auth-form">
+          {status === 'failed' ? <Error errorText={error} /> : ''}
           <div className='title b-title bt26 semibold align-center'>Create new password</div>
           <form className='form-style' onSubmit={formik.handleSubmit}>
             <div className="password-wrapper">

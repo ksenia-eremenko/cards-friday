@@ -106,10 +106,8 @@ export const newPassword = (data: newPasswordDataType) => async (dispatch: Dispa
         dispatch(setIsLoggedIn(false))
         dispatch(setAppStatus('succeeded'))
     } catch (e: any) {
-        console.log(e);
         dispatch(setAppStatus('failed'))
-    } finally {
-        dispatch(setAppStatus("idle"))
+        dispatch(setAppError(e.response.data.error))
     }
 }
 export const logout = () => async (dispatch: Dispatch<ActionsType>) => {
@@ -144,7 +142,8 @@ export const register = (data: RegisterParamsType) => (dispatch: Dispatch<Action
 export const me = () => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatus('loading'))
     try {
-        await authAPI.me()
+        const res = await authAPI.me()
+        dispatch(setLoginData(res.data))
         dispatch(setIsLoggedIn(true));
         dispatch(setIsInitialized(true));
         dispatch(setAppStatus('succeeded'))

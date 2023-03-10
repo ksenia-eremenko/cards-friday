@@ -5,6 +5,7 @@ import logo from '../../assets/images/logo.svg'
 import avatar from '../../assets/images/image-2.png'
 const Header = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const profile = useAppSelector(state => state.auth.profile)
     
     return (
         <div className="header">
@@ -15,7 +16,7 @@ const Header = () => {
                     </div>
                     {isLoggedIn
                         ? <div className="user-info">
-                            <NavLink to={'/profile'} className="link-profile">UserName</NavLink>
+                            <NavLink to={'/profile'} className="link-profile">{profile?.name}</NavLink>
                             <div className="image">
                                 <img src={avatar} alt="" />
                             </div>
