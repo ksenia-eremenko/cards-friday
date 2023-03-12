@@ -1,0 +1,19 @@
+.editable-span {
+    .name {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+
+        button {
+            border: 0;
+            background: none;
+            width: auto;
+            height: auto;
+        }
+    }
+    .change-name {
+        .error-name {
+            color: $colorError;
+        }
+    }
+}

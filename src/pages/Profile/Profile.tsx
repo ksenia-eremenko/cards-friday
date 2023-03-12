@@ -2,18 +2,27 @@ import React from 'react'
 import avatar from '../../assets/images/image-2.png'
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { logout } from '../../store/auth-reducer';
+import { logout, setLoginData } from '../../store/auth-reducer';
 import { Navigate } from 'react-router-dom';
 import { BsCamera } from 'react-icons/bs';
-import { CiEdit } from 'react-icons/ci';
+import { EditableSpan } from '../../components/common/EditableSpan/EditableSpan';
+import { changeUserData, setUserData } from '../../store/profile-reducer';
 
 const Profile = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const profile = useAppSelector(state => state.auth.profile)
+    const name = useAppSelector(state => state.auth.profile?.name)
 
     const onClickHandler = () => {
         dispatch(logout())
+    }
+
+    const editName = (name: string) => {
+        dispatch(changeUserData({ name }))
+        // console.log('qwdqw');
+        // console.log(name);
+
     }
 
     if (!isLoggedIn) {
@@ -34,10 +43,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="name-wrapper">
-                        <div className="name b-title bt20 medium">{profile?.name}</div>
-                        <div className="icon edit-name">
-                            <CiEdit />
-                        </div>
+                        <EditableSpan callback={editName} name={name ? name : ''} />
                     </div>
                     <div className="email b-title bt14 color6 align-center">{profile?.email}</div>
                     <button className='styled-btn styled-btn-2' onClick={onClickHandler}><AiOutlineLogout />Log out</button>
