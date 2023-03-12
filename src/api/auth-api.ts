@@ -24,7 +24,7 @@ export const authAPI = {
         return instance.post(`/auth/register`, data)
     },
     me() {
-        return instance.post('auth/me')
+        return instance.post('/auth/me')
     },
 }
 

@@ -33,7 +33,7 @@ type InitialStateType = {
     isRegisterIn: boolean
     isInitialized: boolean
 }
-type UserDataType = {
+export type UserDataType = {
     _id: string
     email: string
     name: string
@@ -151,6 +151,6 @@ export const me = () => async (dispatch: Dispatch<ActionsType>) => {
         dispatch(setAppStatus('failed'))
         dispatch(setIsInitialized(true));
     } finally {
-        dispatch(setAppStatus("idle"))
+        dispatch(setAppStatus('idle'))
     }
 }
