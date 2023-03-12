@@ -2,7 +2,7 @@ import { instance } from './instance';
 
 export const profileAPI = {
   editUserData(data: EditDataUserType) {
-    return instance.put<UpdateResponseType>('/auth/me', data);
+    return instance.put<'', UpdateResponseType, EditDataUserType>('/auth/me', data);
   },
 };
 

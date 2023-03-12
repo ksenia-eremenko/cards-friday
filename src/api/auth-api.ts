@@ -1,6 +1,7 @@
-import axios from 'axios';
-import { LoginFormDataType } from '../pages/Login/Login';
+import axios, {AxiosResponse} from 'axios';
+import {LoginDataType} from '../pages/Login/Login';
 import { instance } from './instance';
+import {ProfileType} from '../store/auth-reducer';
 
 export type RegisterParamsType = {
     email: string
@@ -15,16 +16,16 @@ const message = `<h3>Password recovery link: <a href='http://localhost:3000/#/se
 
 export const authAPI = {
     logout() {
-        return instance.delete('/auth/me')
+        return instance.delete<{info: string}>('/auth/me')
     },
-    login(data: LoginFormDataType) {
-        return instance.post('/auth/login', data)
+    login(data: LoginDataType) {
+        return instance.post<'', AxiosResponse<ProfileType>, LoginDataType>('/auth/login', data)
     },
     register(data: RegisterParamsType) {
-        return instance.post(`/auth/register`, data)
+        return instance.post<'', AxiosResponse<ProfileType>, RegisterParamsType>(`/auth/register`, data)
     },
     me() {
-        return instance.post('/auth/me')
+        return instance.post<ProfileType>('/auth/me')
     },
 }
 

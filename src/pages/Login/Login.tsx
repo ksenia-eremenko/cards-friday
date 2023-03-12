@@ -10,7 +10,7 @@ import Preloader from '../../components/common/Preloader/Preloader';
 import { setAppError, setAppStatus } from '../../store/app-reducer';
 
 
-export type LoginFormDataType = {
+export type LoginDataType = {
   email: string
   password: string
   rememberMe: boolean
@@ -38,7 +38,7 @@ const Login = () => {
       password: '',
       rememberMe: false
     },
-    validate: (values: LoginFormDataType) => {
+    validate: (values: LoginDataType) => {
       const errors: FormikErrorsType = {}
       if (!values.email) {
         errors.email = 'Required'

@@ -44,7 +44,6 @@ const Registration = () => {
 
         }),
         onSubmit: data => {
-            formik.resetForm()
             dispatch(register(data))
         },
     });

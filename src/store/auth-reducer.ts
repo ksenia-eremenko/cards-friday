@@ -1,12 +1,12 @@
 
 import { Dispatch } from "redux"
 import { authAPI, newPasswordDataType, recoveryPasswordAPI, RegisterParamsType } from "../api/auth-api"
-import { LoginFormDataType } from "../pages/Login/Login"
+import { LoginDataType } from "../pages/Login/Login"
 import { setAppError, SetAppErrorActionType, setAppStatus, SetAppStatusActionType } from "./app-reducer"
 
-const initialState: InitialStateType = {
+const initialState = {
     isLoggedIn: false,
-    profile: null,
+    profile: null as null | ProfileType,
     isRegisterIn: false,
     isInitialized: false
 }
@@ -27,13 +27,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 //types
-type InitialStateType = {
-    isLoggedIn: boolean
-    profile: null | UserDataType
-    isRegisterIn: boolean
-    isInitialized: boolean
-}
-export type UserDataType = {
+type InitialStateType = typeof initialState
+
+export type ProfileType = {
     _id: string
     email: string
     name: string
@@ -48,7 +44,7 @@ export type UserDataType = {
 }
 
 //actions
-export const setLoginData = (data: UserDataType) => ({ type: 'AUTH/SET-PROFILE', data } as const)
+export const setLoginData = (data: ProfileType) => ({ type: 'AUTH/SET-PROFILE', data } as const)
 export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'AUTH/SET-IS-LOGIN', isLoggedIn } as const)
 export const setIsRegisterIn = (userData: boolean) => ({ type: 'AUTH/SET-IS-REGISTER-IN', userData } as const)
 export const setIsInitialized = (value: boolean) => ({ type: 'login/SET-IS-INITIALIZED', value } as const)
@@ -68,7 +64,7 @@ type ActionsType = SetIsLoggedInType
     | setIsInitializedType
 
 //thunks
-export const getProfile = (data: LoginFormDataType) => async (dispatch: Dispatch<ActionsType>) => {
+export const getProfile = (data: LoginDataType) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatus("loading"))
     try {
         const res = await authAPI.login(data)

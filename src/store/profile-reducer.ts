@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { profileAPI } from "../api/profile-api";
 import { setAppStatus } from "./app-reducer";
 
-const initState: InitStateType = {
+const initState = {
     name: ''
 };
 
@@ -27,9 +27,7 @@ type DataType = {
     name: string
 }
 
-type InitStateType = {
-    name: string;
-}
+type InitStateType = typeof initState
 
 type ProfileActionsType = SetUserDataType
 type SetUserDataType = ReturnType<typeof setUserData>;
@@ -37,13 +35,13 @@ type SetUserDataType = ReturnType<typeof setUserData>;
 
 export const changeUserData = (data: any) => async (dispatch: Dispatch) => {
     console.log(data);
-    
+
     dispatch(setAppStatus('loading'));
     try {
         const response = await profileAPI.editUserData(data);
         console.log(response);
-        
-        const { name } = response.data.updatedUser;
+
+        const { name } = response.updatedUser;
         dispatch(setUserData({ name }));
     } catch (err: any) {
         // errorHandler(dispatch, err.response.data.error);

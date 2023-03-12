@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import { instance } from './instance';
 
 export type newPasswordDataType = {
@@ -10,9 +10,9 @@ const message = `<h3>Password recovery link: <a href='http://localhost:3000/#/se
 
 export const recoveryPasswordAPI = {
     sendLetter(email: string) {
-        return axios.post('https://neko-back.herokuapp.com/2.0/auth/forgot', { email, message }, { withCredentials: true })
+        return axios.post<{info: string}>('https://neko-back.herokuapp.com/2.0/auth/forgot', { email, message }, { withCredentials: true })
     },
     newPassword(data: newPasswordDataType) {
-        return instance.post('/auth/set-new-password', data)
+        return instance.post<'', AxiosResponse<{info: string}>, newPasswordDataType>('/auth/set-new-password', data)
     }
 }
