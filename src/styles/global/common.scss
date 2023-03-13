@@ -28,10 +28,12 @@ body {
     color: $color2;
     background: $color5;
     font-weight: normal;
+    position: relative;
 }
 
 html {
     @include customScrollbar($color2, 7px, 5px, 0px);
+    overflow-x: hidden;
 }
 
 #__next {

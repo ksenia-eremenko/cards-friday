@@ -4,6 +4,9 @@
     height: 60px;
     display: flex;
     align-items: center;
+    @include mb {
+        height: 50px;
+    }
 
     .nav-wrapper {
         display: flex;
@@ -13,7 +16,20 @@
 
         @include mb {
             display: flex;
-            justify-content: flex-end
+        }
+
+        .logo {
+            height: 46px;
+            @include nbtb {
+                height: 40px;
+            }
+            @include mb {
+                height: 30px;
+            }
+            img {
+                width: auto;
+                height: 100%;
+            }
         }
 
         .user-info {

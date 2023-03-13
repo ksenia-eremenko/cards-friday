@@ -6,7 +6,7 @@ import avatar from '../../assets/images/image-2.png'
 const Header = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const profile = useAppSelector(state => state.auth.profile)
-    
+
     return (
         <div className="header">
             <div className="container">

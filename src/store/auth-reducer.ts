@@ -1,8 +1,8 @@
 
-import { Dispatch } from "redux"
 import { authAPI, newPasswordDataType, recoveryPasswordAPI, RegisterParamsType } from "../api/auth-api"
 import { LoginDataType } from "../pages/Login/Login"
 import { setAppError, SetAppErrorActionType, setAppStatus, SetAppStatusActionType } from "./app-reducer"
+import { AppThunkType } from "./store"
 
 const initialState = {
     isLoggedIn: false,
@@ -64,7 +64,7 @@ type ActionsType = SetIsLoggedInType
     | setIsInitializedType
 
 //thunks
-export const getProfile = (data: LoginDataType) => async (dispatch: Dispatch<ActionsType>) => {
+export const getProfile = (data: LoginDataType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus("loading"))
     try {
         const res = await authAPI.login(data)
@@ -81,7 +81,7 @@ export const getProfile = (data: LoginDataType) => async (dispatch: Dispatch<Act
         }
     }
 }
-export const forgot = (email: string) => async (dispatch: Dispatch<ActionsType>) => {
+export const forgot = (email: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus("loading"))
     try {
         await recoveryPasswordAPI.sendLetter(email);
@@ -95,7 +95,7 @@ export const forgot = (email: string) => async (dispatch: Dispatch<ActionsType>)
         }
     }
 }
-export const newPassword = (data: newPasswordDataType) => async (dispatch: Dispatch<ActionsType>) => {
+export const newPassword = (data: newPasswordDataType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus("loading"))
     try {
         await recoveryPasswordAPI.newPassword(data)
@@ -106,7 +106,7 @@ export const newPassword = (data: newPasswordDataType) => async (dispatch: Dispa
         dispatch(setAppError(e.response.data.error))
     }
 }
-export const logout = () => async (dispatch: Dispatch<ActionsType>) => {
+export const logout = (): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'))
     dispatch(setIsLoggedIn(false))
     try {
@@ -118,7 +118,7 @@ export const logout = () => async (dispatch: Dispatch<ActionsType>) => {
         dispatch(setAppStatus("idle"))
     }
 }
-export const register = (data: RegisterParamsType) => (dispatch: Dispatch<ActionsType>) => {
+export const register = (data: RegisterParamsType): AppThunkType => (dispatch) => {
     dispatch(setAppStatus("loading"))
     authAPI.register(data)
         .then((res) => {
@@ -135,7 +135,7 @@ export const register = (data: RegisterParamsType) => (dispatch: Dispatch<Action
             dispatch(setAppStatus("idle"))
         })
 }
-export const me = () => async (dispatch: Dispatch<ActionsType>) => {
+export const me = (): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'))
     try {
         const res = await authAPI.me()

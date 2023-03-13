@@ -50,7 +50,7 @@ const Registration = () => {
 
     useEffect(() => {
         dispatch(setAppError(null))
-    }, [])
+    }, [dispatch])
     if (status === 'succeeded') {
         return <Navigate to={'/login'} />
     }
@@ -58,7 +58,7 @@ const Registration = () => {
         return <Preloader />
     }
     return (
-        <div className={'form signup'}>
+        <div className={'form registration'}>
             <div className='form-wrapper auth-form'>
                 {status === 'failed' ? <Error errorText={error} /> : ''}
                 <div className={'title b-title bt26 semibold align-center'}>Sign Up</div>

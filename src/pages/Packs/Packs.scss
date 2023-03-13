@@ -1,0 +1,105 @@
+.packs {
+    .in {
+        position: relative;
+        .error {
+            top: 40px;
+        }
+    }
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .filter {
+        &:not(:first-child) {
+            margin-top: 20px;
+        }
+    }
+    .table-wrapper {
+        @include mb {
+            overflow-x: auto;
+        }
+
+        .table {
+            border: 1px solid $color10;
+
+            @include mb {
+                min-width: 700px;
+            }
+
+            .table-head,
+            .table-body {
+                .item {
+                    padding: 15px 0;
+
+                    @include mb {
+                        padding: 10px 0;
+                    }
+
+                    &:not(:first-child) {
+                        padding-left: 10px;
+                    }
+
+                    &:not(:last-child) {
+                        padding-right: 10px;
+                    }
+                }
+            }
+
+            .table-head,
+            .table-body .items {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 75px;
+                padding: 0 30px;
+
+                @include nbtb {
+                    grid-template-columns: 1fr 0.5fr 1fr 1fr 75px;
+                }
+
+                @include mb {
+                    grid-template-columns: 1fr 0.5fr 1fr 1fr 75px;
+                    padding: 0 15px;
+                }
+            }
+
+            .table-head {
+                background: $color9;
+            }
+
+            .table-body {
+                border-top: 1px solid $color10;
+
+                .items {
+                    &+.items {
+                        border-top: 1px solid $color10;
+                    }
+                }
+
+                .item {
+                    padding: 15px 0;
+                }
+
+                .actions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .action-item {
+                        cursor: pointer;
+                        svg {
+                            @include animate;
+                        }
+                        &:hover {
+                            svg {
+                                fill: $color4;
+                            }
+                        }
+                    }
+                }
+
+                .empty {
+                    padding: 15px;
+                }
+            }
+        }
+    }
+}
