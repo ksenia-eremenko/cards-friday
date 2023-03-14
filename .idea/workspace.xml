@@ -5,21 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f022b62-9089-4682-9964-3ddff03c22ba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/register-user-api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/register-reducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/Search.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Registration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Registration.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Packs/Packs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Packs/Packs.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Packs/Packs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Packs/Packs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/global/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/global/variables.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="SCSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="registration" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="main" />
@@ -35,26 +64,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/cards-friday/src/store",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\cards-friday\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/it-incubator/social&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\cards-friday\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\cards-friday\src\store" />
       <recent name="C:\cards-friday\src\api" />
       <recent name="C:\cards-friday\src\pages\Registration" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\cards-friday\src\pages" />
     </key>
   </component>
   <component name="RunManager">
@@ -88,8 +121,23 @@
       <workItem from="1678124669670" duration="6133000" />
       <workItem from="1678172047436" duration="645000" />
       <workItem from="1678172711733" duration="1881000" />
-      <workItem from="1678175019223" duration="4963000" />
+      <workItem from="1678175019223" duration="5993000" />
+      <workItem from="1678353161699" duration="408000" />
+      <workItem from="1678416021111" duration="1252000" />
+      <workItem from="1678428914482" duration="924000" />
+      <workItem from="1678432344795" duration="441000" />
+      <workItem from="1678436155222" duration="3310000" />
+      <workItem from="1678608849934" duration="35000" />
+      <workItem from="1678616443693" duration="31521000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Registration Page">
+      <created>1678180343863</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678180343863</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,5 +165,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Registration Page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Registration Page" />
   </component>
 </project>
