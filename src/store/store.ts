@@ -22,7 +22,7 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 // создаем тип диспатча который принимает как AC так и TC
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
 // тип для TC
-export type AppThunkType = ThunkAction<void, AppRootStateType, any, AnyAction>
+export type AppThunkType = ThunkAction<void, AppRootStateType, unknown, AnyAction>
 
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector

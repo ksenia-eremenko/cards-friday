@@ -11,10 +11,11 @@ import Filter from "../Filter/Filter";
 const Packs = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    // @ts-ignore
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-    
+
     useEffect(() => {
         dispatch(getPacks())
     }, [])
@@ -45,50 +46,50 @@ const Packs = () => {
                 <div className="in">
                     {status === 'failed' ? <Error errorText={error} /> : ''}
 
-                <div className="top">
-                    <div className="title">Friend's Pack</div>
-                    <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
-                </div>
-                <div className="filter">
-                    <Filter/>
-                </div>
-                <div className="table-wrapper">
-                    <div className="table">
-                        <div className="table-head">
-                            <div className="item b-title bt14 medium">Name</div>
-                            <div className="item b-title bt14 medium">Cards</div>
-                            <div className="item b-title bt14 medium">Last Updated</div>
-                            <div className="item b-title bt14 medium">Created by</div>
-                            <div className="item b-title bt14 medium">Actions</div>
-                        </div>
-                        <div className="table-body">
-                            {packs.length
-                                ? packs.map((e, i) => {
-                                    return (
-                                        <div className="items" key={i}>
-                                            <div className="item b-title bt14">{e.name}</div>
-                                            <div className="item b-title bt14">{e.cardsCount}</div>
-                                            <div className="item b-title bt14">{e.updated}</div>
-                                            <div className="item b-title bt14">{e.user_name}</div>
-                                            <div className="actions">
-                                                <div className="action-item">A</div>
-                                                <div className="action-item" onClick={() => updatePackHandler(e._id)}>
-                                                    <CiEdit />
-                                                </div>
-                                                <div className="action-item" onClick={() => deletePackHandler(e._id)}>
-                                                    <MdOutlineDeleteForever />
+                    <div className="top">
+                        <div className="title">Friend's Pack</div>
+                        <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
+                    </div>
+                    <div className="filter">
+                        <Filter />
+                    </div>
+                    <div className="table-wrapper">
+                        <div className="table">
+                            <div className="table-head">
+                                <div className="item b-title bt14 medium">Name</div>
+                                <div className="item b-title bt14 medium">Cards</div>
+                                <div className="item b-title bt14 medium">Last Updated</div>
+                                <div className="item b-title bt14 medium">Created by</div>
+                                <div className="item b-title bt14 medium">Actions</div>
+                            </div>
+                            <div className="table-body">
+                                {packs.length
+                                    ? packs.map((e, i) => {
+                                        return (
+                                            <div className="items" key={i}>
+                                                <div className="item b-title bt14">{e.name}</div>
+                                                <div className="item b-title bt14">{e.cardsCount}</div>
+                                                <div className="item b-title bt14">{e.updated}</div>
+                                                <div className="item b-title bt14">{e.user_name}</div>
+                                                <div className="actions">
+                                                    <div className="action-item">A</div>
+                                                    <div className="action-item" onClick={() => updatePackHandler(e._id)}>
+                                                        <CiEdit />
+                                                    </div>
+                                                    <div className="action-item" onClick={() => deletePackHandler(e._id)}>
+                                                        <MdOutlineDeleteForever />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )
-                                })
-                                : <div className="empty">Nothing found</div>}
+                                        )
+                                    })
+                                    : <div className="empty">Nothing found</div>}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="pagination">
+                    <div className="pagination">
 
-                </div>
+                    </div>
                 </div>
             </div>
         </div>

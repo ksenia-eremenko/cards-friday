@@ -3,6 +3,21 @@ import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
 import { AppThunkType, RootStateType } from "./store";
 
+type InitStateType = {
+    cardPacks: Array<any>,
+    minCardsCount: number,
+    maxCardsCount: number,
+    queryParams: {
+        pageCount: number, // кол-во на странице
+        page: number, // текущая
+        min: number, // кол-во карт от
+        max: number, //кол-во карт до
+        user_id: string, // для фильтрации карточек мои / не мои 
+        packName: string, //для поиска
+        sortPacks: string, // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
+    }
+}
+
 const initState = {
     cardPacks: [],
     minCardsCount: 0,
@@ -18,9 +33,10 @@ const initState = {
     }
 };
 
-export const PacksReducer = (state = initState, action: any): InitStateType => {
+export const PacksReducer = (state = initState, action: PacksActionsType): InitStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS':
+            // @ts-ignore
             return { ...state, cardPacks: action.payload.cardPacks }
         default: {
             return state;
@@ -32,10 +48,9 @@ export const PacksReducer = (state = initState, action: any): InitStateType => {
 export const setPacks = (data: PacksType) => {
     return {
         type: 'PACKS/SET-PACKS',
-        payload: { ...data },
+        payload: { ...data }
     } as const;
 };
-
 
 //types
 export type PackType = {
@@ -56,7 +71,7 @@ type PacksType = {
     maxCardsCount: number;
     minCardsCount: number;
 }
-type InitStateType = typeof initState;
+// type InitStateType = typeof initState;
 type SetPacksType = ReturnType<typeof setPacks>;
 type PacksActionsType = SetPacksType | SetAppStatusActionType
 
@@ -64,7 +79,9 @@ type PacksActionsType = SetPacksType | SetAppStatusActionType
 export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
     try {
+        // @ts-ignore
         const { pageCount, page, min, max, user_id, packName, sortPacks } = getState().packs.queryParams
+
         const res = await packsAPI.getPacks({ pageCount, page, min, max, user_id, packName, sortPacks })
         dispatch(setPacks(res.data));
         dispatch(setAppStatus('succeeded'))

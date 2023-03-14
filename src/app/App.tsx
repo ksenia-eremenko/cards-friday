@@ -15,7 +15,6 @@ import {useAppDispatch, useAppSelector} from '../store/store';
 import {me} from '../store/auth-reducer';
 import Preloader from '../components/common/Preloader/Preloader';
 import Packs from '../pages/Packs/Packs';
-import Filter from "../pages/Filter/Filter";
 
 
 function App() {
@@ -45,7 +44,6 @@ function App() {
                         <Route path="/set-new-password/:token" element={<NewPassword/>}/>
                         <Route path="/check-email" element={<CheckEmail/>}/>
                         <Route path="/packs" element={<Packs/>}/>
-                        {/*<Route path="/search" element={<Filter/>}/>*/}
                         <Route path="/*" element={<NotFound/>}/>
                     </Routes>
                 </div>
