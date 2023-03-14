@@ -37,6 +37,10 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
     switch (action.type) {
         case 'PACKS/SET-PACKS':
             return { ...state, cardPacks: action.payload.cardPacks }
+        case 'PACKS/SET-SEARCH':
+            return {
+                ...state, queryParams: {...state.queryParams, packName:action.payload}
+            }
         default: {
             return state;
         }
@@ -50,6 +54,14 @@ export const setPacks = (data: PacksType) => {
         payload: { ...data }
     } as const;
 };
+
+export const setSearch = (packName: string) => {
+    return {
+        type: 'PACKS/SET-SEARCH',
+        payload: packName
+    } as const;
+};
+
 
 //types
 export type PackType = {
@@ -72,7 +84,9 @@ type PacksType = {
 }
 // type InitStateType = typeof initState;
 type SetPacksType = ReturnType<typeof setPacks>;
-type PacksActionsType = SetPacksType | SetAppStatusActionType
+type SetSearchType = ReturnType<typeof setSearch>
+type PacksActionsType = SetPacksType | SetAppStatusActionType | SetSearchType
+
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {
