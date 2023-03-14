@@ -1,10 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-
 import './SearchBar.scss'
 import {AiOutlineSearch} from "react-icons/ai";
-
-//debounce
-
 import {useAppDispatch} from "../../../store/store";
 import {getPacks, setSearch} from "../../../store/packs-reducer";
 
