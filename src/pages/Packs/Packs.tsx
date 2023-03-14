@@ -6,6 +6,7 @@ import Preloader from '../../components/common/Preloader/Preloader'
 import { createdPack, deletePack, getPacks, PackType, updatedPack } from '../../store/packs-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Error } from '../../components/common/Error/Error';
+import Search from "../Search/Search";
 
 const Packs = () => {
     const dispatch = useAppDispatch()
@@ -49,6 +50,7 @@ const Packs = () => {
                     <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
                 </div>
                 <div className="filter">
+                    <Search/>
                 </div>
                 <div className="table-wrapper">
                     <div className="table">

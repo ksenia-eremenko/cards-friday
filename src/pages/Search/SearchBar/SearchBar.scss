@@ -1,0 +1,48 @@
+@import "../../../styles/global/variables";
+
+.search-container {
+  height: 62px;
+  left: 10px;
+  top: 60px;
+
+  .search-title {
+    position: absolute;
+    line-height: 17px;
+    margin-top: -24px;
+    align-items: center;
+  }
+
+  .input-block {
+    margin-top: -15px;
+    width: 413px;
+    height: 36px;
+    background: $color1;
+    border: 1px solid $color10;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    color: $color2;
+    //opacity: 0.5;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 35px;
+  }
+
+  .magnifier {
+    position: absolute;
+    transform: translateY(100%);
+    opacity: 0.4;
+    right: 97.5%;
+    top: 11.50%;
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5;
+  }
+}
+
+
+
+
+
+
