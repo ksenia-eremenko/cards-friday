@@ -1,0 +1,19 @@
+@import '../../../styles/global/variables';
+
+.filter-container {
+  position: absolute;
+  width: 40px;
+  height: 36px;
+  left: 1140px;
+  top: 85px;
+  background: $color1;
+  border: 1px solid $color10;
+  border-radius: 2px;
+
+  .filter-remove {
+    position: absolute;
+    padding-left: 12px;
+    padding-top: 9px;
+  }
+}
+

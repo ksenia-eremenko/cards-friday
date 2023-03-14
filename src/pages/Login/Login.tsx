@@ -61,15 +61,14 @@ const Login = () => {
     dispatch(setAppError(null))
     dispatch(setAppStatus("idle"))
   }, [])
+
   if (isLoggedIn) {
     return <Navigate to={'/'} />
   }
 
-  if (status === 'loading') {
-    return <Preloader />
-  }
   return (
     <div className="login">
+      {status === 'loading' ? <Preloader /> : ""}
       <div className="container">
         <div className="form-wrapper auth-form">
           {status === 'failed' ? <Error errorText={error} /> : ''}
