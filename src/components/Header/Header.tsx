@@ -1,8 +1,9 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { useAppSelector } from '../../store/store'
+import {NavLink} from 'react-router-dom'
+import {useAppSelector} from '../../store/store'
 import logo from '../../assets/images/logo.svg'
 import avatar from '../../assets/images/image-2.png'
+
 const Header = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const profile = useAppSelector(state => state.auth.profile)

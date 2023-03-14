@@ -1,0 +1,42 @@
+@import "../../../styles/global/variables";
+
+.show-cards-container {
+  position: absolute;
+  height: 62px;
+  left: 480px;
+  top: 60px;
+
+  .show-title {
+    line-height: 17px;
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+
+  .show-cards-wrapper {
+    border: 1px $color10;
+    border-radius: 2px;
+
+    .my-cards {
+      width: 110px;
+      height: 36px;
+      background: $color1;
+      border: 1px solid $color10;
+      border-radius: 2px;
+    }
+
+    .all-cards {
+      width: 110px;
+      height: 36px;
+      background: $color4;
+      border: 1px solid $color10;
+      text-align: center;
+      color: $color1;
+      border-radius: 2px;
+    }
+  }
+}
+
+
+
+
