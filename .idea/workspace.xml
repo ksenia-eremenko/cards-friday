@@ -5,21 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f022b62-9089-4682-9964-3ddff03c22ba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/Search.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Packs/Packs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Packs/Packs.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Packs/Packs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Packs/Packs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/global/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/global/variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/DeckOfCards/DeckOfCards.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/DeckOfCards/DeckOfCards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/DeckOfCards/DeckOfCards.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/FilterRemove/FilterRemove.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/FilterRemove/FilterRemove.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/FilterRemove/FilterRemove.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/Search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/Filter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/SearchBar/SearchBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/SearchBar/SearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/SearchBar/SearchBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/SliderFilter/SliderFilter.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search/SliderFilter/SliderFilter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Filter/SliderFilter/SliderFilter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/packs-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/packs-reducer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

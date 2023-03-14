@@ -4,7 +4,7 @@ import DeckOfCards from "./DeckOfCards/DeckOfCards";
 import SliderFilter from "./SliderFilter/SliderFilter";
 import FilterRemove from "./FilterRemove/FilterRemove";
 
-const Search = () => {
+const Filter = () => {
     return (
         <>
             <SearchBar/>
@@ -15,4 +15,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default Filter;
