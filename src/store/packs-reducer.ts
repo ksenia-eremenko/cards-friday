@@ -5,6 +5,7 @@ import {AppThunkType, RootStateType} from './store';
 
 type InitStateType = {
     cardPacks: PackType[],
+    cardPacksTotalCount: number,
     minCardsCount: number,
     maxCardsCount: number,
     queryParams: {
@@ -20,6 +21,7 @@ type InitStateType = {
 
 const initState = {
     cardPacks: [],
+    cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
     queryParams: {
@@ -36,7 +38,7 @@ const initState = {
 export const PacksReducer = (state: InitStateType = initState, action: PacksActionsType): InitStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS':
-            return {...state, cardPacks: action.payload.cardPacks}
+            return {...state, cardPacks: action.payload.cardPacks, cardPacksTotalCount: action.payload.cardPacksTotalCount}
         case 'PACKS/SET-SEARCH':
             return {
                 ...state, queryParams: {...state.queryParams, packName: action.payload}

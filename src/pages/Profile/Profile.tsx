@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import avatar from '../../assets/images/image-2.png'
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../store/store';
