@@ -27,10 +27,12 @@ export const SearchBar = () => {
     const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
     const dispatch = useAppDispatch();
+    // const packs = useAppSelector(state=>state.packs)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.currentTarget.value)
     }
+
 
     useEffect(
         () => {
@@ -44,6 +46,7 @@ export const SearchBar = () => {
         <div className={'search-container'}>
             <div className={'search-title b-title bt14 medium'}>Search</div>
             <div>
+
                 <input
                     value={searchTerm}
                     onChange={onChangeHandler}
@@ -53,6 +56,7 @@ export const SearchBar = () => {
                     className={'input-block b-title bt14 medium'}
                 ></input>
                 <span className={'magnifier'}><AiOutlineSearch/></span>
+                {/*{packs.cardPacks.length === 0 && <span className={'gray b-title bt14 semibold'}>Колоды с введенным названием не найдены. Измените параметры запроса.</span>}*/}
             </div>
         </div>
     );
