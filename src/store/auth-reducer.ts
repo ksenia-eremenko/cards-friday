@@ -121,16 +121,12 @@ export const register = (data: RegisterParamsType): AppThunkType => (dispatch) =
         })
         .catch((error) => {
             dispatch(setAppStatus('failed'))
-            if (error.response.data.error === 'email already exists /ᐠ｡ꞈ｡ᐟ\\') {
-                dispatch(setAppError('Email already exists'))
-            }
-        })
-        .finally(() => {
-            dispatch(setAppStatus("idle"))
+            dispatch(setAppError(error.response.data.error))
         })
 }
 export const me = (): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'))
+    
     try {
         const res = await authAPI.me()
         dispatch(setLoginData(res.data))

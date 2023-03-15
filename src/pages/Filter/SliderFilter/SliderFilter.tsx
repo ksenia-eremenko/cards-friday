@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './SliderFilter.scss';
-import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {getPacks, setMax, setMin} from "../../../store/packs-reducer";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { getPacks, setMax, setMin } from "../../../store/packs-reducer";
 
 
 function useDebounce(num1: number, num2: number, delay: number = 800) {
@@ -63,11 +63,11 @@ const SliderFilter = () => {
                 <span className="output outputTwo b-title bt14 medium">{value2}</span>
                 <div className="range-slider">
                     <span className="full-range"></span>
-                    <span className="incl-range" style={{width: `${value2 - value1}%`, left: `${value1}%`}}></span>
+                    <span className="incl-range" style={{ width: `${value2 - value1}%`, left: `${value1}%` }}></span>
 
-                    <input name="rangeOne" onChange={onChangeHandler} value={value1} type="range"/>
+                    <input name="rangeOne" onChange={onChangeHandler} value={value1} type="range" />
 
-                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range"/>
+                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range" />
 
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { CiEdit } from 'react-icons/ci'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { Navigate, useNavigate } from 'react-router-dom'
 import Preloader from '../../components/common/Preloader/Preloader'
@@ -32,15 +31,18 @@ const Packs = () => {
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
     const totalItemsCount = useAppSelector<number | undefined>(state => state.packs.cardPacksTotalCount)
     const currentPage = useAppSelector<number>(state => state.packs.queryParams.page)
+    const queryParams = useAppSelector(state => state.packs.queryParams)
     const pageCount = useAppSelector<number>(state => state.packs.queryParams.pageCount)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
     const idUser = useAppSelector(state => state.auth.profile?._id)
     const navigate = useNavigate();
+    const userId = useAppSelector(state => state.auth.profile?._id)
+
 
     useEffect(() => {
         dispatch(getPacks())
-    }, [])
+    }, [queryParams])
 
     const deletePackHandler = (id: string) => {
         dispatch(deletePack(id))
@@ -138,12 +140,15 @@ const Packs = () => {
                                                 <div className="item b-title bt14">{e.updated}</div>
                                                 <div className="item b-title bt14">{e.user_name}</div>
                                                 <div className="actions">
-                                                    <div
-                                                        className={e.cardsCount ? 'action-item' : 'action-item disabled'}
-                                                        onClick={() => toCardsClickHandler(e._id)}
-                                                    >
-                                                        <GiHatchets />
-                                                    </div>
+                                                    {e.cardsCount || (userId === e.user_id)
+                                                        ? <div
+                                                            className='action-item'
+                                                            onClick={() => toCardsClickHandler(e._id)}
+                                                        >
+                                                            <GiHatchets />
+                                                        </div>
+                                                        : <div className="action-item disabled"><GiHatchets /></div>
+                                                    }
                                                     <div className={e.user_id === idUser ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === idUser && updatePackHandler(e._id)}>
                                                         <AiFillEdit />
                                                     </div>

@@ -1,8 +1,8 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './SearchBar.scss'
-import {AiOutlineSearch} from "react-icons/ai";
-import {useAppDispatch} from "../../../store/store";
-import {getPacks, setSearch} from "../../../store/packs-reducer";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useAppDispatch } from "../../../store/store";
+import { getPacks, setSearch } from "../../../store/packs-reducer";
 
 function useDebounce(value: string, delay: number = 800) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -55,7 +55,7 @@ export const SearchBar = () => {
                     placeholder={'Provide your text'}
                     className={'input-block b-title bt14 medium'}
                 ></input>
-                <span className={'magnifier'}><AiOutlineSearch/></span>
+                <span className={'magnifier'}><AiOutlineSearch /></span>
                 {/*{packs.cardPacks.length === 0 && <span className={'gray b-title bt14 semibold'}>Колоды с введенным названием не найдены. Измените параметры запроса.</span>}*/}
             </div>
         </div>

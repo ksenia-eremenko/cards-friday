@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { getCards } from '../../store/cards-reducer';
+import { createdCard, getCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
 import { SearchBar } from '../Filter/SearchBar/SearchBar';
@@ -17,11 +17,21 @@ const Cards = () => {
     const cards = useAppSelector(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
-    const error = useAppSelector(state => state.app.error)
+        const error = useAppSelector(state => state.app.error)
+        const id = useAppSelector(state => state.cards.cardsPack_id)
 
     useEffect(() => {
         dispatch(getCards())
-    }, [])
+    }, [dispatch])
+
+    const createdCardHandler = () => {
+        const card = {
+            cardsPack_id: id,
+            question: 'My firs question',
+            answer: 'My firs answer'
+        }
+        dispatch(createdCard(card));
+    }
 
     const sortAnswerClickHandler = () => {
 
@@ -113,6 +123,7 @@ const Cards = () => {
 
                     </div>
                 </div>
+                <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
             </div>
         </div>
     )

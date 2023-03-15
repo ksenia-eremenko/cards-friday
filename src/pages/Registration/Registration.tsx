@@ -25,7 +25,7 @@ const Registration = () => {
 
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-
+    
     const formik = useFormik({
         initialValues: {
             email: '',

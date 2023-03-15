@@ -17,7 +17,6 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
     if (props.totalItemsCount) {
         numberOfPages = Math.ceil(props.totalItemsCount / pagesInPortion)
     }
-    console.log(numberOfPages)
 
 
     const pages: number[] = []
@@ -29,7 +28,6 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
     let lastPortionPageNumber = portionOfButtons * portionSize
 
     let filteredPages = pages.filter(p => p >= firstPortionPageNumber && p <= lastPortionPageNumber)
-    console.log(filteredPages.length)
 
     const onPrevButtonClickHandler = () => {
         props.onPageChanged(lastPortionPageNumber)
