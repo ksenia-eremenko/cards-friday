@@ -50,7 +50,7 @@ const SliderFilter = () => {
         () => {
             dispatch(setMin(value1))
             dispatch(setMax(value2))
-            dispatch(getPacks())
+            // dispatch(getPacks())
         },
         [debouncedSearchTerm]
     );

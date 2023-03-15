@@ -33,6 +33,12 @@ const Packs = () => {
     const currentPage = useAppSelector<number>(state => state.packs.queryParams.page)
     const queryParams = useAppSelector(state => state.packs.queryParams)
     const pageCount = useAppSelector<number>(state => state.packs.queryParams.pageCount)
+    const page = useAppSelector<number>(state => state.packs.queryParams.page)
+    const packName = useAppSelector(state => state.packs.queryParams.packName)
+    const user_id = useAppSelector(state => state.packs.queryParams.user_id)
+    const min = useAppSelector(state => state.packs.queryParams.min)
+    const max = useAppSelector(state => state.packs.queryParams.max)
+    const sortPacks = useAppSelector(state => state.packs.queryParams.sortPacks)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
     const idUser = useAppSelector(state => state.auth.profile?._id)
@@ -42,7 +48,7 @@ const Packs = () => {
 
     useEffect(() => {
         dispatch(getPacks())
-    }, [queryParams])
+    }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks])
 
     const deletePackHandler = (id: string) => {
         dispatch(deletePack(id))
@@ -60,24 +66,24 @@ const Packs = () => {
 
     const onPageChangedHandler = (page: number) => {
         dispatch(setCurrentPage(page))
-        dispatch(getPacks())
+        // dispatch(getPacks())
     }
 
     const onChangeSelectHandler = (option: number) => {
         dispatch(setPageCount(option))
-        dispatch(getPacks())
+        // dispatch(getPacks())
     }
 
     const sortСardsCountClickHandler = () => {
         setSortСardsCount(!sortСardsCount);
         (!sortСardsCount) ? dispatch(setSortPacks('1cardsCount')) : dispatch(setSortPacks('0cardsCount'))
-        dispatch(getPacks())
+        // dispatch(getPacks())
     }
 
     const sortUpdateClickHandler = () => {
         setSortUpdate(!sortUpdate);
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
-        dispatch(getPacks())
+        // dispatch(getPacks())
     }
 
     const toCardsClickHandler = (cardsPack_id: string) => {

@@ -131,7 +131,7 @@ type PacksActionsType = SetPacksType
 
 
 //thunks
-export const getPacks = (userId?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
     try {
         const { pageCount, page, min, max, user_id, packName, sortPacks } = getState().packs.queryParams
@@ -139,7 +139,7 @@ export const getPacks = (userId?: string): AppThunkType => async (dispatch, getS
         const res = await packsAPI.getPacks({
             page,
             pageCount,
-            user_id: userId ? userId : '',
+            user_id,
             min,
             max,
             sortPacks,

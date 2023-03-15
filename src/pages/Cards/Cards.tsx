@@ -21,6 +21,8 @@ const Cards = () => {
         const id = useAppSelector(state => state.cards.cardsPack_id)
 
     useEffect(() => {
+        console.log('useEffect');
+        
         dispatch(getCards())
     }, [dispatch])
 

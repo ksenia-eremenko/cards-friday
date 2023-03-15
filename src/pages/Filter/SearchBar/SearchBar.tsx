@@ -37,7 +37,7 @@ export const SearchBar = () => {
     useEffect(
         () => {
             dispatch(setSearch(searchTerm))
-            dispatch(getPacks())
+            // dispatch(getPacks())
         },
         [debouncedSearchTerm]
     );

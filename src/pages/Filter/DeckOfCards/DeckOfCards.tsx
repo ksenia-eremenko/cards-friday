@@ -12,11 +12,11 @@ const DeckOfCards = () => {
 
     const handleMyCardsClick = () => {
         setIsMyPacks(true)
-        dispatch(getPacks(id))
+        // dispatch(getPacks(id))
     }
     const handleAllCardsClick = () => {
         setIsMyPacks(false)
-        dispatch(getPacks(''))
+        // dispatch(getPacks(''))
     }
     return (
         <div className={'show-cards-container'}>
