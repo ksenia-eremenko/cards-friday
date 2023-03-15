@@ -40,7 +40,6 @@ export const getPackId = (id: string) => ({ type: 'CARDS/GET-PACKS-ID', id } as 
 // TC
 export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
-
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({

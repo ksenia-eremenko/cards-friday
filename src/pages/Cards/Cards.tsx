@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { createdCard, getCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -17,20 +17,19 @@ const Cards = () => {
     const cards = useAppSelector(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
-        const error = useAppSelector(state => state.app.error)
-        const id = useAppSelector(state => state.cards.cardsPack_id)
-
+    const error = useAppSelector(state => state.app.error)
+    const id = useAppSelector(state => state.cards.cardsPack_id)
+    
     useEffect(() => {
-        console.log('useEffect');
-        
-        dispatch(getCards())
-    }, [dispatch])
+
+        dispatch(getCards(id))
+    }, [dispatch, id])
 
     const createdCardHandler = () => {
         const card = {
             cardsPack_id: id,
-            question: 'My firs question',
-            answer: 'My firs answer'
+            question: 'My first question',
+            answer: 'My first answer'
         }
         dispatch(createdCard(card));
     }

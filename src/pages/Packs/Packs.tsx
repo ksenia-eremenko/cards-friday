@@ -31,7 +31,6 @@ const Packs = () => {
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
     const totalItemsCount = useAppSelector<number | undefined>(state => state.packs.cardPacksTotalCount)
     const currentPage = useAppSelector<number>(state => state.packs.queryParams.page)
-    const queryParams = useAppSelector(state => state.packs.queryParams)
     const pageCount = useAppSelector<number>(state => state.packs.queryParams.pageCount)
     const page = useAppSelector<number>(state => state.packs.queryParams.page)
     const packName = useAppSelector(state => state.packs.queryParams.packName)
@@ -77,13 +76,11 @@ const Packs = () => {
     const sortСardsCountClickHandler = () => {
         setSortСardsCount(!sortСardsCount);
         (!sortСardsCount) ? dispatch(setSortPacks('1cardsCount')) : dispatch(setSortPacks('0cardsCount'))
-        // dispatch(getPacks())
     }
 
     const sortUpdateClickHandler = () => {
         setSortUpdate(!sortUpdate);
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
-        // dispatch(getPacks())
     }
 
     const toCardsClickHandler = (cardsPack_id: string) => {
