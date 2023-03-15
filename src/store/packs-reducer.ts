@@ -1,7 +1,7 @@
-import {packsAPI} from "../api/packs-api";
-import {handleServerNetworkError} from "../utils/error-utils";
-import {setAppStatus, SetAppStatusActionType} from "./app-reducer";
-import {AppThunkType, RootStateType} from "./store";
+import {packsAPI} from '../api/packs-api';
+import {handleServerNetworkError} from '../utils/error-utils';
+import {setAppStatus, SetAppStatusActionType} from './app-reducer';
+import {AppThunkType, RootStateType} from './store';
 
 type InitStateType = {
     cardPacks: PackType[],
@@ -56,6 +56,15 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 ...state,
                 queryParams: {...state.queryParams, max: action.payload},
             };
+        case 'PACKS/SET-CURRENT-PAGE':
+            return {
+                ...state, queryParams: {...state.queryParams, page: action.page}
+            };
+        case 'PACKS/SET-PAGE-COUNT':
+            return {
+                ...state,
+                queryParams: {...state.queryParams, pageCount: action.pageCount}
+            }
         default: {
             return state;
         }
@@ -68,6 +77,8 @@ export const setSearch = (packName: string) => ({type: 'PACKS/SET-SEARCH', paylo
 export const setUserId = (user_id: string) => ({type: 'PACKS/SET_USER_ID', payload: user_id} as const);
 export const setMin = (min: number) => ({type: 'PACKS/SET-MIN', payload: min} as const);
 export const setMax = (max: number) => ({type: 'PACKS/SET-MAX', payload: max} as const);
+export const setCurrentPage = (page: number) => ({type: 'PACKS/SET-CURRENT-PAGE', page} as const)
+export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT', pageCount} as const)
 
 
 //types
@@ -95,9 +106,18 @@ type SetSearchType = ReturnType<typeof setSearch>
 type SetUserIdType = ReturnType<typeof setUserId>
 type SetMinType = ReturnType<typeof setMin>
 type SetMaxType = ReturnType<typeof setMax>
+type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
+type SetPageCountActionType = ReturnType<typeof setPageCount>
 // type ResetUserIdType = ReturnType<typeof resetUserId>
 
-type PacksActionsType = SetPacksType | SetAppStatusActionType | SetSearchType | SetUserIdType | SetMinType | SetMaxType
+type PacksActionsType = SetPacksType
+    | SetAppStatusActionType
+    | SetSearchType
+    | SetUserIdType
+    | SetMinType
+    | SetMaxType
+    | SetCurrentPageActionType
+    | SetPageCountActionType
 
 
 //thunks
@@ -106,7 +126,7 @@ export const getPacks = (userId?: string): AppThunkType => async (dispatch, getS
     console.log(userId)
     console.log(getState().packs)
     try {
-        const {pageCount, page, min, max,user_id, packName, sortPacks} = getState().packs.queryParams
+        const {pageCount, page, min, max, user_id, packName, sortPacks} = getState().packs.queryParams
         const res = await packsAPI.getPacks({
             page,
             pageCount,
