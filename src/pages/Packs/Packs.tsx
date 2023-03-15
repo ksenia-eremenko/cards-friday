@@ -3,16 +3,28 @@ import { CiEdit } from 'react-icons/ci'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { Navigate } from 'react-router-dom'
 import Preloader from '../../components/common/Preloader/Preloader'
-import { createdPack, deletePack, getPacks, PackType, updatedPack } from '../../store/packs-reducer'
+import {
+    createdPack,
+    deletePack,
+    getPacks,
+    PackType,
+    setCurrentPage,
+    setPageCount,
+    updatedPack
+} from '../../store/packs-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Error } from '../../components/common/Error/Error';
 import Filter from "../Filter/Filter";
+import PaginationBlock from '../PaginationBlock/PaginationBlock';
 
 const Packs = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     // @ts-ignore
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
+    const totalItemsCount = useAppSelector<number | undefined>(state => state.auth.profile?.publicCardPacksCount)
+    const currentPage = useAppSelector<number>(state => state.packs.queryParams.page)
+    const pageCount = useAppSelector<number>(state => state.packs.queryParams.pageCount)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
 
@@ -32,6 +44,16 @@ const Packs = () => {
     const createPackHandler = () => {
         const name = 'New Pack'
         dispatch(createdPack(name))
+    }
+
+    const onPageChangedHandler = (page: number) => {
+        dispatch(setCurrentPage(page))
+        dispatch(getPacks())
+    }
+
+    const onChangeSelectHandler = (option: number) => {
+        dispatch(setPageCount(option))
+        dispatch(getPacks())
     }
 
     if (!isLoggedIn) {
@@ -87,9 +109,13 @@ const Packs = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="pagination">
-
-                    </div>
+                    <PaginationBlock
+                        totalItemsCount={totalItemsCount}
+                        currentPage={currentPage}
+                        onPageChanged={(page: number) => onPageChangedHandler(page)}
+                        onChangeSelect={(option: number) => onChangeSelectHandler(option)}
+                        pageCount={pageCount}
+                    />
                 </div>
             </div>
         </div>

@@ -1,0 +1,54 @@
+.pagination {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  margin-top: 36px;
+  margin-bottom: 36px;
+  margin-right: 40px;
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    border: none;
+    border-radius: 2px;
+    background-color: transparent;
+    width: 24px;
+    height: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+
+    & svg {
+      width: 11px;
+      height: 9px;
+    }
+
+    &:hover {
+      background-color: lighten(#366EFF, 30%);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .button:not(:last-child) {
+    margin-right: 12px;
+  }
+
+  .currentPage {
+    color: white;
+    background-color: #366EFF;
+
+    &:hover {
+      background-color: #366EFF;
+    }
+  }
+}

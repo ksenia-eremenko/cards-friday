@@ -1,0 +1,41 @@
+.pagination-block {
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15px;
+
+  select {
+    appearance: auto;
+    margin-right: 5px;
+    margin-left: 5px;
+    min-width: 39px;
+    height: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px;
+
+    &:focus {
+      border: 1px solid #C2C2C2;
+      outline: none;
+    }
+
+    .option {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      width: 100%;
+      height: 27px;
+      padding: 5px 10px;
+      border: 1px solid #C2C2C2;
+      color: #000000;
+      cursor: pointer;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
