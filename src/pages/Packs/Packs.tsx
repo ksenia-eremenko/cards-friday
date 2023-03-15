@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
-import {CiEdit} from 'react-icons/ci'
-import {MdOutlineDeleteForever} from 'react-icons/md'
-import {Navigate} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { CiEdit } from 'react-icons/ci'
+import { MdOutlineDeleteForever } from 'react-icons/md'
+import { Navigate, useNavigate } from 'react-router-dom'
 import Preloader from '../../components/common/Preloader/Preloader'
 import {
     createdPack,
@@ -10,15 +10,23 @@ import {
     PackType,
     setCurrentPage,
     setPageCount,
+    setSortPacks,
     updatedPack
 } from '../../store/packs-reducer'
-import {useAppDispatch, useAppSelector} from '../../store/store'
-import {Error} from '../../components/common/Error/Error';
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { Error } from '../../components/common/Error/Error';
 import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
+import { getCards } from '../../store/cards-reducer'
+import { GiHatchets } from 'react-icons/gi'
+import { AiFillEdit } from 'react-icons/ai'
+import { IoIosArrowDown } from 'react-icons/io'
+import classNames from 'classnames'
 
 const Packs = () => {
     const dispatch = useAppDispatch()
+    const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
+    const [sortUpdate, setSortUpdate] = useState<boolean>(false)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     // @ts-ignore
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
@@ -27,6 +35,8 @@ const Packs = () => {
     const pageCount = useAppSelector<number>(state => state.packs.queryParams.pageCount)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
+    const idUser = useAppSelector(state => state.auth.profile?._id)
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getPacks())
@@ -56,31 +66,65 @@ const Packs = () => {
         dispatch(getPacks())
     }
 
+    const sortСardsCountClickHandler = () => {
+        setSortСardsCount(!sortСardsCount);
+        (!sortСardsCount) ? dispatch(setSortPacks('1cardsCount')) : dispatch(setSortPacks('0cardsCount'))
+        dispatch(getPacks())
+    }
+
+    const sortUpdateClickHandler = () => {
+        setSortUpdate(!sortUpdate);
+        (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
+        dispatch(getPacks())
+    }
+
+    const toCardsClickHandler = (cardsPack_id: string) => {
+        dispatch(getCards(cardsPack_id))
+        navigate('/cards')
+    }
+
     if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/login'} />
     }
 
     return (
         <div className="packs">
             {(status === 'loading')
-                && <Preloader/>}
+                && <Preloader />}
             <div className="container">
                 <div className="in">
-                    {status === 'failed' ? <Error errorText={error}/> : ''}
+                    {status === 'failed' ? <Error errorText={error} /> : ''}
 
                     <div className="top">
                         <div className="title">Friend's Pack</div>
                         <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
                     </div>
                     <div className="filter">
-                        <Filter/>
+                        <Filter />
                     </div>
                     <div className="table-wrapper">
                         <div className="table">
                             <div className="table-head">
                                 <div className="item b-title bt14 medium">Name</div>
-                                <div className="item b-title bt14 medium">Cards</div>
-                                <div className="item b-title bt14 medium">Last Updated</div>
+                                <div
+                                    className="item b-title bt14 medium with-sort"
+                                    onClick={sortСardsCountClickHandler}>Cards
+                                    <span className={classNames(
+                                        'icon',
+                                        { 'active': sortСardsCount }
+                                    )}>
+                                        <IoIosArrowDown />
+                                    </span>
+                                </div>
+                                <div className="item b-title bt14 medium with-sort"
+                                    onClick={sortUpdateClickHandler}>Last Updated
+                                    <span className={classNames(
+                                        'icon',
+                                        { 'active': sortUpdate }
+                                    )}>
+                                        <IoIosArrowDown />
+                                    </span>
+                                </div>
                                 <div className="item b-title bt14 medium">Created by</div>
                                 <div className="item b-title bt14 medium">Actions</div>
                             </div>
@@ -94,14 +138,17 @@ const Packs = () => {
                                                 <div className="item b-title bt14">{e.updated}</div>
                                                 <div className="item b-title bt14">{e.user_name}</div>
                                                 <div className="actions">
-                                                    <div className="action-item">A</div>
-                                                    <div className="action-item"
-                                                         onClick={() => updatePackHandler(e._id)}>
-                                                        <CiEdit/>
+                                                    <div
+                                                        className={e.cardsCount ? 'action-item' : 'action-item disabled'}
+                                                        onClick={() => toCardsClickHandler(e._id)}
+                                                    >
+                                                        <GiHatchets />
                                                     </div>
-                                                    <div className="action-item"
-                                                         onClick={() => deletePackHandler(e._id)}>
-                                                        <MdOutlineDeleteForever/>
+                                                    <div className={e.user_id === idUser ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === idUser && updatePackHandler(e._id)}>
+                                                        <AiFillEdit />
+                                                    </div>
+                                                    <div className={e.user_id === idUser ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === idUser && deletePackHandler(e._id)}>
+                                                        <MdOutlineDeleteForever />
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,7 +164,7 @@ const Packs = () => {
                             currentPage={currentPage}
                             onPageChanged={(page: number) => onPageChangedHandler(page)}
                             onChangeSelect={(option: number) => onChangeSelectHandler(option)}
-                            pageCount={pageCount}/>
+                            pageCount={pageCount} />
                         : null}
                 </div>
             </div>
@@ -126,3 +173,4 @@ const Packs = () => {
 }
 
 export default Packs
+

@@ -5,6 +5,7 @@ import { appReducer } from './app-reducer'
 import { authReducer } from './auth-reducer';
 import { ProfileReducer } from './profile-reducer';
 import { PacksReducer } from './packs-reducer';
+import { CardsReducer } from './cards-reducer';
 
 export type RootStateType = ReturnType<typeof rootReducer>;
 // объединяя reducer-ы с помощью combineReducers,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     profile: ProfileReducer,
-    packs: PacksReducer
+    packs: PacksReducer,
+    cards: CardsReducer
 })
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));

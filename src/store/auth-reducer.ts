@@ -1,14 +1,13 @@
 
 import { authAPI, newPasswordDataType, recoveryPasswordAPI, RegisterParamsType } from "../api/auth-api"
 import { LoginDataType } from "../pages/Login/Login"
-import { setAppError, SetAppErrorActionType, setAppStatus, SetAppStatusActionType } from "./app-reducer"
+import { setAppError, SetAppErrorActionType, setAppStatus, SetAppStatusActionType, setIsInitialized } from "./app-reducer"
 import { AppThunkType } from "./store"
 
 const initialState = {
     isLoggedIn: false,
     profile: null as null | ProfileType,
-    isRegisterIn: false,
-    isInitialized: false
+    isRegisterIn: false
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -19,8 +18,6 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
             return { ...state, profile: action.data }
         case 'AUTH/SET-IS-REGISTER-IN':
             return { ...state, isRegisterIn: action.userData }
-        case 'login/SET-IS-INITIALIZED':
-            return { ...state, isInitialized: action.value }
         default:
             return { ...state }
     }
@@ -47,21 +44,18 @@ export type ProfileType = {
 export const setLoginData = (data: ProfileType) => ({ type: 'AUTH/SET-PROFILE', data } as const)
 export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'AUTH/SET-IS-LOGIN', isLoggedIn } as const)
 export const setIsRegisterIn = (userData: boolean) => ({ type: 'AUTH/SET-IS-REGISTER-IN', userData } as const)
-export const setIsInitialized = (value: boolean) => ({ type: 'login/SET-IS-INITIALIZED', value } as const)
 
 
 //types actions
 export type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>
 export type SetLoginDataType = ReturnType<typeof setLoginData>
 export type setIsRegisterInType = ReturnType<typeof setIsRegisterIn>
-export type setIsInitializedType = ReturnType<typeof setIsInitialized>
 
 type ActionsType = SetIsLoggedInType
     | SetLoginDataType
     | setIsRegisterInType
     | SetAppStatusActionType
     | SetAppErrorActionType
-    | setIsInitializedType
 
 //thunks
 export const getProfile = (data: LoginDataType): AppThunkType => async (dispatch) => {
@@ -141,12 +135,11 @@ export const me = (): AppThunkType => async (dispatch) => {
         const res = await authAPI.me()
         dispatch(setLoginData(res.data))
         dispatch(setIsLoggedIn(true));
-        dispatch(setIsInitialized(true));
         dispatch(setAppStatus('succeeded'))
     } catch (e: any) {
         dispatch(setAppStatus('failed'))
-        dispatch(setIsInitialized(true));
     } finally {
         dispatch(setAppStatus('idle'))
+        dispatch(setIsInitialized(true));
     }
 }

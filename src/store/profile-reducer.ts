@@ -28,7 +28,10 @@ type DataType = {
     name: string
 }
 
-type InitStateType = typeof initState
+// type InitStateType = typeof initState
+type InitStateType = {
+    name: string
+}
 
 type ProfileActionsType = SetUserDataType
 type SetUserDataType = ReturnType<typeof setUserData>;

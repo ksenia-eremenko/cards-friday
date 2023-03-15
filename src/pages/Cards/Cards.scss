@@ -1,4 +1,4 @@
-.packs {
+.cards {
     .in {
         position: relative;
 
@@ -59,15 +59,15 @@
             .table-head,
             .table-body .items {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr 75px;
+                grid-template-columns: 1fr 1fr 1fr 100px;
                 padding: 0 30px;
 
                 @include nbtb {
-                    grid-template-columns: 1fr 0.5fr 1fr 1fr 75px;
+                    grid-template-columns: 1fr 1fr 1fr 100px;
                 }
 
                 @include mb {
-                    grid-template-columns: 1fr 0.5fr 1fr 1fr 75px;
+                    grid-template-columns: 1fr 1fr 1fr 100px;
                     padding: 0 15px;
                 }
             }
@@ -84,9 +84,7 @@
 
                         span {
                             &.active {
-                                svg {
-                                    transform: rotate(180deg);
-                                }
+                                svg {transform: rotate(180deg);}
                             }
                         }
                     }
@@ -104,9 +102,7 @@
 
                 .item {
                     padding: 15px 0;
-                    &:first-child {
-                        word-break: break-all;
-                    }
+                    word-break: break-all;
                 }
 
                 .actions {

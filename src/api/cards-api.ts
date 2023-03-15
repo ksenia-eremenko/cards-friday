@@ -2,9 +2,7 @@ import { instance } from './instance';
 
 export const cardsAPI = {
   getCards(params: GetParamsType) {
-    return instance.get('/cards/card', {
-      params: { ...params },
-    });
+    return instance.get('/cards/card', { params: { ...params } });
   },
   createCard(card: CreateDataType) {
     return instance.post('/cards/card', { card });

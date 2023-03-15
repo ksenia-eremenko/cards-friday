@@ -13,7 +13,6 @@ export type newPasswordDataType = {
 }
 const message = `<h3>Password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></h3>`
 
-
 export const authAPI = {
     logout() {
         return instance.delete<{info: string}>('/auth/me')

@@ -2,7 +2,7 @@
 import { instance } from './instance';
 
 export const packsAPI = {
-  getPacks(params?: GetParamsPacksType) {
+  getPacks(params: GetParamsPacksType) {
     return instance.get('/cards/pack', { params: { ...params } });
   },
   deletePack(packId: string) {
