@@ -1,7 +1,7 @@
-import { packsAPI } from "../api/packs-api";
-import { handleServerNetworkError } from "../utils/error-utils";
-import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
-import { AppThunkType, RootStateType } from "./store";
+import {packsAPI} from '../api/packs-api';
+import {handleServerNetworkError} from '../utils/error-utils';
+import {setAppStatus, SetAppStatusActionType} from './app-reducer';
+import {AppThunkType, RootStateType} from './store';
 
 type InitStateType = {
     cardPacks: PackType[],
@@ -12,7 +12,7 @@ type InitStateType = {
         page: number, // текущая
         min: number, // кол-во карт от
         max: number, //кол-во карт до
-        user_id: string, // для фильтрации карточек мои / не мои 
+        user_id: string, // для фильтрации карточек мои / не мои
         packName: string, //для поиска
         sortPacks: string, // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
     }
@@ -27,7 +27,7 @@ const initState = {
         page: 1, // текущая
         min: 0, // кол-во карт от
         max: 10, //кол-во карт до
-        user_id: '', // для фильтрации карточек мои / не мои 
+        user_id: '', // для фильтрации карточек мои / не мои
         packName: '', //для поиска
         sortPacks: '', // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
     }
@@ -36,11 +36,15 @@ const initState = {
 export const PacksReducer = (state: InitStateType = initState, action: PacksActionsType): InitStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS':
-            return { ...state, cardPacks: action.payload.cardPacks }
+            return {...state, cardPacks: action.payload.cardPacks}
         case 'PACKS/SET-SEARCH':
             return {
-                ...state, queryParams: {...state.queryParams, packName:action.payload}
+                ...state, queryParams: {...state.queryParams, packName: action.payload}
             }
+        case 'APP/SET-CURRENT-PAGE':
+            return {...state, queryParams: {...state.queryParams, page: action.page}}
+        case 'APP/SET-PAGE-COUNT':
+            return {...state, queryParams: {...state.queryParams, pageCount: action.pageCount}}
         default: {
             return state;
         }
@@ -51,7 +55,7 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
 export const setPacks = (data: PacksType) => {
     return {
         type: 'PACKS/SET-PACKS',
-        payload: { ...data }
+        payload: {...data}
     } as const;
 };
 
@@ -61,6 +65,10 @@ export const setSearch = (packName: string) => {
         payload: packName
     } as const;
 };
+
+export const setCurrentPage = (page: number) => ({type: 'APP/SET-CURRENT-PAGE', page} as const)
+
+export const setPageCount = (pageCount: number) => ({type: 'APP/SET-PAGE-COUNT', pageCount} as const)
 
 
 //types
@@ -85,16 +93,23 @@ type PacksType = {
 // type InitStateType = typeof initState;
 type SetPacksType = ReturnType<typeof setPacks>;
 type SetSearchType = ReturnType<typeof setSearch>
-type PacksActionsType = SetPacksType | SetAppStatusActionType | SetSearchType
+type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
+type SetPageCountActionType = ReturnType<typeof setPageCount>
+
+type PacksActionsType = SetPacksType
+    | SetAppStatusActionType
+    | SetSearchType
+    | SetCurrentPageActionType
+    | SetPageCountActionType
 
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
     try {
-        const { pageCount, page, min, max, user_id, packName, sortPacks } = getState().packs.queryParams
+        const {pageCount, page, min, max, user_id, packName, sortPacks} = getState().packs.queryParams
 
-        const res = await packsAPI.getPacks({ pageCount, page, min, max, user_id, packName, sortPacks })
+        const res = await packsAPI.getPacks({pageCount, page, min, max, user_id, packName, sortPacks})
         dispatch(setPacks(res.data));
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
