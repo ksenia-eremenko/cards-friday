@@ -41,10 +41,20 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
             return {
                 ...state, queryParams: {...state.queryParams, packName: action.payload}
             }
-        case 'SET_USER_ID':
+        case 'PACKS/SET_USER_ID':
             return {
                 ...state,
                 queryParams: {...state.queryParams, user_id: action.payload},
+            };
+        case 'PACKS/SET-MIN':
+            return {
+                ...state,
+                queryParams: {...state.queryParams, min: action.payload},
+            };
+        case 'PACKS/SET-MAX':
+            return {
+                ...state,
+                queryParams: {...state.queryParams, max: action.payload},
             };
         default: {
             return state;
@@ -55,7 +65,9 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
 // AC
 export const setPacks = (data: PacksType) => ({type: 'PACKS/SET-PACKS', payload: {...data}} as const)
 export const setSearch = (packName: string) => ({type: 'PACKS/SET-SEARCH', payload: packName} as const)
-export const setUserId = (user_id: string) => ({type: 'SET_USER_ID', payload: user_id} as const);
+export const setUserId = (user_id: string) => ({type: 'PACKS/SET_USER_ID', payload: user_id} as const);
+export const setMin = (min: number) => ({type: 'PACKS/SET-MIN', payload: min} as const);
+export const setMax = (max: number) => ({type: 'PACKS/SET-MAX', payload: max} as const);
 
 
 //types
@@ -81,9 +93,11 @@ type PacksType = {
 type SetPacksType = ReturnType<typeof setPacks>;
 type SetSearchType = ReturnType<typeof setSearch>
 type SetUserIdType = ReturnType<typeof setUserId>
+type SetMinType = ReturnType<typeof setMin>
+type SetMaxType = ReturnType<typeof setMax>
 // type ResetUserIdType = ReturnType<typeof resetUserId>
 
-type PacksActionsType = SetPacksType | SetAppStatusActionType | SetSearchType | SetUserIdType
+type PacksActionsType = SetPacksType | SetAppStatusActionType | SetSearchType | SetUserIdType | SetMinType | SetMaxType
 
 
 //thunks
@@ -92,16 +106,15 @@ export const getPacks = (userId?: string): AppThunkType => async (dispatch, getS
     console.log(userId)
     console.log(getState().packs)
     try {
-        const {pageCount, page, min, max, packName, sortPacks} = getState().packs.queryParams
-        console.log({user_id: userId ? userId : ''})
+        const {pageCount, page, min, max,user_id, packName, sortPacks} = getState().packs.queryParams
         const res = await packsAPI.getPacks({
-            pageCount,
             page,
+            pageCount,
+            user_id: userId ? userId : '',
             min,
             max,
-            user_id: userId ? userId : '',
-            packName,
-            sortPacks
+            sortPacks,
+            packName
         })
         console.log(res.data)
         dispatch(setPacks(res.data));
