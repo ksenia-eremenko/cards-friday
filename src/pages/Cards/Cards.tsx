@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { createdCard, getCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -18,16 +18,22 @@ const Cards = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-    const id = useAppSelector(state => state.cards.cardsPack_id)
-    
-    useEffect(() => {
+    const packId = useAppSelector(state => state.cards.cardsPack_id)
+    const cardQuestion = useAppSelector(state => state.cards.queryParams.cardQuestion);
+    const pageCount = useAppSelector(state => state.cards.queryParams.pageCount);
+    const page = useAppSelector(state => state.cards.queryParams.page);
+    const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
 
-        dispatch(getCards(id))
-    }, [dispatch, id])
+
+    useEffect(() => {
+        console.log('useEffect');
+
+        dispatch(getCards(packId))
+    }, [dispatch, packId, cardQuestion, pageCount, page, sortCards])
 
     const createdCardHandler = () => {
         const card = {
-            cardsPack_id: id,
+            cardsPack_id: packId,
             question: 'My first question',
             answer: 'My first answer'
         }
@@ -35,9 +41,11 @@ const Cards = () => {
     }
 
     const sortAnswerClickHandler = () => {
+        console.log('sortAnswerClickHandler');
 
     }
     const sortUpdateClickHandler = () => {
+        console.log('sortUpdateClickHandler');
 
     }
 

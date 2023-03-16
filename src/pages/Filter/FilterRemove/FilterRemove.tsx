@@ -12,7 +12,6 @@ const FilterRemove = () => {
     const handleButtonClick = () => {
         handleFilterReset(); // вызов функции сброса фильтра
     };
-    console.log(filter)
     return (
         <div className={'filter-container'}>
             {filter}
