@@ -10,7 +10,6 @@ const FilterRemove = () => {
     const handleButtonClick = () => {
         setFilter([])
     };
-    console.log(filter)
     return (
         <div className={'filter-container'}>
             {filter}

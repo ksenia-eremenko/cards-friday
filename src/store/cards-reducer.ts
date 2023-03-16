@@ -40,6 +40,7 @@ export const getPackId = (id: string) => ({ type: 'CARDS/GET-PACKS-ID', id } as 
 // TC
 export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
+    console.log('TC')
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({
@@ -50,6 +51,7 @@ export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch
             page,
             pageCount,
         })
+
         dispatch(setCards(res.data));
         //@ts-ignore
         dispatch(getPackId(cardsPack_id))
@@ -61,11 +63,11 @@ export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch
     }
 }
 
-export const createdCard = (card: CreateDataType): AppThunkType => async (dispatch) => {
+export const createdCard = (card: CreateDataType): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'));
     try {
-        await cardsAPI.createCard(card);
-        dispatch(getCards());
+        const res = await cardsAPI.createCard(card);
+        dispatch(getCards(res.data.newCard.cardsPack_id))
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);

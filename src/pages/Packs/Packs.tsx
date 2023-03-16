@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Error } from '../../components/common/Error/Error';
 import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
-import { getCards } from '../../store/cards-reducer'
+import { getPackId } from '../../store/cards-reducer'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -84,7 +84,7 @@ const Packs = () => {
     }
 
     const toCardsClickHandler = (cardsPack_id: string) => {
-        dispatch(getCards(cardsPack_id))
+        dispatch(getPackId(cardsPack_id))
         navigate('/cards')
     }
 
@@ -140,7 +140,7 @@ const Packs = () => {
                                             <div className="items" key={i}>
                                                 <div className="item b-title bt14">{e.name}</div>
                                                 <div className="item b-title bt14">{e.cardsCount}</div>
-                                                <div className="item b-title bt14">{e.updated}</div>
+                                                <div className="item b-title bt14">{new Date(e.updated).toLocaleDateString('ru')}</div>
                                                 <div className="item b-title bt14">{e.user_name}</div>
                                                 <div className="actions">
                                                     {e.cardsCount || (userId === e.user_id)
