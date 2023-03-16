@@ -22,9 +22,14 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
         case 'CARDS/SET-CURRENT-PAGE':
-            return {...state, queryParams: {...state.queryParams, page: action.page}}
+            return { ...state, queryParams: { ...state.queryParams, page: action.page } }
         case 'CARDS/SET-PAGE-COUNT':
-            return {...state, queryParams: {...state.queryParams, pageCount: action.pageCount}}
+            return { ...state, queryParams: { ...state.queryParams, pageCount: action.pageCount } }
+        case 'CARDS/SET-SORT-CARDS':
+            return {
+                ...state,
+                queryParams: { ...state.queryParams, sortCards: action.sortCards },
+            };
         default: {
             return state;
         }
@@ -36,13 +41,15 @@ type SetCardsType = ReturnType<typeof setCards>;
 type GetPackIdType = ReturnType<typeof getPackId>;
 type SetCurrentCardsPage = ReturnType<typeof setCurrentCardsPage>;
 type SetCardsPageCount = ReturnType<typeof setCardsPageCount>
-type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount
+type SetSortCards = ReturnType<typeof setSortCards>
+type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards
 
 // AC
 export const setCards = (data: any) => ({ type: 'CARDS/SET-CARDS', payload: { ...data } } as const)
 export const getPackId = (id: string) => ({ type: 'CARDS/GET-PACKS-ID', id } as const)
-export const setCurrentCardsPage = (page: number) => ({type: 'CARDS/SET-CURRENT-PAGE', page} as const)
-export const setCardsPageCount = (pageCount: number) => ({type: 'CARDS/SET-PAGE-COUNT', pageCount} as const)
+export const setCurrentCardsPage = (page: number) => ({ type: 'CARDS/SET-CURRENT-PAGE', page } as const)
+export const setCardsPageCount = (pageCount: number) => ({ type: 'CARDS/SET-PAGE-COUNT', pageCount } as const)
+export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARDS', sortCards } as const);
 
 
 // TC

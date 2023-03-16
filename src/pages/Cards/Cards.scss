@@ -61,13 +61,7 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 140px;
                 padding: 0 30px;
-
-                @include nbtb {
-                    grid-template-columns: 1fr 1fr 1fr 100px;
-                }
-
                 @include mb {
-                    grid-template-columns: 1fr 1fr 1fr 100px;
                     padding: 0 15px;
                 }
             }

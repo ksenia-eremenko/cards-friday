@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, updateCard } from '../../store/cards-reducer';
+import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, setSortCards, updateCard } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
 import { SearchBar } from '../Filter/SearchBar/SearchBar';
@@ -13,12 +13,13 @@ import PaginationBlock from '../PaginationBlock/PaginationBlock';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
-    const [sortUp, setSortUp] = useState<boolean>(false)
+    const [sortAnswer, setSortAnswer] = useState<boolean>(false)
+    const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
     const cards = useAppSelector(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-    const packId = useAppSelector(state => state.cards.cardsPack_id)
+    const cardsPack_id = useAppSelector(state => state.cards.cardsPack_id)
     const cardQuestion = useAppSelector(state => state.cards.queryParams.cardQuestion);
     const pageCount = useAppSelector(state => state.cards.queryParams.pageCount);
     const currentPage = useAppSelector(state => state.cards.queryParams.page);
@@ -26,15 +27,17 @@ const Cards = () => {
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
     //@ts-ignore
-    const isMyCards = authId === cards[0]?.user_id
-
+    const isMyCards = authId === cards[0]?.user_id;
+    const [searchParams, setSearchParams] = useSearchParams();
     useEffect(() => {
-        dispatch(getCards(packId))
-    }, [dispatch, packId, cardQuestion, pageCount, currentPage, sortCards])
+        dispatch(getCards(cardsPack_id))
+        // @ts-ignore
+        setSearchParams({ cardsPack_id })
+    }, [dispatch, cardsPack_id, cardQuestion, pageCount, currentPage, sortCards])
 
     const createdCardHandler = () => {
         const card = {
-            cardsPack_id: packId,
+            cardsPack_id: cardsPack_id,
             question: 'My first question',
             answer: 'My first answer'
         }
@@ -53,10 +56,12 @@ const Cards = () => {
     }
 
     const sortAnswerClickHandler = () => {
-
+        setSortAnswer(!sortAnswer);
+        (!sortAnswer) ? dispatch(setSortCards('1cardsCount')) : dispatch(setSortCards('0cardsCount'))
     }
     const sortUpdateClickHandler = () => {
-
+        setSortUpdateCards(!sortUpdateCards);
+        (!sortUpdateCards) ? dispatch(setSortCards('1updated')) : dispatch(setSortCards('0updated'))
     }
 
     const onPageChangedHandler = (page: number) => {
@@ -103,7 +108,7 @@ const Cards = () => {
                                     onClick={sortAnswerClickHandler}>Answer
                                     <span className={classNames(
                                         'icon',
-                                        { 'active': sortUp }
+                                        { 'active': sortAnswer }
                                     )}>
                                         <IoIosArrowDown />
                                     </span>
@@ -112,7 +117,7 @@ const Cards = () => {
                                     onClick={sortUpdateClickHandler}>Last Updated
                                     <span className={classNames(
                                         'icon',
-                                        { 'active': sortUp }
+                                        { 'active': sortUpdateCards }
                                     )}>
                                         <IoIosArrowDown />
                                     </span>
