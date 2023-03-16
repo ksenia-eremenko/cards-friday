@@ -43,8 +43,7 @@ export const SearchBar = () => {
     return (
         <div className={'search-container'}>
             <div className={'search-title b-title bt14 medium'}>Search</div>
-            <div>
-
+            <div className={'inputSpan'}>
                 <input
                     value={searchTerm}
                     onChange={onChangeHandler}

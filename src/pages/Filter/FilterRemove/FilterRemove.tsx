@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
 import {MdOutlineFilterAltOff} from "react-icons/md";
 import './FilterRemove.scss'
+import {useAppDispatch} from "../../../store/store";
+import {resetFilter} from "../../../store/packs-reducer";
 
 const FilterRemove = () => {
-    const [filter, setFilter] = useState('')
+    // const [filter, setFilter] = useState([])
 
-    const handleFilterReset = () => {
-        setFilter('');
-    };
+const dispatch = useAppDispatch()
 
     const handleButtonClick = () => {
-        handleFilterReset(); // вызов функции сброса фильтра
+    dispatch(resetFilter())
     };
     return (
         <div className={'filter-container'}>
-            {filter}
             <div className={'filter-remove b-title bt14 medium'} onClick={handleButtonClick}>
                 <MdOutlineFilterAltOff/>
             </div>
