@@ -3,14 +3,12 @@ import {MdOutlineFilterAltOff} from "react-icons/md";
 import './FilterRemove.scss'
 
 const FilterRemove = () => {
-    const [filter, setFilter] = useState('')
+    const [filter, setFilter] = useState([])
 
-    const handleFilterReset = () => {
-        setFilter('');
-    };
+
 
     const handleButtonClick = () => {
-        handleFilterReset(); // вызов функции сброса фильтра
+        setFilter([])
     };
     console.log(filter)
     return (

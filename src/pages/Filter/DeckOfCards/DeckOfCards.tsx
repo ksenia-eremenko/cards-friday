@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './DeckOfCards.scss'
 import {setUserId} from "../../../store/packs-reducer";
 import {useAppDispatch, useAppSelector} from "../../../store/store";

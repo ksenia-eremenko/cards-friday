@@ -72,6 +72,7 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 ...state,
                 queryParams: { ...state.queryParams, sortPacks: action.payload },
             };
+
         default: {
             return state;
         }

@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './SliderFilter.scss';
-import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { getPacks, setMax, setMin } from "../../../store/packs-reducer";
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {setMax, setMin} from "../../../store/packs-reducer";
 
 
 function useDebounce(num1: number, num2: number, delay: number = 800) {
@@ -50,7 +50,6 @@ const SliderFilter = () => {
         () => {
             dispatch(setMin(value1))
             dispatch(setMax(value2))
-            // dispatch(getPacks())
         },
         [debouncedSearchTerm]
     );

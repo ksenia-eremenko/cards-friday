@@ -11,9 +11,11 @@
     margin-top: -24px;
     align-items: center;
   }
-
+.inputSpan{
+  position: relative;
+}
   .input-block {
-    margin-top: -15px;
+    margin-top: -11px;
     width: 413px;
     height: 36px;
     background: $color1;
@@ -30,10 +32,10 @@
 
   .magnifier {
     position: absolute;
-    transform: translateY(100%);
+    transform: translateY(-50%);
     opacity: 0.4;
     right: 97.5%;
-    top: 11.50%;
+    top: 50%;
   }
 
   ::-webkit-input-placeholder {
