@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react'
+import {Navigate} from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { createdCard, getCards } from '../../store/cards-reducer';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { Error } from '../../components/common/Error/Error';
-import { SearchBar } from '../Filter/SearchBar/SearchBar';
-import { IoIosArrowDown } from 'react-icons/io';
+import {createdCard, getCards, setCardsPageCount, setCurrentCardsPage} from '../../store/cards-reducer';
+import {useAppDispatch, useAppSelector} from '../../store/store';
+import {Error} from '../../components/common/Error/Error';
+import {SearchBar} from '../Filter/SearchBar/SearchBar';
+import {IoIosArrowDown} from 'react-icons/io';
 import classNames from 'classnames';
-import { GiHatchets } from 'react-icons/gi';
-import { AiFillEdit } from 'react-icons/ai';
-import { MdOutlineDeleteForever } from 'react-icons/md';
+import {GiHatchets} from 'react-icons/gi';
+import {AiFillEdit} from 'react-icons/ai';
+import {MdOutlineDeleteForever} from 'react-icons/md';
+import PaginationBlock from '../PaginationBlock/PaginationBlock';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
@@ -21,7 +22,8 @@ const Cards = () => {
     const packId = useAppSelector(state => state.cards.cardsPack_id)
     const cardQuestion = useAppSelector(state => state.cards.queryParams.cardQuestion);
     const pageCount = useAppSelector(state => state.cards.queryParams.pageCount);
-    const page = useAppSelector(state => state.cards.queryParams.page);
+    const currentPage = useAppSelector(state => state.cards.queryParams.page);
+    const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
 
 
@@ -29,7 +31,7 @@ const Cards = () => {
         console.log('useEffect');
 
         dispatch(getCards(packId))
-    }, [dispatch, packId, cardQuestion, pageCount, page, sortCards])
+    }, [dispatch, packId, cardQuestion, pageCount, currentPage, sortCards])
 
     const createdCardHandler = () => {
         const card = {
@@ -49,23 +51,31 @@ const Cards = () => {
 
     }
 
+    const onPageChangedHandler = (page: number) => {
+        dispatch(setCurrentCardsPage(page))
+    }
+
+    const onChangeSelectHandler = (option: number) => {
+        dispatch(setCardsPageCount(option))
+    }
+
     if (!isLoggedIn) {
-        return <Navigate to={'/login'} />
+        return <Navigate to={'/login'}/>
     }
 
     return (
-        <div className='cards'>
+        <div className="cards">
             {(status === 'loading')
-                && <Preloader />}
+                && <Preloader/>}
             <div className="container">
                 <div className="in">
-                    {status === 'failed' ? <Error errorText={error} /> : ''}
+                    {status === 'failed' ? <Error errorText={error}/> : ''}
                     <div className="top">
                         <div className="title b-title bt22 semibold">Friend's Pack</div>
                         <div className="styled-btn styled-btn-1">Learn to pack</div>
                     </div>
                     <div className="filter">
-                        <SearchBar />
+                        <SearchBar/>
                     </div>
                     <div className="table-wrapper">
                         <div className="table">
@@ -76,18 +86,18 @@ const Cards = () => {
                                     onClick={sortAnswerClickHandler}>Answer
                                     <span className={classNames(
                                         'icon',
-                                        { 'active': sortUp }
+                                        {'active': sortUp}
                                     )}>
-                                        <IoIosArrowDown />
+                                        <IoIosArrowDown/>
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium with-sort"
-                                    onClick={sortUpdateClickHandler}>Last Updated
+                                     onClick={sortUpdateClickHandler}>Last Updated
                                     <span className={classNames(
                                         'icon',
-                                        { 'active': sortUp }
+                                        {'active': sortUp}
                                     )}>
-                                        <IoIosArrowDown />
+                                        <IoIosArrowDown/>
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium">Grade</div>
@@ -111,14 +121,14 @@ const Cards = () => {
                                                 }</div>
                                                 {/* <div className="item b-title bt14">{e.grade}</div> */}
                                                 <div className="actions">
-                                                    <div className='action-item'>
-                                                        <GiHatchets />
+                                                    <div className="action-item">
+                                                        <GiHatchets/>
                                                     </div>
-                                                    <div className='action-item'>
-                                                        <AiFillEdit />
+                                                    <div className="action-item">
+                                                        <AiFillEdit/>
                                                     </div>
-                                                    <div className='action-item'>
-                                                        <MdOutlineDeleteForever />
+                                                    <div className="action-item">
+                                                        <MdOutlineDeleteForever/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,9 +138,14 @@ const Cards = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="pagination">
-
-                    </div>
+                    {cardsTotalCount && cardsTotalCount > 0
+                        ? <PaginationBlock
+                            totalItemsCount={cardsTotalCount}
+                            currentPage={currentPage}
+                            onPageChanged={(page: number) => onPageChangedHandler(page)}
+                            onChangeSelect={(option: number) => onChangeSelectHandler(option)}
+                            pageCount={pageCount}/>
+                        : null}
                 </div>
                 <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
             </div>
