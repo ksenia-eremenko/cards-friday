@@ -1,9 +1,7 @@
-import { cardsAPI, CreateDataType } from "../api/cards-api";
+import { cardsAPI, CreateDataType, UpdateCardType } from "../api/cards-api";
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
 import { AppThunkType, RootStateType } from "./store";
-import {setCurrentPage} from './packs-reducer';
-import {logout} from './auth-reducer';
 
 const initState = {
     cards: [],
@@ -50,7 +48,6 @@ export const setCardsPageCount = (pageCount: number) => ({type: 'CARDS/SET-PAGE-
 // TC
 export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
-    console.log('TC')
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({
@@ -84,4 +81,28 @@ export const createdCard = (card: CreateDataType): AppThunkType => async (dispat
         dispatch(setAppStatus('failed'))
     }
 };
+
+export const deleteCard = (cardId: string): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus('loading'));
+    try {
+        const res = await cardsAPI.deleteCard(cardId);
+        dispatch(getCards(res.data.deletedCard.cardsPack_id))
+        dispatch(setAppStatus('succeeded'));
+    } catch (err: any) {
+        handleServerNetworkError(err.response.data.error, dispatch);
+        dispatch(setAppStatus('failed'))
+    }
+};
+export const updateCard = (cardId: UpdateCardType): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus('loading'));
+    try {
+        const res = await cardsAPI.updateCard(cardId);
+        dispatch(getCards(res.data.updatedCard.cardsPack_id))
+        dispatch(setAppStatus('succeeded'));
+    } catch (err: any) {
+        handleServerNetworkError(err.response.data.error, dispatch);
+        dispatch(setAppStatus('failed'))
+    }
+};
+
 

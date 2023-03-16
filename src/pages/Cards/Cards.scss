@@ -59,7 +59,7 @@
             .table-head,
             .table-body .items {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 100px;
+                grid-template-columns: 1fr 1fr 1fr 140px;
                 padding: 0 30px;
 
                 @include nbtb {
@@ -84,7 +84,9 @@
 
                         span {
                             &.active {
-                                svg {transform: rotate(180deg);}
+                                svg {
+                                    transform: rotate(180deg);
+                                }
                             }
                         }
                     }
@@ -109,6 +111,15 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    gap: 10px;
+
+                    .grades {
+                        display: flex;
+                        gap: 2px;
+                        svg {
+                            cursor: pointer;
+                        }
+                    }
 
                     .action-item {
                         cursor: pointer;

@@ -27,7 +27,6 @@ const Packs = () => {
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
     const [sortUpdate, setSortUpdate] = useState<boolean>(false)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    // @ts-ignore
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
     const totalItemsCount = useAppSelector<number | undefined>(state => state.packs.cardPacksTotalCount)
     const currentPage = useAppSelector<number>(state => state.packs.queryParams.page)
@@ -40,10 +39,8 @@ const Packs = () => {
     const sortPacks = useAppSelector(state => state.packs.queryParams.sortPacks)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-    const idUser = useAppSelector(state => state.auth.profile?._id)
-    const navigate = useNavigate();
     const userId = useAppSelector(state => state.auth.profile?._id)
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getPacks())
@@ -65,12 +62,10 @@ const Packs = () => {
 
     const onPageChangedHandler = (page: number) => {
         dispatch(setCurrentPage(page))
-        // dispatch(getPacks())
     }
 
     const onChangeSelectHandler = (option: number) => {
         dispatch(setPageCount(option))
-        // dispatch(getPacks())
     }
 
     const sortСardsCountClickHandler = () => {
@@ -99,7 +94,6 @@ const Packs = () => {
             <div className="container">
                 <div className="in">
                     {status === 'failed' ? <Error errorText={error} /> : ''}
-
                     <div className="top">
                         <div className="title">Friend's Pack</div>
                         <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
@@ -152,10 +146,10 @@ const Packs = () => {
                                                         </div>
                                                         : <div className="action-item disabled"><GiHatchets /></div>
                                                     }
-                                                    <div className={e.user_id === idUser ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === idUser && updatePackHandler(e._id)}>
+                                                    <div className={e.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === userId && updatePackHandler(e._id)}>
                                                         <AiFillEdit />
                                                     </div>
-                                                    <div className={e.user_id === idUser ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === idUser && deletePackHandler(e._id)}>
+                                                    <div className={e.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === userId && deletePackHandler(e._id)}>
                                                         <MdOutlineDeleteForever />
                                                     </div>
                                                 </div>

@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {Navigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import {createdCard, getCards, setCardsPageCount, setCurrentCardsPage} from '../../store/cards-reducer';
-import {useAppDispatch, useAppSelector} from '../../store/store';
-import {Error} from '../../components/common/Error/Error';
-import {SearchBar} from '../Filter/SearchBar/SearchBar';
-import {IoIosArrowDown} from 'react-icons/io';
+import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, updateCard } from '../../store/cards-reducer';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { Error } from '../../components/common/Error/Error';
+import { SearchBar } from '../Filter/SearchBar/SearchBar';
+import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
-import {GiHatchets} from 'react-icons/gi';
-import {AiFillEdit} from 'react-icons/ai';
-import {MdOutlineDeleteForever} from 'react-icons/md';
+import { AiFillEdit, AiOutlineStar } from 'react-icons/ai';
+import { MdOutlineDeleteForever } from 'react-icons/md';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 
 const Cards = () => {
@@ -25,11 +24,11 @@ const Cards = () => {
     const currentPage = useAppSelector(state => state.cards.queryParams.page);
     const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
-
+    const authId = useAppSelector(state => state.auth.profile?._id);
+    //@ts-ignore
+    const isMyCards = authId === cards[0]?.user_id
 
     useEffect(() => {
-        console.log('useEffect');
-
         dispatch(getCards(packId))
     }, [dispatch, packId, cardQuestion, pageCount, currentPage, sortCards])
 
@@ -42,12 +41,21 @@ const Cards = () => {
         dispatch(createdCard(card));
     }
 
+    const deleteCardHandler = (cardId: string) => {
+        dispatch(deleteCard(cardId));
+    }
+    const updateCardHandler = (cardId: string) => {
+        const newCard = {
+            _id: cardId,
+            question: 'My new question'
+        }
+        dispatch(updateCard(newCard));
+    }
+
     const sortAnswerClickHandler = () => {
-        console.log('sortAnswerClickHandler');
 
     }
     const sortUpdateClickHandler = () => {
-        console.log('sortUpdateClickHandler');
 
     }
 
@@ -60,22 +68,31 @@ const Cards = () => {
     }
 
     if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/login'} />
     }
 
     return (
         <div className="cards">
             {(status === 'loading')
-                && <Preloader/>}
+                && <Preloader />}
             <div className="container">
                 <div className="in">
-                    {status === 'failed' ? <Error errorText={error}/> : ''}
-                    <div className="top">
-                        <div className="title b-title bt22 semibold">Friend's Pack</div>
-                        <div className="styled-btn styled-btn-1">Learn to pack</div>
-                    </div>
+                    {status === 'failed' ? <Error errorText={error} /> : ''}
+                    {
+                        isMyCards
+                            ? <div className="top">
+                                <div className="title b-title bt22 semibold">My Pack</div>
+                                <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
+                            </div>
+                            : <div className="top">
+                                <div className="title b-title bt22 semibold">Friend's Pack</div>
+
+                                <div className="styled-btn styled-btn-1">Learn to pack</div>
+                            </div>
+                    }
+
                     <div className="filter">
-                        <SearchBar/>
+                        <SearchBar />
                     </div>
                     <div className="table-wrapper">
                         <div className="table">
@@ -86,18 +103,18 @@ const Cards = () => {
                                     onClick={sortAnswerClickHandler}>Answer
                                     <span className={classNames(
                                         'icon',
-                                        {'active': sortUp}
+                                        { 'active': sortUp }
                                     )}>
-                                        <IoIosArrowDown/>
+                                        <IoIosArrowDown />
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium with-sort"
-                                     onClick={sortUpdateClickHandler}>Last Updated
+                                    onClick={sortUpdateClickHandler}>Last Updated
                                     <span className={classNames(
                                         'icon',
-                                        {'active': sortUp}
+                                        { 'active': sortUp }
                                     )}>
-                                        <IoIosArrowDown/>
+                                        <IoIosArrowDown />
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium">Grade</div>
@@ -119,16 +136,32 @@ const Cards = () => {
                                                     //@ts-ignore
                                                     e.updated
                                                 }</div>
-                                                {/* <div className="item b-title bt14">{e.grade}</div> */}
+
                                                 <div className="actions">
-                                                    <div className="action-item">
-                                                        <GiHatchets/>
+                                                    <div className="grades">
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
                                                     </div>
-                                                    <div className="action-item">
-                                                        <AiFillEdit/>
+                                                    <div className={classNames(
+                                                        'action-item',
+                                                        { 'disabled': !isMyCards }
+                                                    )} onClick={
+                                                        //@ts-ignore
+                                                        () => updateCardHandler(e._id)
+                                                    }>
+                                                        <AiFillEdit />
                                                     </div>
-                                                    <div className="action-item">
-                                                        <MdOutlineDeleteForever/>
+                                                    <div className={classNames(
+                                                        'action-item',
+                                                        { 'disabled': !isMyCards }
+                                                    )} onClick={
+                                                        //@ts-ignore
+                                                        () => deleteCardHandler(e._id)
+                                                    }>
+                                                        <MdOutlineDeleteForever />
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,10 +177,9 @@ const Cards = () => {
                             currentPage={currentPage}
                             onPageChanged={(page: number) => onPageChangedHandler(page)}
                             onChangeSelect={(option: number) => onChangeSelectHandler(option)}
-                            pageCount={pageCount}/>
+                            pageCount={pageCount} />
                         : null}
                 </div>
-                <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
             </div>
         </div>
     )
