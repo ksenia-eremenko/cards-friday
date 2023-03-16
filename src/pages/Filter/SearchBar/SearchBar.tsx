@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './SearchBar.scss'
-import { AiOutlineSearch } from "react-icons/ai";
-import { useAppDispatch } from "../../../store/store";
-import { getPacks, setSearch } from "../../../store/packs-reducer";
+import {AiOutlineSearch} from "react-icons/ai";
+import {useAppDispatch} from "../../../store/store";
+import {setSearch} from "../../../store/packs-reducer";
 
 function useDebounce(value: string, delay: number = 800) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -27,7 +27,6 @@ export const SearchBar = () => {
     const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
     const dispatch = useAppDispatch();
-    // const packs = useAppSelector(state=>state.packs)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.currentTarget.value)
@@ -37,7 +36,6 @@ export const SearchBar = () => {
     useEffect(
         () => {
             dispatch(setSearch(searchTerm))
-            // dispatch(getPacks())
         },
         [debouncedSearchTerm]
     );
@@ -56,7 +54,6 @@ export const SearchBar = () => {
                     className={'input-block b-title bt14 medium'}
                 ></input>
                 <span className={'magnifier'}><AiOutlineSearch /></span>
-                {/*{packs.cardPacks.length === 0 && <span className={'gray b-title bt14 semibold'}>Колоды с введенным названием не найдены. Измените параметры запроса.</span>}*/}
             </div>
         </div>
     );
