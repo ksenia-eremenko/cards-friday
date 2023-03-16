@@ -24,16 +24,26 @@ function useDebounce(num1: number, num2: number, delay: number = 800) {
 
 const SliderFilter = () => {
 
-    const minCardCount = useAppSelector(state => state.packs.queryParams.min)
-    const maxCardCount = useAppSelector(state => state.packs.queryParams.max)
+    const min = useAppSelector(state => state.packs.queryParams.min)
+    const max = useAppSelector(state => state.packs.queryParams.max)
+    const maxCardCount = useAppSelector(state => state.packs.maxCardsCount)
+    const minCardCount = useAppSelector(state => state.packs.minCardsCount)
 
     const dispatch = useAppDispatch();
 
-
-    const [value1, setValue1] = useState(minCardCount);
-    const [value2, setValue2] = useState(maxCardCount);
+    const [value1, setValue1] = useState(min);
+    const [value2, setValue2] = useState(max);
     const debouncedSearchTerm = useDebounce(value1, value2, 1500);
 
+    useEffect(() => {
+        dispatch(setMax(maxCardCount))
+        dispatch(setMin(minCardCount))
+    },[minCardCount,maxCardCount])
+
+    useEffect(() => {
+        setValue1(min);
+        setValue2(max);
+    },[min,max])
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const min = parseInt(e.currentTarget.value);
@@ -62,11 +72,11 @@ const SliderFilter = () => {
                 <span className="output outputTwo b-title bt14 medium">{value2}</span>
                 <div className="range-slider">
                     <span className="full-range"></span>
-                    <span className="incl-range" style={{ width: `${value2 - value1}%`, left: `${value1}%` }}></span>
+                    <span className="incl-range" style={{ width: `${value2-value1}%`, maxWidth:'100%', left: `${value1}%` }}></span>
 
-                    <input name="rangeOne" onChange={onChangeHandler} value={value1} type="range" />
+                    <input name="rangeOne" onChange={onChangeHandler} value={value1} min={minCardCount} max={maxCardCount} type="range" />
 
-                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range" />
+                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} min={minCardCount}     max={maxCardCount} type="range"/>
 
                 </div>
             </div>
