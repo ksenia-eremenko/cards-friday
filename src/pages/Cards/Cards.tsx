@@ -11,12 +11,13 @@ import { AiFillEdit, AiOutlineStar } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { BsArrowLeft } from 'react-icons/bs';
+import { cardType } from '../../api/cards-api';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
     const [sortAnswer, setSortAnswer] = useState<boolean>(false)
     const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
-    const cards = useAppSelector(state => state.cards.cards)
+    const cards = useAppSelector<cardType[]>(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
@@ -140,15 +141,12 @@ const Cards = () => {
                                         return (
                                             <div className="items" key={i}>
                                                 <div className="item b-title bt14">{
-                                                    //@ts-ignore
                                                     e.question
                                                 }</div>
                                                 <div className="item b-title bt14">{
-                                                    //@ts-ignore
                                                     e.answer
                                                 }</div>
                                                 <div className="item b-title bt14">{
-                                                    //@ts-ignore
                                                     new Date(e.updated).toLocaleDateString('ua')
                                                 }</div>
 
@@ -165,7 +163,6 @@ const Cards = () => {
                                                             'action-item',
                                                             { 'disabled': status === 'loading' }
                                                         )} onClick={
-                                                            //@ts-ignore
                                                             () => updateCardHandler(e._id)
                                                         }>
                                                             <AiFillEdit />
@@ -176,7 +173,6 @@ const Cards = () => {
                                                             'action-item',
                                                             { 'disabled': status === 'loading' }
                                                         )} onClick={
-                                                            //@ts-ignore
                                                             () => deleteCardHandler(e._id)
                                                         }>
                                                             <MdOutlineDeleteForever />

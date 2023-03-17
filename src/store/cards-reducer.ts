@@ -1,4 +1,4 @@
-import { cardsAPI, CreateDataType, UpdateCardType } from "../api/cards-api";
+import { cardsAPI, cardType, CreateDataType, UpdateCardType } from "../api/cards-api";
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
 import { AppThunkType, RootStateType } from "./store";
