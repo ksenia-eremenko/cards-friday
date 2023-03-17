@@ -21,6 +21,7 @@ import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
 import { IoIosArrowDown } from 'react-icons/io'
 import classNames from 'classnames'
+import Pack from './Pack'
 
 const Packs = () => {
     const dispatch = useAppDispatch()
@@ -40,20 +41,19 @@ const Packs = () => {
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
     const userId = useAppSelector(state => state.auth.profile?._id)
-    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getPacks())
     }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks])
 
-    const deletePackHandler = (id: string) => {
-        dispatch(deletePack(id))
-    }
+    // const deletePackHandler = (id: string) => {
+    //     dispatch(deletePack(id))
+    // }
 
-    const updatePackHandler = (id: string) => {
-        const name = 'My new name for pack'
-        dispatch(updatedPack(id, name))
-    }
+    // const updatePackHandler = (id: string) => {
+    //     const name = 'My new name for pack'
+    //     dispatch(updatedPack(id, name))
+    // }
 
     const createPackHandler = () => {
         const name = 'New Pack'
@@ -78,10 +78,10 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
-    const toCardsClickHandler = (cardsPack_id: string) => {
-        dispatch(getPackId(cardsPack_id))
-        navigate('/cards')
-    }
+    // const toCardsClickHandler = (cardsPack_id: string) => {
+    //     dispatch(getPackId(cardsPack_id))
+    //     navigate('/cards')
+    // }
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
@@ -95,7 +95,7 @@ const Packs = () => {
                 <div className="in">
                     {status === 'failed' ? <Error errorText={error} /> : ''}
                     <div className="top">
-                        <div className="title">Friend's Pack</div>
+                        <div className="title b-title bt22 semibold">Packs list</div>
                         <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
                     </div>
                     <div className="filter">
@@ -129,33 +129,7 @@ const Packs = () => {
                             </div>
                             <div className="table-body">
                                 {packs.length
-                                    ? packs.map((e, i) => {
-                                        return (
-                                            <div className="items" key={i}>
-                                                <div className="item b-title bt14">{e.name}</div>
-                                                <div className="item b-title bt14">{e.cardsCount}</div>
-                                                <div className="item b-title bt14">{new Date(e.updated).toLocaleDateString('ru')}</div>
-                                                <div className="item b-title bt14">{e.user_name}</div>
-                                                <div className="actions">
-                                                    {e.cardsCount || (userId === e.user_id)
-                                                        ? <div
-                                                            className='action-item'
-                                                            onClick={() => toCardsClickHandler(e._id)}
-                                                        >
-                                                            <GiHatchets />
-                                                        </div>
-                                                        : <div className="action-item disabled"><GiHatchets /></div>
-                                                    }
-                                                    <div className={e.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === userId && updatePackHandler(e._id)}>
-                                                        <AiFillEdit />
-                                                    </div>
-                                                    <div className={e.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => e.user_id === userId && deletePackHandler(e._id)}>
-                                                        <MdOutlineDeleteForever />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
+                                    ? packs.map((e, i) => <Pack item={e} userId={userId} key={i}/>)
                                     : <div className="empty">Nothing found</div>}
                             </div>
                         </div>

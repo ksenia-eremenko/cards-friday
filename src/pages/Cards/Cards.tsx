@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, setSortCards, updateCard } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { AiFillEdit, AiOutlineStar } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
+import { BsArrowLeft } from 'react-icons/bs';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
@@ -27,13 +28,14 @@ const Cards = () => {
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
     //@ts-ignore
-    const isMyCards = authId === cards[0]?.user_id;
+    const isMyCards = authId === cards[0]?.user_id || !cards.length;
     const [searchParams, setSearchParams] = useSearchParams();
+    const id = searchParams.get('cardsPack_id')
+
     useEffect(() => {
-        dispatch(getCards(cardsPack_id))
-        // @ts-ignore
+        id && dispatch(getCards(id));
         setSearchParams({ cardsPack_id })
-    }, [dispatch, cardsPack_id, cardQuestion, pageCount, currentPage, sortCards])
+    }, [dispatch, cardsPack_id, cardQuestion, pageCount, currentPage, sortCards, setSearchParams, id])
 
     const createdCardHandler = () => {
         const card = {
@@ -43,7 +45,6 @@ const Cards = () => {
         }
         dispatch(createdCard(card));
     }
-
     const deleteCardHandler = (cardId: string) => {
         dispatch(deleteCard(cardId));
     }
@@ -83,9 +84,14 @@ const Cards = () => {
             <div className="container">
                 <div className="in">
                     {status === 'failed' ? <Error errorText={error} /> : ''}
+                    <NavLink to='/packs' className="link-to-back">
+                        <BsArrowLeft />
+                        <span className='b-title bt14'>Back to Packs List</span>
+                    </NavLink>
                     {
                         isMyCards
                             ? <div className="top">
+
                                 <div className="title b-title bt22 semibold">My Pack</div>
                                 <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
                             </div>
@@ -139,7 +145,7 @@ const Cards = () => {
                                                 }</div>
                                                 <div className="item b-title bt14">{
                                                     //@ts-ignore
-                                                    e.updated
+                                                    new Date(e.updated).toLocaleDateString('ua')
                                                 }</div>
 
                                                 <div className="actions">
@@ -150,24 +156,22 @@ const Cards = () => {
                                                         <AiOutlineStar />
                                                         <AiOutlineStar />
                                                     </div>
-                                                    <div className={classNames(
-                                                        'action-item',
-                                                        { 'disabled': !isMyCards }
-                                                    )} onClick={
-                                                        //@ts-ignore
-                                                        () => updateCardHandler(e._id)
-                                                    }>
-                                                        <AiFillEdit />
-                                                    </div>
-                                                    <div className={classNames(
-                                                        'action-item',
-                                                        { 'disabled': !isMyCards }
-                                                    )} onClick={
-                                                        //@ts-ignore
-                                                        () => deleteCardHandler(e._id)
-                                                    }>
-                                                        <MdOutlineDeleteForever />
-                                                    </div>
+                                                    {isMyCards
+                                                        ? <div className='action-item' onClick={
+                                                            //@ts-ignore
+                                                            () => updateCardHandler(e._id)
+                                                        }>
+                                                            <AiFillEdit />
+                                                        </div>
+                                                        : ''}
+                                                    {isMyCards
+                                                        ? <div className='action-item' onClick={
+                                                            //@ts-ignore
+                                                            () => deleteCardHandler(e._id)
+                                                        }>
+                                                            <MdOutlineDeleteForever />
+                                                        </div>
+                                                        : ''}
                                                 </div>
                                             </div>
                                         )

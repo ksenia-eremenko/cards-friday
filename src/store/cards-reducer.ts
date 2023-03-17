@@ -53,7 +53,7 @@ export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARD
 
 
 // TC
-export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
