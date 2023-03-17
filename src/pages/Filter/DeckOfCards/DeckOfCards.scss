@@ -1,23 +1,13 @@
 .show-cards-container {
-  // position: absolute;
-  // height: 62px;
-  // left: 480px;
-  // top: 60px;
   @include mb {
     width: calc(100% - 212px);
   }
 
   .show-title {
-    // line-height: 17px;
-    // display: flex;
-    // margin-bottom: 8px;
-    // align-items: center;
     padding-bottom: 10px;
   }
 
   .show-cards-wrapper {
-    // border: 1px $color10;
-    // border-radius: 2px;
     @include mb {
       display: flex;
       align-items: center;

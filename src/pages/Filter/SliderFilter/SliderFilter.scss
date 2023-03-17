@@ -1,11 +1,5 @@
 .slider-container {
-
-  // position: absolute;
-  // height: 62px;
-  // left: 850px;
-  // top: 60px;
   @include mb {
-    // width: 40%;
     width: 162px;
   }
 
@@ -20,18 +14,14 @@
     align-items: center;
     justify-content: space-between;
     height: 36px;
-    // top: 20px
     @include mb {
       gap: 5px;
     }
   }
 
   .output {
-    // position: absolute;
     width: 36px;
     height: 36px;
-    // bottom: 0;
-    // left: 0;
     background: $color1;
     border: 1px solid $color10;
     border-radius: 2px;
@@ -39,11 +29,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &.outputTwo {
-      // left: auto;
-      // right: 0;
-    }
   }
 
   .range {
@@ -57,15 +42,8 @@
   }
 
   .range-slider {
-    // width: 100%;
-    // width: calc(100% - 100px);
-    // height: 16px;
-    // left: 865px;
-    // top: 20px;
-    // margin-left: 10px;
 
     input {
-      //pointer-events: auto;
       position: absolute;
       overflow: hidden;
       left: 0;
@@ -75,12 +53,6 @@
       height: 18px;
       margin: 0;
       padding: 0;
-      // &.rangeOne {
-      //   left: 0px;
-      // }
-      // &.rangeTwo {
-      //   left: 15px;
-      // }
       @include mb {
         width: 80px;
       }

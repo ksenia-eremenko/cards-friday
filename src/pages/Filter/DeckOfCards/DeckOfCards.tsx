@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {setUserId} from "../../../store/packs-reducer";
-import {useAppDispatch, useAppSelector} from "../../../store/store";
+import React, { useState } from 'react';
+import { setUserId } from "../../../store/packs-reducer";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 
 
 const DeckOfCards = () => {
@@ -8,10 +8,12 @@ const DeckOfCards = () => {
 
     let onn = {
         backgroundColor: onOff ? "#366EFF" : "#ffffff",
+        cursor: 'pointer',
         color: onOff ? "#ffffff" : "#0a0a0a",
     }
     let off = {
         backgroundColor: onOff ? "#ffffff" : "#366EFF",
+        cursor: 'pointer',
         color: onOff ? "#0a0a0a" : "#ffffff",
     }
     const dispatch = useAppDispatch();
