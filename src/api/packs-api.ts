@@ -29,4 +29,3 @@ export type GetParamsPacksType = {
   sortPacks: string
   packName: string
 };
-// export type GetParamsPacksType = any;

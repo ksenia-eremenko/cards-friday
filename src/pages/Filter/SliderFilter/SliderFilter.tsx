@@ -33,10 +33,6 @@ const SliderFilter = () => {
 
     const [value1, setValue1] = useState(minCardCount);
     const [value2, setValue2] = useState(maxCardCount);
-    console.log(min + " min");
-    console.log(max + " max");
-    console.log(value1);
-    console.log(value2);
 
 
     const debouncedSearchTerm = useDebounce(value1, value2, 1500);
