@@ -108,7 +108,6 @@ const Cards = () => {
 
                     <div className="filter">
                         <SearchBar tableName={'card'}/>
-                        <SearchBar />
                     </div>
                     <div className="table-wrapper">
                         <div className="table">
