@@ -9,13 +9,13 @@ type InitStateType = {
     minCardsCount: number,
     maxCardsCount: number,
     queryParams: {
-        pageCount: number, // кол-во на странице
-        page: number, // текущая
-        min: number, // кол-во карт от
-        max: number, //кол-во карт до
-        user_id: string, // для фильтрации карточек мои / не мои
-        packName: string, //для поиска
-        sortPacks: string, // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
+        pageCount: number,
+        page: number,
+        min: number,
+        max: number,
+        user_id: string, 
+        packName: string, 
+        sortPacks: string, 
     },
     isReset?: boolean
 }
@@ -26,13 +26,13 @@ const initState = {
     minCardsCount: 0,
     maxCardsCount: 110,
     queryParams: {
-        pageCount: 10, // кол-во на странице
-        page: 1, // текущая
-        min: 0, // кол-во карт от
-        max: 100, //кол-во карт до
-        user_id: '', // для фильтрации карточек мои / не мои
-        packName: '', //для поиска
-        sortPacks: '', // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
+        pageCount: 10,
+        page: 1, 
+        min: 0,
+        max: 100,
+        user_id: '', 
+        packName: '', 
+        sortPacks: '', 
     },
     isReset: false
 };
