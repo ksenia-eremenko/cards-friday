@@ -3,7 +3,7 @@ import { instance } from './instance';
 
 export const packsAPI = {
   getPacks(params: GetParamsPacksType) {
-    return instance.get('/cards/pack', { params: { ...params } });
+    return instance.get('/cards/pack', { params });
   },
   deletePack(packId: string) {
     return instance.delete(`/cards/pack?id=${packId}`);
