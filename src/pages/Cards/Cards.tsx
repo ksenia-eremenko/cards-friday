@@ -14,9 +14,11 @@ import { BsArrowLeft } from 'react-icons/bs';
 import { cardType } from '../../api/cards-api';
 
 const Cards = () => {
-    const dispatch = useAppDispatch();
     const [sortAnswer, setSortAnswer] = useState<boolean>(false)
     const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
+
+    const dispatch = useAppDispatch();
+
     const cards = useAppSelector<cardType[]>(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
@@ -29,8 +31,10 @@ const Cards = () => {
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
     const packUserId = useAppSelector(state => state.cards.packUserId);
-    const isMyCards = authId === packUserId;
+
     const [searchParams, setSearchParams] = useSearchParams();
+
+    const isMyCards = authId === packUserId;
     const id = searchParams.get('cardsPack_id')
 
     useEffect(() => {
@@ -108,7 +112,7 @@ const Cards = () => {
                     }
 
                     <div className="filter">
-                        <SearchBar tableName={'card'}/>
+                        <SearchBar tableName={'card'} />
                     </div>
                     <div className="table-wrapper">
                         <div className="table">

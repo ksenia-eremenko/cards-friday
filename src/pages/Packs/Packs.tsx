@@ -18,10 +18,12 @@ import classNames from 'classnames';
 import Pack from './Pack';
 
 const Packs = () => {
-    const dispatch = useAppDispatch()
-    const error = useAppSelector(state => state.app.error)
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
     const [sortUpdate, setSortUpdate] = useState<boolean>(false)
+
+    const dispatch = useAppDispatch()
+
+    const error = useAppSelector(state => state.app.error)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const packs = useAppSelector<PackType[]>(state => state.packs.cardPacks)
     const totalItemsCount = useAppSelector<number | undefined>(state => state.packs.cardPacksTotalCount)
@@ -32,15 +34,13 @@ const Packs = () => {
     const user_id = useAppSelector(state => state.packs.queryParams.user_id)
     const min = useAppSelector(state => state.packs.queryParams.min)
     const max = useAppSelector(state => state.packs.queryParams.max)
-    const minCountCard = useAppSelector(state => state.packs.minCardsCount)
-    const maxCountCard = useAppSelector(state => state.packs.maxCardsCount)
     const sortPacks = useAppSelector(state => state.packs.queryParams.sortPacks)
     const status = useAppSelector(state => state.app.status)
     const userId = useAppSelector(state => state.auth.profile?._id)
 
     useEffect(() => {
         dispatch(getPacks())
-    }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks, minCountCard, maxCountCard])
+    }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks])
 
     const createPackHandler = () => {
         const name = 'New Pack'
