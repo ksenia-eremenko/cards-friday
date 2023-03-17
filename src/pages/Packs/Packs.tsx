@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { MdOutlineDeleteForever } from 'react-icons/md'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Preloader from '../../components/common/Preloader/Preloader'
 import {
     createdPack,
-    deletePack,
     getPacks,
     PackType,
     setCurrentPage,
     setPageCount,
     setSortPacks,
-    updatedPack
 } from '../../store/packs-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Error } from '../../components/common/Error/Error';
 import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
-import { getPackId } from '../../store/cards-reducer'
-import { GiHatchets } from 'react-icons/gi'
-import { AiFillEdit } from 'react-icons/ai'
 import { IoIosArrowDown } from 'react-icons/io'
 import classNames from 'classnames'
 import Pack from './Pack'
@@ -39,21 +33,11 @@ const Packs = () => {
     const max = useAppSelector(state => state.packs.queryParams.max)
     const sortPacks = useAppSelector(state => state.packs.queryParams.sortPacks)
     const status = useAppSelector(state => state.app.status)
-    const error = useAppSelector(state => state.app.error)
     const userId = useAppSelector(state => state.auth.profile?._id)
 
     useEffect(() => {
         dispatch(getPacks())
     }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks])
-
-    // const deletePackHandler = (id: string) => {
-    //     dispatch(deletePack(id))
-    // }
-
-    // const updatePackHandler = (id: string) => {
-    //     const name = 'My new name for pack'
-    //     dispatch(updatedPack(id, name))
-    // }
 
     const createPackHandler = () => {
         const name = 'New Pack'
@@ -78,11 +62,6 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
-    // const toCardsClickHandler = (cardsPack_id: string) => {
-    //     dispatch(getPackId(cardsPack_id))
-    //     navigate('/cards')
-    // }
-
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -93,10 +72,12 @@ const Packs = () => {
                 && <Preloader />}
             <div className="container">
                 <div className="in">
-                    {status === 'failed' ? <Error errorText={error} /> : ''}
                     <div className="top">
                         <div className="title b-title bt22 semibold">Packs list</div>
-                        <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Add new pack</div>
+                        <div className={classNames(
+                            "styled-btn styled-btn-1",
+                            { 'disabled': status === 'loading' }
+                        )} onClick={createPackHandler}>Add new pack</div>
                     </div>
                     <div className="filter">
                         <Filter />
@@ -129,7 +110,7 @@ const Packs = () => {
                             </div>
                             <div className="table-body">
                                 {packs.length
-                                    ? packs.map((e, i) => <Pack item={e} userId={userId} key={i}/>)
+                                    ? packs.map((e, i) => <Pack item={e} userId={userId} key={i} />)
                                     : <div className="empty">Nothing found</div>}
                             </div>
                         </div>

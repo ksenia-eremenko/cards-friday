@@ -91,14 +91,18 @@ const Cards = () => {
                     {
                         isMyCards
                             ? <div className="top">
-
                                 <div className="title b-title bt22 semibold">My Pack</div>
-                                <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
+                                <div className={classNames(
+                                    "styled-btn styled-btn-1",
+                                    { 'disabled': status === 'loading' }
+                                )} onClick={createdCardHandler}>Created New Card</div>
                             </div>
                             : <div className="top">
                                 <div className="title b-title bt22 semibold">Friend's Pack</div>
-
-                                <div className="styled-btn styled-btn-1">Learn to pack</div>
+                                <div className={classNames(
+                                    "styled-btn styled-btn-1",
+                                    { 'disabled': status === 'loading' }
+                                )}>Learn to pack</div>
                             </div>
                     }
 
@@ -157,7 +161,10 @@ const Cards = () => {
                                                         <AiOutlineStar />
                                                     </div>
                                                     {isMyCards
-                                                        ? <div className='action-item' onClick={
+                                                        ? <div className={classNames(
+                                                            'action-item',
+                                                            { 'disabled': status === 'loading' }
+                                                        )} onClick={
                                                             //@ts-ignore
                                                             () => updateCardHandler(e._id)
                                                         }>
@@ -165,7 +172,10 @@ const Cards = () => {
                                                         </div>
                                                         : ''}
                                                     {isMyCards
-                                                        ? <div className='action-item' onClick={
+                                                        ? <div className={classNames(
+                                                            'action-item',
+                                                            { 'disabled': status === 'loading' }
+                                                        )} onClick={
                                                             //@ts-ignore
                                                             () => deleteCardHandler(e._id)
                                                         }>

@@ -52,6 +52,15 @@
             min-height: inherit;
             font-size: 0;
         }
+
+        &.disabled {
+            background: $color3;
+            cursor: not-allowed;
+
+            &:hover {
+                background: $color3;
+            }
+        }
     }
 
     &.styled-btn-1 {

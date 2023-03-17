@@ -3,18 +3,20 @@ import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
 import { getPackId } from '../../store/cards-reducer'
-import { useAppDispatch } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
-import { deletePack, updatedPack } from '../../store/packs-reducer'
+import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
+import classNames from 'classnames'
 
 type PackDataType = {
-    item: any
+    item: PackType
     userId: string | undefined
 }
 
-const Pack = ({item, userId}: PackDataType) => {
+const Pack = ({ item, userId }: PackDataType) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const status = useAppSelector(state => state.app.status)
 
     const toCardsClickHandler = (cardsPack_id: string) => {
         dispatch(getPackId(cardsPack_id))
@@ -39,18 +41,31 @@ const Pack = ({item, userId}: PackDataType) => {
             <div className="actions">
                 {item.cardsCount || (userId === item.user_id)
                     ? <div
-                        className='action-item'
+                        className={classNames(
+                            'action-item',
+                            { 'disabled': status === 'loading' }
+                        )}
                         onClick={() => toCardsClickHandler(item._id)}
                     >
                         <GiHatchets />
                     </div>
                     : <div className="action-item disabled"><GiHatchets /></div>
                 }
-                <div className={item.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => item.user_id === userId && updatePackHandler(item._id)}>
+                <div
+                    className={classNames(
+                        'action-item',
+                        { 'disabled': item.user_id !== userId || status === 'loading' }
+                    )}
+                    onClick={() => item.user_id === userId && updatePackHandler(item._id)}>
                     <AiFillEdit />
                 </div>
 
-                <div className={item.user_id === userId ? 'action-item' : 'action-item disabled'} onClick={() => item.user_id === userId && deletePackHandler(item._id)}>
+                <div
+                    className={classNames(
+                        'action-item',
+                        { 'disabled': item.user_id !== userId || status === 'loading' }
+                    )}
+                    onClick={() => item.user_id === userId && deletePackHandler(item._id)}>
                     <MdOutlineDeleteForever />
                 </div>
             </div>
