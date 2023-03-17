@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import './SliderFilter.scss';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {setMax, setMin} from "../../../store/packs-reducer";
+import {resetFilter, setMax, setMin} from "../../../store/packs-reducer";
 
 
 function useDebounce(num1: number, num2: number, delay: number = 800) {
@@ -26,40 +26,41 @@ const SliderFilter = () => {
 
     const min = useAppSelector(state => state.packs.queryParams.min)
     const max = useAppSelector(state => state.packs.queryParams.max)
-    const maxCardCount = useAppSelector(state => state.packs.maxCardsCount)
-    const minCardCount = useAppSelector(state => state.packs.minCardsCount)
+    const isReset = useAppSelector(state => state.packs.isReset)
 
     const dispatch = useAppDispatch();
 
     const [value1, setValue1] = useState(min);
     const [value2, setValue2] = useState(max);
+
+
     const debouncedSearchTerm = useDebounce(value1, value2, 1500);
-
-    useEffect(() => {
-        dispatch(setMax(maxCardCount))
-        dispatch(setMin(minCardCount))
-    },[minCardCount,maxCardCount])
-
-    useEffect(() => {
-        setValue1(min);
-        setValue2(max);
-    },[min,max])
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const min = parseInt(e.currentTarget.value);
         setValue1(min)
+
     }
 
     const onChangeHandler2 = (e: ChangeEvent<HTMLInputElement>) => {
         const max = parseInt(e.currentTarget.value);
         setValue2(max)
+
     }
 
+    useEffect(() => {
+        if (isReset) {
+            setValue1(min)
+            setValue2(max)
+        }
+        isReset &&    dispatch(resetFilter(false))
+    }, [dispatch, isReset])
 
     useEffect(
         () => {
             dispatch(setMin(value1))
             dispatch(setMax(value2))
+
         },
         [debouncedSearchTerm]
     );
@@ -72,11 +73,12 @@ const SliderFilter = () => {
                 <span className="output outputTwo b-title bt14 medium">{value2}</span>
                 <div className="range-slider">
                     <span className="full-range"></span>
-                    <span className="incl-range" style={{ width: `${value2-value1}%`, maxWidth:'100%', left: `${value1}%` }}></span>
+                    <span className="incl-range"
+                          style={{width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%`}}></span>
 
-                    <input name="rangeOne" onChange={onChangeHandler} value={value1} min={minCardCount} max={maxCardCount} type="range" />
+                    <input name="rangeOne" onChange={onChangeHandler} value={value1} type="range"/>
 
-                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} min={minCardCount}     max={maxCardCount} type="range"/>
+                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range"/>
 
                 </div>
             </div>

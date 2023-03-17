@@ -2,6 +2,7 @@ import {packsAPI} from '../api/packs-api';
 import {handleServerNetworkError} from '../utils/error-utils';
 import {setAppStatus, SetAppStatusActionType} from './app-reducer';
 import {AppThunkType, RootStateType} from './store';
+import {bool} from "yup";
 
 type InitStateType = {
     cardPacks: PackType[],
@@ -16,14 +17,15 @@ type InitStateType = {
         user_id: string, // для фильтрации карточек мои / не мои
         packName: string, //для поиска
         sortPacks: string, // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
-    }
+    },
+    isReset?: boolean
 }
 
 const initState = {
     cardPacks: [],
     cardPacksTotalCount: 0,
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 100,
     queryParams: {
         pageCount: 10, // кол-во на странице
         page: 1, // текущая
@@ -32,7 +34,8 @@ const initState = {
         user_id: '', // для фильтрации карточек мои / не мои
         packName: '', //для поиска
         sortPacks: '', // для сортировки 0 | 1 и рядом пишем имя поля которое сортируем
-    }
+    },
+    isReset: false
 };
 
 export const PacksReducer = (state: InitStateType = initState, action: PacksActionsType): InitStateType => {
@@ -42,8 +45,6 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 ...state,
                 cardPacks: action.payload.cardPacks,
                 cardPacksTotalCount: action.payload.cardPacksTotalCount,
-                maxCardsCount: action.payload.maxCardsCount,
-                minCardsCount: action.payload.minCardsCount,
             }
         case 'PACKS/SET-SEARCH':
             return {
@@ -78,11 +79,28 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 ...state,
                 queryParams: {...state.queryParams, sortPacks: action.payload},
             };
+
         case 'PACKS/RESET-FILTER':
+            const tests = action.payload ? {
+                ...state.queryParams,
+                user_id: '',
+                packName: '',
+                min: 0,
+                max: 110
+            } : {...state.queryParams}
             return {
                 ...state,
-                queryParams: {...state.queryParams, max: state.maxCardsCount, min: 0, packName: '', user_id: ''}
+                queryParams: tests,
+                minCardsCount: action.payload ? 0 : state.minCardsCount,
+                maxCardsCount: action.payload ? 110 : state.minCardsCount,
+                isReset: action.payload
 
+            }
+        case 'PACKS/RESET-CARD-COUNTS':
+            return {
+                ...state,
+                minCardsCount: 0,
+                maxCardsCount: 110
             }
         default: {
             return state;
@@ -99,7 +117,8 @@ export const setMax = (max: number) => ({type: 'PACKS/SET-MAX', payload: max} as
 export const setCurrentPage = (page: number) => ({type: 'PACKS/SET-CURRENT-PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT', pageCount} as const)
 export const setSortPacks = (sortPacks: string) => ({type: 'PACKS/SET-SORT-PACKS', payload: sortPacks} as const);
-export const resetFilter = () => ({type: 'PACKS/RESET-FILTER'} as const);
+export const resetFilter = (isReset?: boolean) => ({type: 'PACKS/RESET-FILTER', payload: isReset} as const);
+export const resetCardCounts = () => ({type: 'PACKS/RESET-CARD-COUNTS'} as const);
 
 
 //types
@@ -123,7 +142,7 @@ type PacksType = {
 }
 // type InitStateType = typeof initState;
 type SetPacksType = ReturnType<typeof setPacks>;
-type SetSearchType = ReturnType<typeof setSearch>
+export type SetSearchType = ReturnType<typeof setSearch>
 type SetUserIdType = ReturnType<typeof setUserId>
 type SetMinType = ReturnType<typeof setMin>
 type SetMaxType = ReturnType<typeof setMax>
@@ -131,6 +150,7 @@ type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
 type SetPageCountActionType = ReturnType<typeof setPageCount>
 type SetSortPacksType = ReturnType<typeof setSortPacks>;
 type ResetFilterType = ReturnType<typeof resetFilter>;
+type ResetCardCountsType = ReturnType<typeof resetCardCounts>;
 // type ResetUserIdType = ReturnType<typeof resetUserId>
 
 type PacksActionsType = SetPacksType
@@ -143,6 +163,7 @@ type PacksActionsType = SetPacksType
     | SetPageCountActionType
     | SetSortPacksType
     | ResetFilterType
+    | ResetCardCountsType
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {

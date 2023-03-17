@@ -28,7 +28,7 @@ const Cards = () => {
 
 
     useEffect(() => {
-        console.log('useEffect');
+
 
         dispatch(getCards(packId))
     }, [dispatch, packId, cardQuestion, pageCount, currentPage, sortCards])
@@ -75,7 +75,7 @@ const Cards = () => {
                         <div className="styled-btn styled-btn-1">Learn to pack</div>
                     </div>
                     <div className="filter">
-                        <SearchBar/>
+                        <SearchBar tableName={'card'}/>
                     </div>
                     <div className="table-wrapper">
                         <div className="table">

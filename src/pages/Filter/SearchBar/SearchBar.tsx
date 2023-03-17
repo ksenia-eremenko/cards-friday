@@ -3,6 +3,7 @@ import './SearchBar.scss'
 import {AiOutlineSearch} from "react-icons/ai";
 import {useAppDispatch} from "../../../store/store";
 import {setSearch} from "../../../store/packs-reducer";
+import {getCards, setSearchCards} from "../../../store/cards-reducer";
 
 function useDebounce(value: string, delay: number = 800) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -21,7 +22,13 @@ function useDebounce(value: string, delay: number = 800) {
     return debouncedValue;
 }
 
-export const SearchBar = () => {
+
+//props
+type SearchBarType = {
+    tableName: 'card' | 'packs'
+}
+
+export const SearchBar = (props: SearchBarType) => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 1500);
@@ -29,13 +36,18 @@ export const SearchBar = () => {
     const dispatch = useAppDispatch();
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(props.tableName)
         setSearchTerm(e.currentTarget.value)
     }
 
-
     useEffect(
         () => {
-            dispatch(setSearch(searchTerm))
+            if (props.tableName === 'packs') {
+                dispatch(setSearch(searchTerm))
+            }
+            if (props.tableName === 'card') {
+                dispatch(setSearchCards(searchTerm))
+            }
         },
         [debouncedSearchTerm]
     );
@@ -52,7 +64,7 @@ export const SearchBar = () => {
                     placeholder={'Provide your text'}
                     className={'input-block b-title bt14 medium'}
                 ></input>
-                <span className={'magnifier'}><AiOutlineSearch /></span>
+                <span className={'magnifier'}><AiOutlineSearch/></span>
             </div>
         </div>
     );

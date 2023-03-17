@@ -7,7 +7,7 @@ import FilterRemove from "./FilterRemove/FilterRemove";
 const Filter = () => {
     return (
         <>
-            <SearchBar/>
+            <SearchBar tableName={'packs'}/>
             <DeckOfCards/>
             <SliderFilter/>
             <FilterRemove/>
