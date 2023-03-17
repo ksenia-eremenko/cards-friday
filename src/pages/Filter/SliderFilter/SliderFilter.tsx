@@ -71,9 +71,10 @@ const SliderFilter = () => {
                 <span className="output outputOne b-title bt14 medium">{value1}</span>
                 <div className="range">
                     <div className="range-slider">
-                        <span className="full-range"></span>
-                        <span className="incl-range"
-                            style={{ width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%` }}></span>
+                        <span className="full-range">
+                            <span className="incl-range"
+                                style={{ width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%` }}></span>
+                        </span>
                         <input className='rangeOne' name="rangeOne" onChange={onChangeHandler} value={value1} type="range" />
                         <input className='rangeTwo' name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range" />
                     </div>
