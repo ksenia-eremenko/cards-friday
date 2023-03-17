@@ -4,7 +4,8 @@ import { setAppStatus } from "./app-reducer";
 import { AppThunkType } from "./store";
 
 const initState = {
-    name: ''
+    name: '',
+    _id: ''
 };
 
 export const ProfileReducer = (state = initState, action: ProfileActionsType): InitStateType => {
@@ -26,11 +27,13 @@ export const setUserData = (data: DataType) => {
 
 type DataType = {
     name: string
+    _id: string
 }
 
 // type InitStateType = typeof initState
 type InitStateType = {
     name: string
+    _id: string
 }
 
 type ProfileActionsType = SetUserDataType
@@ -38,11 +41,13 @@ type SetUserDataType = ReturnType<typeof setUserData>;
 
 
 export const changeUserData = (data: any): AppThunkType => async (dispatch) => {
+    console.log(data);
+    
     dispatch(setAppStatus('loading'));
     try {
         const response = await profileAPI.editUserData(data);
-        const { name } = response.data.updatedUser;
-        dispatch(setUserData({ name }));
+        const { name, _id } = response.data.updatedUser;
+        dispatch(setUserData({ name, _id }));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
     } finally {

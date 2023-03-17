@@ -1,9 +1,43 @@
 .cards {
     .in {
         position: relative;
+        padding-top: 40px;
 
         .error {
             top: 140px;
+        }
+    }
+
+    .link-to-back {
+        color: inherit;
+        text-decoration: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        span {
+            @include animate;
+        }
+
+        svg {
+            @include animate;
+        }
+
+        &:not(:first-child) {
+            margin-top: 15px;
+        }
+
+        &:hover {
+            svg {
+                fill: $color4;
+            }
+
+            span {
+                color: $color4;
+            }
         }
     }
 
@@ -59,15 +93,10 @@
             .table-head,
             .table-body .items {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 100px;
+                grid-template-columns: 1fr 1fr 1fr 140px;
                 padding: 0 30px;
 
-                @include nbtb {
-                    grid-template-columns: 1fr 1fr 1fr 100px;
-                }
-
                 @include mb {
-                    grid-template-columns: 1fr 1fr 1fr 100px;
                     padding: 0 15px;
                 }
             }
@@ -84,7 +113,9 @@
 
                         span {
                             &.active {
-                                svg {transform: rotate(180deg);}
+                                svg {
+                                    transform: rotate(180deg);
+                                }
                             }
                         }
                     }
@@ -109,6 +140,16 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    gap: 10px;
+
+                    .grades {
+                        display: flex;
+                        gap: 2px;
+
+                        svg {
+                            cursor: pointer;
+                        }
+                    }
 
                     .action-item {
                         cursor: pointer;

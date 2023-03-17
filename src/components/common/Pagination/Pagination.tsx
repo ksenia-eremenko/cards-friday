@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Pagination.scss';
 import {SlArrowLeft, SlArrowRight} from 'react-icons/sl';
+import useDebounce from '../../../utils/hooks/useDebounce';
 
 type PaginationPropsType = {
     totalItemsCount: number | undefined
@@ -10,10 +11,16 @@ type PaginationPropsType = {
 }
 
 export const Pagination = React.memo((props: PaginationPropsType) => {
+    const [localCurrentPage, setLocalCurrentPage] = useState(props.currentPage)
+    const debouncedCurrentPage = useDebounce<number>(localCurrentPage, 1000)
+
+    const [portionOfButtons, setPortionOfButtons] = useState(1);
+    const debouncedPortionOfButtons = useDebounce<number>(portionOfButtons)
+
     let pagesInPortion = props.pageCount;
     let portionSize = 10;
     let numberOfPages = 0;
-    let [portionOfButtons, setPortionOfButtons] = useState(1);
+
     if (props.totalItemsCount) {
         numberOfPages = Math.ceil(props.totalItemsCount / pagesInPortion)
     }
@@ -30,12 +37,12 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
     let filteredPages = pages.filter(p => p >= firstPortionPageNumber && p <= lastPortionPageNumber)
 
     const onPrevButtonClickHandler = () => {
-        props.onPageChanged(lastPortionPageNumber)
+        setLocalCurrentPage(firstPortionPageNumber - 1)
         setPortionOfButtons(portionOfButtons - 1)
     }
 
     const onNextButtonClickHandler = () => {
-        props.onPageChanged(firstPortionPageNumber)
+        setLocalCurrentPage(lastPortionPageNumber + 1)
         setPortionOfButtons(portionOfButtons + 1)
     }
 
@@ -43,18 +50,18 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
         return <>
             {filteredPages.slice(0, 5).map((p: number, i) => {
                 return <button key={i}
-                               className={props.currentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
+                               className={localCurrentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
                                onClick={() => {
-                                   props.onPageChanged(p)
+                                   setLocalCurrentPage(p)
                                }}>{p}</button>
             })
             }
             <button className="styled-btn-1 button">...</button>
             <button
-                className={props.currentPage === filteredPages[filteredPages.length - 1]
+                className={localCurrentPage === filteredPages[filteredPages.length - 1]
                     ? 'styled-btn-1 button' + ' ' + 'currentPage'
                     : 'styled-btn-1 button'}
-                onClick={() => props.onPageChanged(filteredPages[filteredPages.length - 1])}
+                onClick={() => setLocalCurrentPage(filteredPages[filteredPages.length - 1])}
             >{filteredPages[filteredPages.length - 1]}</button>
         </>
     }
@@ -62,17 +69,17 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
     const Variant2 = () => {
         return <>
             <button
-                className={props.currentPage === filteredPages[0]
+                className={localCurrentPage === filteredPages[0]
                     ? 'styled-btn-1 button' + ' ' + 'currentPage'
                     : 'styled-btn-1 button'}
-                onClick={() => props.onPageChanged(filteredPages[0])}
+                onClick={() => setLocalCurrentPage(filteredPages[0])}
             >{filteredPages[0]}</button>
             <button className="styled-btn-1 button">...</button>
             {filteredPages.slice(5, 10).map((p: number, i) => {
                 return <button key={i}
-                               className={props.currentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
+                               className={localCurrentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
                                onClick={() => {
-                                   props.onPageChanged(p)
+                                   setLocalCurrentPage(p)
                                }}>{p}</button>
             })
             }
@@ -80,8 +87,8 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
     }
 
     useEffect(() => {
-        props.onPageChanged(firstPortionPageNumber)
-    }, [portionOfButtons])
+        props.onPageChanged(debouncedCurrentPage)
+    }, [debouncedCurrentPage, debouncedPortionOfButtons])
 
     return (
         <div className="pagination">
@@ -94,12 +101,12 @@ export const Pagination = React.memo((props: PaginationPropsType) => {
             {filteredPages.length < 10
                 ? filteredPages.map((p: number, i) => {
                     return <button key={i}
-                                   className={props.currentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
+                                   className={localCurrentPage === p ? 'styled-btn-1 button' + ' ' + 'currentPage' : 'styled-btn-1 button'}
                                    onClick={() => {
-                                       props.onPageChanged(p)
+                                       setLocalCurrentPage(p)
                                    }}>{p}</button>
                 })
-                : props.currentPage <= (firstPortionPageNumber + 4) ? <Variant1/> : <Variant2/>
+                : localCurrentPage <= (firstPortionPageNumber + 4) ? <Variant1/> : <Variant2/>
             }
             <button
                 className="styled-btn-1 button"

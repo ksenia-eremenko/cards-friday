@@ -1,7 +1,7 @@
-import {cardsAPI, CreateDataType} from "../api/cards-api";
-import {handleServerNetworkError} from "../utils/error-utils";
-import {setAppStatus, SetAppStatusActionType} from "./app-reducer";
-import {AppThunkType, RootStateType} from "./store";
+import { cardsAPI, CreateDataType, UpdateCardType } from "../api/cards-api";
+import { handleServerNetworkError } from "../utils/error-utils";
+import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
+import { AppThunkType, RootStateType } from "./store";
 
 const initState = {
     cards: [],
@@ -18,13 +18,18 @@ const initState = {
 export const CardsReducer = (state: InitStateType = initState, action: CardsActionsType): InitStateType => {
     switch (action.type) {
         case 'CARDS/SET-CARDS':
-            return {...state, cards: action.payload.cards, cardsTotalCount: action.payload.cardsTotalCount}
+            return { ...state, cards: action.payload.cards, cardsTotalCount: action.payload.cardsTotalCount }
         case 'CARDS/GET-PACKS-ID':
-            return {...state, cardsPack_id: action.id}
+            return { ...state, cardsPack_id: action.id }
         case 'CARDS/SET-CURRENT-PAGE':
-            return {...state, queryParams: {...state.queryParams, page: action.page}}
+            return { ...state, queryParams: { ...state.queryParams, page: action.page } }
         case 'CARDS/SET-PAGE-COUNT':
-            return {...state, queryParams: {...state.queryParams, pageCount: action.pageCount}}
+            return { ...state, queryParams: { ...state.queryParams, pageCount: action.pageCount } }
+        case 'CARDS/SET-SORT-CARDS':
+            return {
+                ...state,
+                queryParams: { ...state.queryParams, sortCards: action.sortCards },
+            };
         case 'CARDS/SET-SEARCH-CARDS':
             return {...state, queryParams: {...state.queryParams, cardQuestion: action.cardQuestion}}
         default: {
@@ -38,31 +43,24 @@ type SetCardsType = ReturnType<typeof setCards>;
 type GetPackIdType = ReturnType<typeof getPackId>;
 type SetCurrentCardsPage = ReturnType<typeof setCurrentCardsPage>;
 type SetCardsPageCount = ReturnType<typeof setCardsPageCount>
+type SetSortCards = ReturnType<typeof setSortCards>
 type SetSearchCards = ReturnType<typeof setSearchCards>
-
-type CardsActionsType =
-    SetCardsType
-    | SetAppStatusActionType
-    | GetPackIdType
-    | SetCurrentCardsPage
-    | SetCardsPageCount
-    | SetSearchCards
+type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards | SetSearchCards
 
 // AC
-export const setCards = (data: any) => ({type: 'CARDS/SET-CARDS', payload: {...data}} as const)
-export const getPackId = (id: string) => ({type: 'CARDS/GET-PACKS-ID', id} as const)
-export const setCurrentCardsPage = (page: number) => ({type: 'CARDS/SET-CURRENT-PAGE', page} as const)
-export const setCardsPageCount = (pageCount: number) => ({type: 'CARDS/SET-PAGE-COUNT', pageCount} as const)
+export const setCards = (data: any) => ({ type: 'CARDS/SET-CARDS', payload: { ...data } } as const)
+export const getPackId = (id: string) => ({ type: 'CARDS/GET-PACKS-ID', id } as const)
+export const setCurrentCardsPage = (page: number) => ({ type: 'CARDS/SET-CURRENT-PAGE', page } as const)
+export const setCardsPageCount = (pageCount: number) => ({ type: 'CARDS/SET-PAGE-COUNT', pageCount } as const)
+export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARDS', sortCards } as const);
 export const setSearchCards = (cardQuestion: string) => ({type: 'CARDS/SET-SEARCH-CARDS', cardQuestion} as const)
 
 
 // TC
-export const getCards = (cardsPack_id?: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
-    console.log(cardsPack_id)
+export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatus('loading'))
-    console.log('TC')
     try {
-        const {cardQuestion, page, pageCount, sortCards} = getState().cards.queryParams
+        const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({
             //@ts-ignore
             cardsPack_id,
@@ -94,4 +92,28 @@ export const createdCard = (card: CreateDataType): AppThunkType => async (dispat
         dispatch(setAppStatus('failed'))
     }
 };
+
+export const deleteCard = (cardId: string): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus('loading'));
+    try {
+        const res = await cardsAPI.deleteCard(cardId);
+        dispatch(getCards(res.data.deletedCard.cardsPack_id))
+        dispatch(setAppStatus('succeeded'));
+    } catch (err: any) {
+        handleServerNetworkError(err.response.data.error, dispatch);
+        dispatch(setAppStatus('failed'))
+    }
+};
+export const updateCard = (cardId: UpdateCardType): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus('loading'));
+    try {
+        const res = await cardsAPI.updateCard(cardId);
+        dispatch(getCards(res.data.updatedCard.cardsPack_id))
+        dispatch(setAppStatus('succeeded'));
+    } catch (err: any) {
+        handleServerNetworkError(err.response.data.error, dispatch);
+        dispatch(setAppStatus('failed'))
+    }
+};
+
 

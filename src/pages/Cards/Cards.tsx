@@ -1,54 +1,68 @@
-import React, {useEffect, useState} from 'react'
-import {Navigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import {createdCard, getCards, setCardsPageCount, setCurrentCardsPage} from '../../store/cards-reducer';
-import {useAppDispatch, useAppSelector} from '../../store/store';
-import {Error} from '../../components/common/Error/Error';
-import {SearchBar} from '../Filter/SearchBar/SearchBar';
-import {IoIosArrowDown} from 'react-icons/io';
+import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, setSortCards, updateCard } from '../../store/cards-reducer';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { Error } from '../../components/common/Error/Error';
+import { SearchBar } from '../Filter/SearchBar/SearchBar';
+import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
-import {GiHatchets} from 'react-icons/gi';
-import {AiFillEdit} from 'react-icons/ai';
-import {MdOutlineDeleteForever} from 'react-icons/md';
+import { AiFillEdit, AiOutlineStar } from 'react-icons/ai';
+import { MdOutlineDeleteForever } from 'react-icons/md';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
+import { BsArrowLeft } from 'react-icons/bs';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
-    const [sortUp, setSortUp] = useState<boolean>(false)
+    const [sortAnswer, setSortAnswer] = useState<boolean>(false)
+    const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
     const cards = useAppSelector(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const error = useAppSelector(state => state.app.error)
-    const packId = useAppSelector(state => state.cards.cardsPack_id)
+    const cardsPack_id = useAppSelector(state => state.cards.cardsPack_id)
     const cardQuestion = useAppSelector(state => state.cards.queryParams.cardQuestion);
     const pageCount = useAppSelector(state => state.cards.queryParams.pageCount);
     const currentPage = useAppSelector(state => state.cards.queryParams.page);
     const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
-
+    const authId = useAppSelector(state => state.auth.profile?._id);
+    //@ts-ignore
+    const isMyCards = authId === cards[0]?.user_id || !cards.length;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const id = searchParams.get('cardsPack_id')
 
     useEffect(() => {
-
-
-        dispatch(getCards(packId))
-    }, [dispatch, packId, cardQuestion, pageCount, currentPage, sortCards])
+        id && dispatch(getCards(id));
+        setSearchParams({ cardsPack_id })
+    }, [dispatch, cardsPack_id, cardQuestion, pageCount, currentPage, sortCards, setSearchParams, id])
 
     const createdCardHandler = () => {
         const card = {
-            cardsPack_id: packId,
+            cardsPack_id: cardsPack_id,
             question: 'My first question',
             answer: 'My first answer'
         }
         dispatch(createdCard(card));
     }
+    const deleteCardHandler = (cardId: string) => {
+        dispatch(deleteCard(cardId));
+    }
+    const updateCardHandler = (cardId: string) => {
+        const newCard = {
+            _id: cardId,
+            question: 'My new question'
+        }
+        dispatch(updateCard(newCard));
+    }
 
     const sortAnswerClickHandler = () => {
-        console.log('sortAnswerClickHandler');
-
+        setSortAnswer(!sortAnswer);
+        (!sortAnswer) ? dispatch(setSortCards('1cardsCount')) : dispatch(setSortCards('0cardsCount'))
     }
     const sortUpdateClickHandler = () => {
-        console.log('sortUpdateClickHandler');
-
+        setSortUpdateCards(!sortUpdateCards);
+        (!sortUpdateCards) ? dispatch(setSortCards('1updated')) : dispatch(setSortCards('0updated'))
     }
 
     const onPageChangedHandler = (page: number) => {
@@ -60,22 +74,41 @@ const Cards = () => {
     }
 
     if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/login'} />
     }
 
     return (
         <div className="cards">
             {(status === 'loading')
-                && <Preloader/>}
+                && <Preloader />}
             <div className="container">
                 <div className="in">
-                    {status === 'failed' ? <Error errorText={error}/> : ''}
-                    <div className="top">
-                        <div className="title b-title bt22 semibold">Friend's Pack</div>
-                        <div className="styled-btn styled-btn-1">Learn to pack</div>
-                    </div>
+                    {status === 'failed' ? <Error errorText={error} /> : ''}
+                    <NavLink to='/packs' className="link-to-back">
+                        <BsArrowLeft />
+                        <span className='b-title bt14'>Back to Packs List</span>
+                    </NavLink>
+                    {
+                        isMyCards
+                            ? <div className="top">
+                                <div className="title b-title bt22 semibold">My Pack</div>
+                                <div className={classNames(
+                                    "styled-btn styled-btn-1",
+                                    { 'disabled': status === 'loading' }
+                                )} onClick={createdCardHandler}>Created New Card</div>
+                            </div>
+                            : <div className="top">
+                                <div className="title b-title bt22 semibold">Friend's Pack</div>
+                                <div className={classNames(
+                                    "styled-btn styled-btn-1",
+                                    { 'disabled': status === 'loading' }
+                                )}>Learn to pack</div>
+                            </div>
+                    }
+
                     <div className="filter">
                         <SearchBar tableName={'card'}/>
+                        <SearchBar />
                     </div>
                     <div className="table-wrapper">
                         <div className="table">
@@ -86,18 +119,18 @@ const Cards = () => {
                                     onClick={sortAnswerClickHandler}>Answer
                                     <span className={classNames(
                                         'icon',
-                                        {'active': sortUp}
+                                        { 'active': sortAnswer }
                                     )}>
-                                        <IoIosArrowDown/>
+                                        <IoIosArrowDown />
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium with-sort"
-                                     onClick={sortUpdateClickHandler}>Last Updated
+                                    onClick={sortUpdateClickHandler}>Last Updated
                                     <span className={classNames(
                                         'icon',
-                                        {'active': sortUp}
+                                        { 'active': sortUpdateCards }
                                     )}>
-                                        <IoIosArrowDown/>
+                                        <IoIosArrowDown />
                                     </span>
                                 </div>
                                 <div className="item b-title bt14 medium">Grade</div>
@@ -117,19 +150,39 @@ const Cards = () => {
                                                 }</div>
                                                 <div className="item b-title bt14">{
                                                     //@ts-ignore
-                                                    e.updated
+                                                    new Date(e.updated).toLocaleDateString('ua')
                                                 }</div>
-                                                {/* <div className="item b-title bt14">{e.grade}</div> */}
+
                                                 <div className="actions">
-                                                    <div className="action-item">
-                                                        <GiHatchets/>
+                                                    <div className="grades">
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
+                                                        <AiOutlineStar />
                                                     </div>
-                                                    <div className="action-item">
-                                                        <AiFillEdit/>
-                                                    </div>
-                                                    <div className="action-item">
-                                                        <MdOutlineDeleteForever/>
-                                                    </div>
+                                                    {isMyCards
+                                                        ? <div className={classNames(
+                                                            'action-item',
+                                                            { 'disabled': status === 'loading' }
+                                                        )} onClick={
+                                                            //@ts-ignore
+                                                            () => updateCardHandler(e._id)
+                                                        }>
+                                                            <AiFillEdit />
+                                                        </div>
+                                                        : ''}
+                                                    {isMyCards
+                                                        ? <div className={classNames(
+                                                            'action-item',
+                                                            { 'disabled': status === 'loading' }
+                                                        )} onClick={
+                                                            //@ts-ignore
+                                                            () => deleteCardHandler(e._id)
+                                                        }>
+                                                            <MdOutlineDeleteForever />
+                                                        </div>
+                                                        : ''}
                                                 </div>
                                             </div>
                                         )
@@ -144,10 +197,9 @@ const Cards = () => {
                             currentPage={currentPage}
                             onPageChanged={(page: number) => onPageChangedHandler(page)}
                             onChangeSelect={(option: number) => onChangeSelectHandler(option)}
-                            pageCount={pageCount}/>
+                            pageCount={pageCount} />
                         : null}
                 </div>
-                <div className="styled-btn styled-btn-1" onClick={createdCardHandler}>Created New Card</div>
             </div>
         </div>
     )

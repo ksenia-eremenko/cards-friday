@@ -12,10 +12,7 @@ export const cardsAPI = {
   },
   updateCard(card: UpdateCardType) {
     return instance.put('/cards/card', { card });
-  },
-  rateCard(card: RateCardType) {
-    return instance.put('/cards/grade', card);
-  },
+  }
 };
 
 export type GetParamsType = {
@@ -35,9 +32,4 @@ export type CreateDataType = {
 export type UpdateCardType = {
   _id: string
   question: string
-};
-
-export type RateCardType = {
-  grade: number
-  card_id: string
 };
