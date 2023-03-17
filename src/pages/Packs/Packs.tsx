@@ -39,7 +39,6 @@ const Packs = () => {
     const userId = useAppSelector(state => state.auth.profile?._id)
 
     useEffect(() => {
-        console.log('qwd');
         dispatch(getPacks())
     }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks, minCountCard, maxCountCard])
 

@@ -62,7 +62,7 @@ export const getPackUserId = (packUserId: string) => ({ type: 'CARDS/GET-PACK-US
 
 
 // TC
-export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatus('loading'))
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
@@ -86,7 +86,7 @@ export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch,
     }
 }
 
-export const createdCard = (card: CreateDataType): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+export const createdCard = (card: CreateDataType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
         const res = await cardsAPI.createCard(card);

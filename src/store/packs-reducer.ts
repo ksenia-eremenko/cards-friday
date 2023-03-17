@@ -1,7 +1,7 @@
-import {packsAPI} from '../api/packs-api';
-import {handleServerNetworkError} from '../utils/error-utils';
-import {setAppStatus, SetAppStatusActionType} from './app-reducer';
-import {AppThunkType, RootStateType} from './store';
+import { packsAPI } from '../api/packs-api';
+import { handleServerNetworkError } from '../utils/error-utils';
+import { setAppStatus, SetAppStatusActionType } from './app-reducer';
+import { AppThunkType, RootStateType } from './store';
 
 type InitStateType = {
     cardPacks: PackType[],
@@ -13,9 +13,9 @@ type InitStateType = {
         page: number,
         min: number,
         max: number,
-        user_id: string, 
-        packName: string, 
-        sortPacks: string, 
+        user_id: string,
+        packName: string,
+        sortPacks: string,
     },
     isReset?: boolean
 }
@@ -27,12 +27,12 @@ const initState = {
     maxCardsCount: 110,
     queryParams: {
         pageCount: 10,
-        page: 1, 
+        page: 1,
         min: 0,
         max: 110,
-        user_id: '', 
-        packName: '', 
-        sortPacks: '', 
+        user_id: '',
+        packName: '',
+        sortPacks: '',
     },
     isReset: false
 };
@@ -47,36 +47,36 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
             }
         case 'PACKS/SET-SEARCH':
             return {
-                ...state, queryParams: {...state.queryParams, packName: action.payload}
+                ...state, queryParams: { ...state.queryParams, packName: action.payload }
             }
         case 'PACKS/SET_USER_ID':
             return {
                 ...state,
-                queryParams: {...state.queryParams, user_id: action.payload},
+                queryParams: { ...state.queryParams, user_id: action.payload },
             };
         case 'PACKS/SET-MIN':
             return {
                 ...state,
-                queryParams: {...state.queryParams, min: action.payload},
+                queryParams: { ...state.queryParams, min: action.payload },
             };
         case 'PACKS/SET-MAX':
             return {
                 ...state,
-                queryParams: {...state.queryParams, max: action.payload},
+                queryParams: { ...state.queryParams, max: action.payload },
             };
         case 'PACKS/SET-CURRENT-PAGE':
             return {
-                ...state, queryParams: {...state.queryParams, page: action.page}
+                ...state, queryParams: { ...state.queryParams, page: action.page }
             };
         case 'PACKS/SET-PAGE-COUNT':
             return {
                 ...state,
-                queryParams: {...state.queryParams, pageCount: action.pageCount}
+                queryParams: { ...state.queryParams, pageCount: action.pageCount }
             }
         case 'PACKS/SET-SORT-PACKS':
             return {
                 ...state,
-                queryParams: {...state.queryParams, sortPacks: action.payload},
+                queryParams: { ...state.queryParams, sortPacks: action.payload },
             };
 
         case 'PACKS/RESET-FILTER':
@@ -86,7 +86,7 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 packName: '',
                 min: 0,
                 max: 110
-            } : {...state.queryParams}
+            } : { ...state.queryParams }
             return {
                 ...state,
                 queryParams: tests,
@@ -108,16 +108,16 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
 };
 
 // AC
-export const setPacks = (data: PacksType) => ({type: 'PACKS/SET-PACKS', payload: {...data}} as const)
-export const setSearch = (packName: string) => ({type: 'PACKS/SET-SEARCH', payload: packName} as const)
-export const setUserId = (user_id: string) => ({type: 'PACKS/SET_USER_ID', payload: user_id} as const);
-export const setMin = (min: number) => ({type: 'PACKS/SET-MIN', payload: min} as const);
-export const setMax = (max: number) => ({type: 'PACKS/SET-MAX', payload: max} as const);
-export const setCurrentPage = (page: number) => ({type: 'PACKS/SET-CURRENT-PAGE', page} as const)
-export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT', pageCount} as const)
-export const setSortPacks = (sortPacks: string) => ({type: 'PACKS/SET-SORT-PACKS', payload: sortPacks} as const);
-export const resetFilter = (isReset?: boolean) => ({type: 'PACKS/RESET-FILTER', payload: isReset} as const);
-export const resetCardCounts = () => ({type: 'PACKS/RESET-CARD-COUNTS'} as const);
+export const setPacks = (data: PacksType) => ({ type: 'PACKS/SET-PACKS', payload: { ...data } } as const)
+export const setSearch = (packName: string) => ({ type: 'PACKS/SET-SEARCH', payload: packName } as const)
+export const setUserId = (user_id: string) => ({ type: 'PACKS/SET_USER_ID', payload: user_id } as const);
+export const setMin = (min: number) => ({ type: 'PACKS/SET-MIN', payload: min } as const);
+export const setMax = (max: number) => ({ type: 'PACKS/SET-MAX', payload: max } as const);
+export const setCurrentPage = (page: number) => ({ type: 'PACKS/SET-CURRENT-PAGE', page } as const)
+export const setPageCount = (pageCount: number) => ({ type: 'PACKS/SET-PAGE-COUNT', pageCount } as const)
+export const setSortPacks = (sortPacks: string) => ({ type: 'PACKS/SET-SORT-PACKS', payload: sortPacks } as const);
+export const resetFilter = (isReset?: boolean) => ({ type: 'PACKS/RESET-FILTER', payload: isReset } as const);
+export const resetCardCounts = () => ({ type: 'PACKS/RESET-CARD-COUNTS' } as const);
 
 
 //types
@@ -165,10 +165,10 @@ type PacksActionsType = SetPacksType
     | ResetCardCountsType
 
 //thunks
-export const getPacks = (): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+export const getPacks = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatus('loading'))
     try {
-        const {pageCount, page, min, max, user_id, packName, sortPacks} = getState().packs.queryParams
+        const { pageCount, page, min, max, user_id, packName, sortPacks } = getState().packs.queryParams
 
         const res = await packsAPI.getPacks({
             page,
