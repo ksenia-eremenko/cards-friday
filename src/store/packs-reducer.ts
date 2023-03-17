@@ -29,7 +29,7 @@ const initState = {
         pageCount: 10,
         page: 1, 
         min: 0,
-        max: 100,
+        max: 110,
         user_id: '', 
         packName: '', 
         sortPacks: '', 
