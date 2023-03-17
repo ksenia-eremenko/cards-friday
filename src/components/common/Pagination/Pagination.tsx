@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import './Pagination.scss';
 import {SlArrowLeft, SlArrowRight} from 'react-icons/sl';
 import useDebounce from '../../../utils/hooks/useDebounce';
 

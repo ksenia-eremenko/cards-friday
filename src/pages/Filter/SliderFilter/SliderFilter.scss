@@ -1,51 +1,89 @@
-@import '../../../styles/global/variables';
-
 .slider-container {
-  position: absolute;
-  height: 62px;
-  left: 850px;
-  top: 60px;
+
+  // position: absolute;
+  // height: 62px;
+  // left: 850px;
+  // top: 60px;
+  @include mb {
+    // width: 40%;
+    width: 162px;
+  }
+
+  .slider-title {
+    padding-bottom: 10px;
+  }
 
   .slider-wrapper {
-    position: absolute;
-    top: 20px
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    // top: 20px
+    @include mb {
+      gap: 5px;
+    }
   }
 
   .output {
-    position: absolute;
+    // position: absolute;
     width: 36px;
-    top: 5px;
     height: 36px;
-    right: 185px;
+    // bottom: 0;
+    // left: 0;
     background: $color1;
     border: 1px solid $color10;
     border-radius: 2px;
     text-align: center;
-    padding-top: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    &.outputTwo {
+      // left: auto;
+      // right: 0;
+    }
   }
 
-  & .outputTwo {
-    left: 185px;
+  .range {
+    position: relative;
+    width: 130px;
+    height: 40px;
+
+    @include mb {
+      width: 80px;
+    }
   }
 
   .range-slider {
-    width: 155px;
-    height: 16px;
-    left: 865px;
-    top: 20px;
+    // width: 100%;
+    // width: calc(100% - 100px);
+    // height: 16px;
+    // left: 865px;
+    // top: 20px;
+    // margin-left: 10px;
 
-    & input {
+    input {
       //pointer-events: auto;
       position: absolute;
       overflow: hidden;
       left: 0;
       top: 15px;
-      width: 155px;
+      width: 130px;
       outline: none;
       height: 18px;
       margin: 0;
       padding: 0;
+      // &.rangeOne {
+      //   left: 0px;
+      // }
+      // &.rangeTwo {
+      //   left: 15px;
+      // }
+      @include mb {
+        width: 80px;
+      }
     }
   }
 
@@ -89,12 +127,16 @@
     outline: none;
   }
 
+  .full-range {
+    top: 21px;
+    overflow: hidden;
+  }
+
   .full-range,
   .incl-range {
     width: 100%;
     height: 5px;
     left: 0;
-    top: 21px;
     position: absolute;
     background: $color10;
   }
@@ -103,22 +145,3 @@
     background: $color4;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

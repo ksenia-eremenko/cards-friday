@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import Preloader from '../../components/common/Preloader/Preloader'
+import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import Preloader from '../../components/common/Preloader/Preloader';
 import {
     createdPack,
     getPacks,
@@ -8,17 +8,18 @@ import {
     setCurrentPage,
     setPageCount,
     setSortPacks,
-} from '../../store/packs-reducer'
-import { useAppDispatch, useAppSelector } from '../../store/store'
+} from '../../store/packs-reducer';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
 import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
-import { IoIosArrowDown } from 'react-icons/io'
-import classNames from 'classnames'
-import Pack from './Pack'
+import { IoIosArrowDown } from 'react-icons/io';
+import classNames from 'classnames';
+import Pack from './Pack';
 
 const Packs = () => {
     const dispatch = useAppDispatch()
+    const error = useAppSelector(state => state.app.error)
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
     const [sortUpdate, setSortUpdate] = useState<boolean>(false)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -72,6 +73,7 @@ const Packs = () => {
                 && <Preloader />}
             <div className="container">
                 <div className="in">
+                    {status === 'failed' ? <Error errorText={error} /> : ''}
                     <div className="top">
                         <div className="title b-title bt22 semibold">Packs list</div>
                         <div className={classNames(

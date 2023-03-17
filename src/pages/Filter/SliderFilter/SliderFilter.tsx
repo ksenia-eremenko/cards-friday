@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import './SliderFilter.scss';
-import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {resetFilter, setMax, setMin} from "../../../store/packs-reducer";
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { resetFilter, setMax, setMin } from "../../../store/packs-reducer";
 
 
 function useDebounce(num1: number, num2: number, delay: number = 800) {
@@ -53,7 +52,7 @@ const SliderFilter = () => {
             setValue1(min)
             setValue2(max)
         }
-        isReset &&    dispatch(resetFilter(false))
+        isReset && dispatch(resetFilter(false))
     }, [dispatch, isReset])
 
     useEffect(
@@ -70,17 +69,16 @@ const SliderFilter = () => {
             <div className={'slider-title b-title bt14 medium'}>Number of cards</div>
             <div className={'slider-wrapper'}>
                 <span className="output outputOne b-title bt14 medium">{value1}</span>
-                <span className="output outputTwo b-title bt14 medium">{value2}</span>
-                <div className="range-slider">
-                    <span className="full-range"></span>
-                    <span className="incl-range"
-                          style={{width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%`}}></span>
-
-                    <input name="rangeOne" onChange={onChangeHandler} value={value1} type="range"/>
-
-                    <input name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range"/>
-
+                <div className="range">
+                    <div className="range-slider">
+                        <span className="full-range"></span>
+                        <span className="incl-range"
+                            style={{ width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%` }}></span>
+                        <input className='rangeOne' name="rangeOne" onChange={onChangeHandler} value={value1} type="range" />
+                        <input className='rangeTwo' name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range" />
+                    </div>
                 </div>
+                <span className="output outputTwo b-title bt14 medium">{value2}</span>
             </div>
         </div>
     );

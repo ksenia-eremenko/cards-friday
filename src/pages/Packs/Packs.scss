@@ -20,8 +20,26 @@
     }
 
     .filter {
-        &:not(:first-child) {
-            margin-top: 60px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 45px;
+        padding: 40px 0 25px 0;
+
+        @include nb {
+            padding: 30px 0 20px 0;
+            gap: 35px;
+        }
+
+        @include tb {
+            padding: 20px 0 15px 0;
+            gap: 20px;
+        }
+
+        @include mb {
+            padding: 15px 0;
+            gap: 10px;
         }
     }
 
@@ -104,6 +122,7 @@
 
                 .item {
                     padding: 15px 0;
+
                     &:first-child {
                         word-break: break-all;
                     }

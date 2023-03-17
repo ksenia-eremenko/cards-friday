@@ -27,8 +27,8 @@ const Cards = () => {
     const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
-    //@ts-ignore
-    const isMyCards = authId === cards[0]?.user_id || !cards.length;
+    const packUserId = useAppSelector(state => state.cards.packUserId);
+    const isMyCards = authId === packUserId;
     const [searchParams, setSearchParams] = useSearchParams();
     const id = searchParams.get('cardsPack_id')
 

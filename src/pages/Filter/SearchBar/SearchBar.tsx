@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import './SearchBar.scss'
+// import './SearchBar.scss'
 import {AiOutlineSearch} from "react-icons/ai";
 import {useAppDispatch} from "../../../store/store";
 import {setSearch} from "../../../store/packs-reducer";
-import {getCards, setSearchCards} from "../../../store/cards-reducer";
+import {setSearchCards} from "../../../store/cards-reducer";
 
 function useDebounce(value: string, delay: number = 800) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -62,7 +62,7 @@ export const SearchBar = (props: SearchBarType) => {
                     type={'text'}
                     id={'search'}
                     placeholder={'Provide your text'}
-                    className={'input-block b-title bt14 medium'}
+                    className={'input b-title bt14 medium'}
                 ></input>
                 <span className={'magnifier'}><AiOutlineSearch/></span>
             </div>

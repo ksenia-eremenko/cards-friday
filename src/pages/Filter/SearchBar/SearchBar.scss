@@ -1,40 +1,45 @@
-@import "../../../styles/global/variables";
-
 .search-container {
-  height: 62px;
-  left: 10px;
-  top: 60px;
+  // height: 62px;
+  // left: 10px;
+  // top: 60px;
+  flex: auto;
+  @include mb {
+    width: 100%;
+  }
 
   .search-title {
-    position: absolute;
-    line-height: 17px;
-    margin-top: -24px;
-    align-items: center;
+    // position: absolute;
+    // line-height: 17px;
+    // margin-top: -24px;
+    // align-items: center;
+    padding-bottom: 10px;
   }
-.inputSpan{
-  position: relative;
-}
-  .input-block {
-    margin-top: -11px;
-    min-width: 35%;
+
+  .inputSpan {
+    position: relative;
+  }
+
+  .input {
+    // margin-top: -11px;
+    // width: 413px;
     height: 36px;
     background: $color1;
     border: 1px solid $color10;
     border-radius: 2px;
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
     color: $color2;
-    //opacity: 0.5;
-    font-size: 14px;
-    line-height: 24px;
+    // font-size: 14px;
+    // line-height: 24px;
     padding: 0 35px;
+    width: 100%;
   }
 
   .magnifier {
     position: absolute;
     transform: translateY(-50%);
     opacity: 0.4;
-    right: 97.5%;
+    left: 10px;
     top: 50%;
   }
 
@@ -42,10 +47,3 @@
     opacity: 0.5;
   }
 }
-
-
-
-
-
-
-

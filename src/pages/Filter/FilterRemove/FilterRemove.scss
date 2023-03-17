@@ -1,19 +1,38 @@
-@import '../../../styles/global/variables';
-
 .filter-container {
-  position: absolute;
+  // position: absolute;
   width: 40px;
   height: 36px;
-  left: 1140px;
-  top: 85px;
+  // left: 1140px;
+  // top: 85px;
   background: $color1;
   border: 1px solid $color10;
   border-radius: 2px;
 
+  @include mb {
+    width: 30px;
+  }
+
   .filter-remove {
-    position: absolute;
-    padding-left: 12px;
-    padding-top: 9px;
+    // position: absolute;
+    // padding-left: 12px;
+    // padding-top: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    @include animate;
+
+    svg {
+      @include animate;
+    }
+
+    &:hover {
+      background: $color4;
+
+      svg {
+        fill: $color1;
+      }
+    }
   }
 }
-

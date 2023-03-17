@@ -6,6 +6,7 @@ import { AppThunkType, RootStateType } from "./store";
 const initState = {
     cards: [],
     cardsTotalCount: 0,
+    packUserId: '',
     cardsPack_id: '',
     queryParams: {
         cardQuestion: '',
@@ -21,6 +22,8 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
             return { ...state, cards: action.payload.cards, cardsTotalCount: action.payload.cardsTotalCount }
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
+        case 'CARDS/GET-PACK-USER-ID':
+            return { ...state, packUserId: action.packUserId }
         case 'CARDS/SET-CURRENT-PAGE':
             return { ...state, queryParams: { ...state.queryParams, page: action.page } }
         case 'CARDS/SET-PAGE-COUNT':
@@ -31,7 +34,7 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
                 queryParams: { ...state.queryParams, sortCards: action.sortCards },
             };
         case 'CARDS/SET-SEARCH-CARDS':
-            return {...state, queryParams: {...state.queryParams, cardQuestion: action.cardQuestion}}
+            return { ...state, queryParams: { ...state.queryParams, cardQuestion: action.cardQuestion } }
         default: {
             return state;
         }
@@ -41,11 +44,12 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
 type InitStateType = typeof initState;
 type SetCardsType = ReturnType<typeof setCards>;
 type GetPackIdType = ReturnType<typeof getPackId>;
+type GetPackUserIdType = ReturnType<typeof getPackUserId>;
 type SetCurrentCardsPage = ReturnType<typeof setCurrentCardsPage>;
 type SetCardsPageCount = ReturnType<typeof setCardsPageCount>
 type SetSortCards = ReturnType<typeof setSortCards>
 type SetSearchCards = ReturnType<typeof setSearchCards>
-type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards | SetSearchCards
+type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards | SetSearchCards | GetPackUserIdType
 
 // AC
 export const setCards = (data: any) => ({ type: 'CARDS/SET-CARDS', payload: { ...data } } as const)
@@ -53,7 +57,8 @@ export const getPackId = (id: string) => ({ type: 'CARDS/GET-PACKS-ID', id } as 
 export const setCurrentCardsPage = (page: number) => ({ type: 'CARDS/SET-CURRENT-PAGE', page } as const)
 export const setCardsPageCount = (pageCount: number) => ({ type: 'CARDS/SET-PAGE-COUNT', pageCount } as const)
 export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARDS', sortCards } as const);
-export const setSearchCards = (cardQuestion: string) => ({type: 'CARDS/SET-SEARCH-CARDS', cardQuestion} as const)
+export const setSearchCards = (cardQuestion: string) => ({ type: 'CARDS/SET-SEARCH-CARDS', cardQuestion } as const)
+export const getPackUserId = (packUserId: string) => ({ type: 'CARDS/GET-PACK-USER-ID', packUserId } as const)
 
 
 // TC
@@ -71,7 +76,7 @@ export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch,
         })
 
         dispatch(setCards(res.data));
-        //@ts-ignore
+        dispatch(getPackUserId(res.data.packUserId));
         dispatch(getPackId(cardsPack_id))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {

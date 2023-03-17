@@ -1,6 +1,5 @@
 import React from 'react';
 import {MdOutlineFilterAltOff} from "react-icons/md";
-import './FilterRemove.scss'
 import {useAppDispatch} from "../../../store/store";
 import {resetFilter} from "../../../store/packs-reducer";
 
