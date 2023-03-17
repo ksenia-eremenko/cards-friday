@@ -25,12 +25,14 @@ const SliderFilter = () => {
 
     const min = useAppSelector(state => state.packs.queryParams.min)
     const max = useAppSelector(state => state.packs.queryParams.max)
+    const minCardCount = useAppSelector(state=>state.packs.minCardsCount)
+    const maxCardCount = useAppSelector(state=>state.packs.maxCardsCount)
     const isReset = useAppSelector(state => state.packs.isReset)
 
     const dispatch = useAppDispatch();
 
-    const [value1, setValue1] = useState(min);
-    const [value2, setValue2] = useState(max);
+    const [value1, setValue1] = useState(minCardCount);
+    const [value2, setValue2] = useState(maxCardCount);
 
 
     const debouncedSearchTerm = useDebounce(value1, value2, 1500);

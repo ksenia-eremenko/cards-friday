@@ -25,7 +25,7 @@ const initState = {
     cardPacks: [],
     cardPacksTotalCount: 0,
     minCardsCount: 0,
-    maxCardsCount: 100,
+    maxCardsCount: 110,
     queryParams: {
         pageCount: 10, // кол-во на странице
         page: 1, // текущая
