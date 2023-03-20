@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import {
-    createdPack,
+    createdPack, deletePack,
     getPacks,
     PackType,
     setCurrentPage,
     setPageCount,
-    setSortPacks,
+    setSortPacks, updatedPack,
 } from '../../store/packs-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
@@ -65,6 +65,14 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
+    const deletePackHandler = (id: string) => {
+        dispatch(deletePack(id))
+    }
+
+    const updatePackHandler = (id: string, packName: string) => {
+        dispatch(updatedPack(id, packName))
+    }
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -114,7 +122,13 @@ const Packs = () => {
                             </div>
                             <div className="table-body">
                                 {packs.length
-                                    ? packs.map((e, i) => <Pack item={e} userId={userId} key={i} />)
+                                    ? packs.map((e, i) => <Pack
+                                        item={e}
+                                        userId={userId}
+                                        key={i}
+                                        updatePackHandler={() => updatePackHandler(e._id, e.name)}
+                                        deletePackHandler={() => deletePackHandler(e._id)}
+                                    />)
                                     : <div className="empty">Nothing found</div>}
                             </div>
                         </div>

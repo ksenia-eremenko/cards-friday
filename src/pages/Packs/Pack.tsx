@@ -2,7 +2,7 @@ import React from 'react'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
-import { getPackId } from '../../store/cards-reducer'
+import {getPackId, setCurrentPackName} from '../../store/cards-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
@@ -11,26 +11,20 @@ import classNames from 'classnames'
 type PackDataType = {
     item: PackType
     userId: string | undefined
+    updatePackHandler: (cardsPack_id: string, packTitle: string) => void
+    deletePackHandler: (cardsPack_id: string) => void
 }
 
-const Pack = ({ item, userId }: PackDataType) => {
+const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataType) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const status = useAppSelector(state => state.app.status)
 
-    const toCardsClickHandler = (cardsPack_id: string) => {
+    const toCardsClickHandler = (cardsPack_id: string, title: string) => {
         dispatch(getPackId(cardsPack_id))
+        dispatch(setCurrentPackName(title))
         navigate('/cards')
     }
-    const deletePackHandler = (id: string) => {
-        dispatch(deletePack(id))
-    }
-
-    const updatePackHandler = (id: string) => {
-        const name = 'My new name for pack'
-        dispatch(updatedPack(id, name))
-    }
-
 
     return (
         <div className="items">
@@ -45,7 +39,7 @@ const Pack = ({ item, userId }: PackDataType) => {
                             'action-item',
                             { 'disabled': status === 'loading' }
                         )}
-                        onClick={() => toCardsClickHandler(item._id)}
+                        onClick={() => toCardsClickHandler(item._id, item.name)}
                     >
                         <GiHatchets />
                     </div>
@@ -56,7 +50,7 @@ const Pack = ({ item, userId }: PackDataType) => {
                         'action-item',
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
-                    onClick={() => item.user_id === userId && updatePackHandler(item._id)}>
+                    onClick={() => item.user_id === userId && updatePackHandler(item._id, item.name)}>
                     <AiFillEdit />
                 </div>
 
