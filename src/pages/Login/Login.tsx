@@ -95,9 +95,8 @@ const Login = () => {
               {formik.errors.password && formik.touched.password ?
                 <span className="error-lbl">{formik.errors.password}</span> : null}
             </div>
-            <div className="rememberMe">
+            <div className="styled-checkbox">
               <Input
-                className="styled-checkbox"
                 id="rememberMe"
                 type="checkbox"
                 {...formik.getFieldProps('rememberMe')}

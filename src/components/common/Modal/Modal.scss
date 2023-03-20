@@ -1,0 +1,130 @@
+.modal {
+    width: 100vw;
+    height: 100vh;
+    background: rgba($color2, .4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .modal-content {
+        padding: 20px;
+        background: $color1;
+        filter: drop-shadow(0px 0px 40px #343D40);
+        transform: scale(0.5);
+        transition: 0.4s;
+        width: 400px;
+
+        &.active {
+            transform: scale(1);
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            position: relative;
+
+            &:before {
+                content: '';
+                position: absolute;
+                background: $color10;
+                height: 1px;
+                width: calc(100% + 40px);
+                bottom: 0;
+                left: -20px;
+            }
+
+            .cross {
+                cursor: pointer;
+
+                svg path {
+                    @include animate;
+                }
+
+                &:hover {
+                    svg path {
+                        fill: $color4;
+                    }
+                }
+            }
+        }
+
+        .form-style {
+            &:not(:first-child) {
+                margin-top: 30px;
+
+                @include nb {
+                    margin-top: 25px;
+                }
+
+                @include tb {
+                    margin-top: 20px;
+                }
+
+                @include mb {
+                    margin-top: 15px;
+                }
+            }
+
+            .styled-checkbox {
+                margin: 0;
+
+                &:not(:first-child) {
+                    margin-top: 30px;
+
+                    @include nb {
+                        margin-top: 25px;
+                    }
+
+                    @include tb {
+                        margin-top: 20px;
+                    }
+
+                    @include mb {
+                        margin-top: 15px;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .btns {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:not(:first-child) {
+            margin-top: 30px;
+
+            @include nb {
+                margin-top: 25px;
+            }
+
+            @include tb {
+                margin-top: 20px;
+            }
+
+            @include mb {
+                margin-top: 15px;
+            }
+        }
+
+        .styled-btn {
+            min-width: 120px;
+        }
+    }
+}

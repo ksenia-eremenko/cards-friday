@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import {
@@ -16,10 +16,14 @@ import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
 import Pack from './Pack';
+import Modal from '../../components/common/Modal/Modal';
+import Input from '../../components/common/Input/Input';
 
 const Packs = () => {
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
     const [sortUpdate, setSortUpdate] = useState<boolean>(false)
+    const [modalActive, setModalActive] = useState(false)
+    const [valueInput, setValueInput] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -43,8 +47,9 @@ const Packs = () => {
     }, [dispatch, pageCount, page, packName, user_id, min, max, sortPacks])
 
     const createPackHandler = () => {
-        const name = 'New Pack'
-        dispatch(createdPack(name))
+        setModalActive(false)
+        dispatch(createdPack(valueInput))
+        setValueInput('')
     }
 
     const onPageChangedHandler = (page: number) => {
@@ -65,6 +70,7 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
+   
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -81,8 +87,31 @@ const Packs = () => {
                         <div className={classNames(
                             "styled-btn styled-btn-1",
                             { 'disabled': status === 'loading' }
-                        )} onClick={createPackHandler}>Add new pack</div>
+                        )} onClick={() => setModalActive(!modalActive)}>Add new pack</div>
                     </div>
+                    <Modal modalActive={modalActive} setModalActive={setModalActive} title="Add new pack">
+                        <form className="form-style">
+                            <Input
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => setValueInput(e.currentTarget.value)}
+                                value={valueInput}
+                                placeholder='Name Pack'
+                            />
+                            <div className="styled-checkbox">
+                                <Input
+                                    id="private"
+                                    type="checkbox"
+                                />
+                                <label htmlFor="private" className="b-title bt16 medium">Private pack</label>
+                            </div>
+                            <div className="btns">
+                                <div
+                                    className="styled-btn styled-btn-2"
+                                    onClick={() => setModalActive(false)}
+                                >Cancel</div>
+                                <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Save</div>
+                            </div>
+                        </form>
+                    </Modal>
                     <div className="filter">
                         <Filter />
                     </div>

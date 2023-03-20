@@ -71,6 +71,16 @@
                     &:not(:last-child) {
                         padding-right: 10px;
                     }
+                    &.name:not(.disabled) {
+                        @include animate;
+                        cursor: pointer;
+                        &:hover {
+                            color: $color4;
+                        }
+                    }
+                    &.disabled {
+                        cursor: not-allowed;
+                    }
                 }
             }
 
@@ -147,7 +157,7 @@
                         }
 
                         &.disabled {
-                            cursor: not-allowed;
+                            pointer-events: none;
 
                             svg {
                                 fill: rgba($color8, 0.5);

@@ -22,23 +22,6 @@
   }
 }
 
-.rememberMe {
-  display: flex;
-  align-items: center;
-  margin-top: 24px;
-  margin-bottom: 29px;
-
-  & label {
-    cursor: pointer;
-  }
-
-  & input[type='checkbox'] {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-  }
-}
-
 .password-wrapper {
   margin-top: 12px;
   position: relative;
@@ -53,62 +36,3 @@
   font-size: 22px;
   cursor: pointer;
 }
-
-
-.info {
-  margin-bottom: 7px;
-}
-
-.link-registration {
-  color: $color4;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.link-recovery {
-  display: inline-block;
-  float: right;
-  color: $color2;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.rememberMe {
-  display: flex;
-  align-items: center;
-  margin-top: 24px;
-  margin-bottom: 29px;
-
-  & label {
-    cursor: pointer;
-  }
-
-  & input[type='checkbox'] {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-  }
-}
-
-.password-wrapper {
-  margin-top: 12px;
-  position: relative;
-}
-
-.eye {
-  display: inline-block;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  cursor: pointer;
-}
-
-

@@ -110,71 +110,19 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+    margin-bottom: 29px;
 
-    .icon {
-        flex-shrink: 0;
-        width: 10px;
-        height: 10px;
-        border-radius: 2px;
-        border: 1px solid $color3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        @include animate;
-
-        &+.checkbox-text {
-            padding-left: 5px;
-        }
-
-        svg {
-            @include animate;
-            opacity: 0;
-            display: block;
-            width: 8px;
-            height: 7px;
-            fill: $color3;
-        }
+    & label {
+        cursor: pointer;
     }
 
-    .checkbox-text {
-        color: $color3;
-        font-size: 11px;
-        line-height: 13px;
-
-        a {
-            color: $color4;
-            text-decoration: underline;
-
-            &:hover {
-                text-decoration: none;
-            }
-        }
-    }
-
-    input[type="checkbox"] {
-        display: none;
-
-        &:checked+.icon svg {
-            opacity: 1;
-        }
-
-        &.error {
-            &+.icon {
-                border-color: $colorError;
-
-                &+.checkbox-text {
-                    color: $colorError;
-
-                    a {
-                        color: $colorError;
-                    }
-                }
-            }
-        }
-    }
-
-    &:hover .icon svg {
-        opacity: 0.35;
+    & input[type='checkbox'] {
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
     }
 }
 
@@ -305,6 +253,7 @@
             svg {
                 fill: $color1;
             }
+
             &:hover {
                 opacity: 0.9;
             }
