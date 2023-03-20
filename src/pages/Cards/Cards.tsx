@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
+import {Navigate, NavLink, useNavigate, useSearchParams} from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { createdCard, deleteCard, getCards, setCardsPageCount, setCurrentCardsPage, setSortCards, updateCard } from '../../store/cards-reducer';
+import {
+    createdCard,
+    deleteCard,
+    getCards,
+    setCardsPageCount,
+    setCurrentCardsPage,
+    setCurrentPackName,
+    setSortCards,
+    updateCard
+} from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
 import { SearchBar } from '../Filter/SearchBar/SearchBar';
@@ -12,10 +21,14 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { BsArrowLeft } from 'react-icons/bs';
 import { cardType } from '../../api/cards-api';
+import Popover from '../../components/common/Popover/Popover';
+import {deletePack, updatedPack} from '../../store/packs-reducer';
+import EditableTitle from '../../components/common/EditableTitle/EditableTitle';
 
 const Cards = () => {
     const [sortAnswer, setSortAnswer] = useState<boolean>(false)
     const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
+    const [editMode, setEditMode] = useState(false)
 
     const dispatch = useAppDispatch();
 
@@ -31,6 +44,7 @@ const Cards = () => {
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
     const packUserId = useAppSelector(state => state.cards.packUserId);
+    const packTitle = useAppSelector(state => state.cards.cardsPackName)
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -78,6 +92,15 @@ const Cards = () => {
         dispatch(setCardsPageCount(option))
     }
 
+    const onClickEditHandler = (packTitle: string) => {
+        dispatch(updatedPack(cardsPack_id, packTitle))
+        dispatch(setCurrentPackName(packTitle))
+    }
+
+    const onClickDeleteHandler = () => {
+        dispatch(deletePack(cardsPack_id))
+    }
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -96,14 +119,23 @@ const Cards = () => {
                     {
                         isMyCards
                             ? <div className="top">
-                                <div className="title b-title bt22 semibold">My Pack</div>
+                            <div className='title-wrapper'>
+                                <EditableTitle
+                                    editMode={editMode}
+                                    setEditMode={setEditMode}
+                                    title={packTitle}
+                                    callback={(newTitle: string) => onClickEditHandler(newTitle)}
+                                    className={"title b-title bt22 semibold"}
+                                />
+                                <Popover onClickEdit={() => setEditMode(true)} onClickDelete={onClickDeleteHandler}/>
+                                </div>
                                 <div className={classNames(
                                     "styled-btn styled-btn-1",
                                     { 'disabled': status === 'loading' }
                                 )} onClick={createdCardHandler}>Created New Card</div>
                             </div>
                             : <div className="top">
-                                <div className="title b-title bt22 semibold">Friend's Pack</div>
+                                <div className="title b-title bt22 semibold">{packTitle}</div>
                                 <div className={classNames(
                                     "styled-btn styled-btn-1",
                                     { 'disabled': status === 'loading' }
