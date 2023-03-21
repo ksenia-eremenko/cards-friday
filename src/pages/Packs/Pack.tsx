@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
-import {getPackId, setCurrentPackName} from '../../store/cards-reducer'
+import { getPackId, setCurrentPackName } from '../../store/cards-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
@@ -13,11 +13,9 @@ import Input from '../../components/common/Input/Input'
 type PackDataType = {
     item: PackType
     userId: string | undefined
-    updatePackHandler: (cardsPack_id: string, packTitle: string) => void
-    deletePackHandler: (cardsPack_id: string) => void
 }
 
-export const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataType) => {
+export const Pack = ({ item, userId }: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
     const [valueInput, setValueInput] = useState('')
 
@@ -31,13 +29,21 @@ export const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: Pac
         navigate('/cards')
     }
 
+    const deletePackHandler = (id: string) => {
+        dispatch(deletePack(id))
+    }
+
+    const updatePackHandler = (id: string) => {
+        dispatch(updatedPack(id, valueInput))
+        setModalActive(false)
+        setValueInput('')
+    }
+
+
     return (
         <div className="items">
             <div
-                className={classNames(
-                    "item name b-title bt14",
-                    { "disabled": !item.cardsCount }
-                )}
+                className={item.cardsCount || (userId === item.user_id) ? 'item name b-title bt14' : 'item name b-title bt14 disabled'}
                 onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id, item.name)}>{item.name}</div>
             <div className="item b-title bt14">{item.cardsCount}</div>
             <div className="item b-title bt14">{new Date(item.updated).toLocaleDateString('ua')}</div>
@@ -89,7 +95,7 @@ export const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: Pac
                     </div>
                     <div className="btns">
                         <div className="styled-btn styled-btn-2" onClick={() => setModalActive(false)}>Cancel</div>
-                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id, item.name)}>Save</div>
+                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id)}>Save</div>
                     </div>
                 </form>
             </Modal>

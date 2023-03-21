@@ -98,6 +98,16 @@
                     }
                 }
             }
+
+            .input-wrapper {
+                &+.input-wrapper {
+                    margin-top: 20px;
+
+                    @include tbmb {
+                        margin-top: 15px;
+                    }
+                }
+            }
         }
 
     }

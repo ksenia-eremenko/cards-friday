@@ -24,7 +24,7 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
         case 'SET-CURRENT-PACK-NAME':
-            return {...state, cardsPackName: action.packName}
+            return { ...state, cardsPackName: action.packName }
         case 'CARDS/GET-PACK-USER-ID':
             return { ...state, packUserId: action.packUserId }
         case 'CARDS/SET-CURRENT-PAGE':
@@ -63,7 +63,7 @@ export const setCardsPageCount = (pageCount: number) => ({ type: 'CARDS/SET-PAGE
 export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARDS', sortCards } as const);
 export const setSearchCards = (cardQuestion: string) => ({ type: 'CARDS/SET-SEARCH-CARDS', cardQuestion } as const)
 export const getPackUserId = (packUserId: string) => ({ type: 'CARDS/GET-PACK-USER-ID', packUserId } as const)
-export const setCurrentPackName = (packName: string) => ({type: 'SET-CURRENT-PACK-NAME', packName} as const)
+export const setCurrentPackName = (packName: string) => ({ type: 'SET-CURRENT-PACK-NAME', packName } as const)
 
 
 // TC
@@ -72,14 +72,12 @@ export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch,
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({
-            //@ts-ignore
             cardsPack_id,
             cardQuestion,
             sortCards,
             page,
             pageCount,
         })
-
         dispatch(setCards(res.data));
         dispatch(getPackUserId(res.data.packUserId));
         dispatch(getPackId(cardsPack_id))

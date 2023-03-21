@@ -2,12 +2,12 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import {
-    createdPack, deletePack,
+    createdPack,
     getPacks,
     PackType,
     setCurrentPage,
     setPageCount,
-    setSortPacks, updatedPack,
+    setSortPacks,
 } from '../../store/packs-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
@@ -70,15 +70,6 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
-    const deletePackHandler = (id: string) => {
-        dispatch(deletePack(id))
-    }
-
-    const updatePackHandler = (id: string, packName: string) => {
-        dispatch(updatedPack(id, packName))
-    }
-
-
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -95,7 +86,7 @@ const Packs = () => {
                         <div className={classNames(
                             "styled-btn styled-btn-1",
                             { 'disabled': status === 'loading' }
-                        )} onClick={() => setModalActive(!modalActive)}>Add new pack</div>
+                        )} onClick={() => setModalActive(true)}>Add new pack</div>
                     </div>
                     <Modal modalActive={modalActive} setModalActive={setModalActive} title="Add new pack">
                         <form className="form-style">
@@ -155,8 +146,6 @@ const Packs = () => {
                                         item={e}
                                         userId={userId}
                                         key={i}
-                                        updatePackHandler={() => updatePackHandler(e._id, e.name)}
-                                        deletePackHandler={() => deletePackHandler(e._id)}
                                     />)
                                     : <div className="empty">Nothing found</div>}
                             </div>
