@@ -17,13 +17,11 @@ type PackDataType = {
     deletePackHandler: (cardsPack_id: string) => void
 }
 
-const Pack = ({ item, userId }: PackDataType) => {
+export const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
     const [valueInput, setValueInput] = useState('')
 
     const status = useAppSelector(state => state.app.status)
-
-const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataType) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -40,7 +38,7 @@ const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataTy
                     "item name b-title bt14",
                     { "disabled": !item.cardsCount }
                 )}
-                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id)}>{item.name}</div>
+                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id, item.name)}>{item.name}</div>
             <div className="item b-title bt14">{item.cardsCount}</div>
             <div className="item b-title bt14">{new Date(item.updated).toLocaleDateString('ua')}</div>
             <div className="item b-title bt14">{item.user_name}</div>
@@ -63,7 +61,6 @@ const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataTy
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
                     onClick={() => setModalActive(!modalActive)}>
-                    onClick={() => item.user_id === userId && updatePackHandler(item._id, item.name)}>
                     <AiFillEdit />
                 </div>
 
@@ -92,13 +89,10 @@ const Pack = ({ item, userId, updatePackHandler, deletePackHandler }: PackDataTy
                     </div>
                     <div className="btns">
                         <div className="styled-btn styled-btn-2" onClick={() => setModalActive(false)}>Cancel</div>
-                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id)}>Save</div>
+                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id, item.name)}>Save</div>
                     </div>
                 </form>
             </Modal>
         </div>
     )
 }
-
-export default Pack
-

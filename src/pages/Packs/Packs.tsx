@@ -15,9 +15,9 @@ import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
-import Pack from './Pack';
 import Modal from '../../components/common/Modal/Modal';
 import Input from '../../components/common/Input/Input';
+import { Pack } from './Pack';
 
 const Packs = () => {
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
