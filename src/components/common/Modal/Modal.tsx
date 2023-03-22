@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react'
 type ModalPropsType = {
     modalActive: boolean
     setModalActive: (isActive: boolean) => void
-    title: string
+    title?: string
     children: ReactNode
 }
 

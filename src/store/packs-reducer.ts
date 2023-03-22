@@ -1,7 +1,7 @@
-import { packsAPI } from '../api/packs-api';
-import { handleServerNetworkError } from '../utils/error-utils';
-import { setAppStatus, SetAppStatusActionType } from './app-reducer';
-import { AppThunkType, RootStateType } from './store';
+import {packsAPI} from '../api/packs-api';
+import {handleServerNetworkError} from '../utils/error-utils';
+import {setAppStatus, SetAppStatusActionType} from './app-reducer';
+import {AppThunkType} from './store';
 
 type InitStateType = {
     cardPacks: PackType[],

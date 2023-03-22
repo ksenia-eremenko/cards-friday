@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
-import { getPackId } from '../../store/cards-reducer'
+import {getCards, getPackId} from '../../store/cards-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
@@ -38,6 +38,13 @@ const Pack = ({ item, userId }: PackDataType) => {
     }
 
 
+    const setPackIdHandler=(packId:string)=>{
+
+        dispatch(getCards(packId))
+        navigate('/learn')
+    }
+
+
     return (
         <div className="items">
             <div
@@ -56,6 +63,7 @@ const Pack = ({ item, userId }: PackDataType) => {
                             'action-item',
                             { 'disabled': status === 'loading' }
                         )}
+                        onClick={()=>setPackIdHandler(item._id)}
                     >
                         <GiHatchets />
                     </div>
@@ -66,7 +74,7 @@ const Pack = ({ item, userId }: PackDataType) => {
                         'action-item',
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
-                    onClick={() => setModalActive(!modalActive)}>
+                    onClick={() => setModalActive(!modalActive) }>
                     <AiFillEdit />
                 </div>
 
