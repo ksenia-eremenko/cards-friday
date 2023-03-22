@@ -1,7 +1,7 @@
-import { cardsAPI, cardType, CreateDataType, UpdateCardType } from "../api/cards-api";
+import { cardsAPI, CreateDataType, UpdateCardType } from "../api/cards-api";
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
-import { AppThunkType, RootStateType } from "./store";
+import { AppThunkType } from "./store";
 
 const initState = {
     cards: [],
@@ -80,6 +80,7 @@ export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch,
         })
         dispatch(setCards(res.data));
         dispatch(getPackUserId(res.data.packUserId));
+        dispatch(setCurrentPackName(res.data.packName));
         dispatch(getPackId(cardsPack_id))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {

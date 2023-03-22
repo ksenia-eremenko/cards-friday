@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import Input from '../../../components/common/Input/Input'
 import Modal from '../../../components/common/Modal/Modal'
 
-type ModalsForCreatedCardType = {
+type ModalForCreatedCardType = {
     modalActive: boolean
     setModalActive: (modalActive: boolean) => void
     valueInputQuestion: string
@@ -12,7 +12,7 @@ type ModalsForCreatedCardType = {
     createdCardHandler: () => void
 }
 
-const ModalsForCreatedCard = ({ modalActive, setModalActive, setValueInputQuestion, valueInputQuestion, setValueInputAnswer, valueInputAnswer, createdCardHandler }: ModalsForCreatedCardType) => {
+const ModalForCreatedCard = ({ modalActive, setModalActive, setValueInputQuestion, valueInputQuestion, setValueInputAnswer, valueInputAnswer, createdCardHandler }: ModalForCreatedCardType) => {
     return <Modal modalActive={modalActive} setModalActive={setModalActive} title="Add new pack">
         <form className="form-style">
             <Input
@@ -36,4 +36,4 @@ const ModalsForCreatedCard = ({ modalActive, setModalActive, setValueInputQuesti
     </Modal>
 }
 
-export default ModalsForCreatedCard
+export default ModalForCreatedCard

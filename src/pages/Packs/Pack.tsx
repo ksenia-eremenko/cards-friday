@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
@@ -7,8 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
 import classNames from 'classnames'
-import Modal from '../../components/common/Modal/Modal'
-import Input from '../../components/common/Input/Input'
+import ModalEditPack from './Modals/ModalEditPack'
 
 type PackDataType = {
     item: PackType
@@ -17,11 +16,21 @@ type PackDataType = {
 
 export const Pack = ({ item, userId }: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
-    const [valueInput, setValueInput] = useState('')
+    const [valueInput, setValueInput] = useState<string>('')
 
+    const pack = useAppSelector(state => state.packs.cardPacks)
     const status = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        setValueInput('qwdqwd')
+    }, [])
+
+    const getNameById = (id: string) => {
+        const name = pack.find(e => e._id === id)?.name
+        setValueInput(name ? name : '')
+    }
 
     const toCardsClickHandler = (cardsPack_id: string, title: string) => {
         dispatch(getPackId(cardsPack_id))
@@ -39,7 +48,6 @@ export const Pack = ({ item, userId }: PackDataType) => {
         setValueInput('')
     }
 
-
     return (
         <div className="items">
             <div
@@ -55,7 +63,6 @@ export const Pack = ({ item, userId }: PackDataType) => {
                             'action-item',
                             { 'disabled': status === 'loading' }
                         )}
-                        onClick={() => toCardsClickHandler(item._id, item.name)}
                     >
                         <GiHatchets />
                     </div>
@@ -66,10 +73,12 @@ export const Pack = ({ item, userId }: PackDataType) => {
                         'action-item',
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
-                    onClick={() => setModalActive(!modalActive)}>
+                    onClick={() => {
+                        setModalActive(!modalActive)
+                        getNameById(item._id)
+                    }}>
                     <AiFillEdit />
                 </div>
-
                 <div
                     className={classNames(
                         'action-item',
@@ -79,26 +88,16 @@ export const Pack = ({ item, userId }: PackDataType) => {
                     <MdOutlineDeleteForever />
                 </div>
             </div>
-            <Modal modalActive={modalActive} setModalActive={setModalActive} title="Edit pack">
-                <form className="form-style">
-                    <Input
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setValueInput(e.currentTarget.value)}
-                        value={valueInput}
-                        placeholder='Name Pack'
-                    />
-                    <div className="styled-checkbox">
-                        <Input
-                            id="private"
-                            type="checkbox"
-                        />
-                        <label htmlFor="private" className="b-title bt16 medium">Private pack</label>
-                    </div>
-                    <div className="btns">
-                        <div className="styled-btn styled-btn-2" onClick={() => setModalActive(false)}>Cancel</div>
-                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id)}>Save</div>
-                    </div>
-                </form>
-            </Modal>
+            <ModalEditPack
+                modalActive={modalActive}
+                setModalActive={setModalActive}
+                valueInput={valueInput}
+                setValueInput={setValueInput}
+                userId={userId}
+                userIdCard={item.user_id}
+                id={item._id}
+                updatePackHandler={updatePackHandler}
+            />
         </div>
     )
 }

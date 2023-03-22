@@ -69,6 +69,10 @@
             height: 27px;
         }
 
+        .title {
+            word-break: break-all;
+        }
+
         @include mb {
             flex-direction: column;
             align-items: flex-start;

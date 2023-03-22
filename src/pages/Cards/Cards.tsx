@@ -1,16 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import {
-    createdCard,
-    deleteCard,
-    getCards,
-    setCardsPageCount,
-    setCurrentCardsPage,
-    setCurrentPackName,
-    setSortCards,
-    updateCard
-} from '../../store/cards-reducer';
+import { createdCard, getCards, setCardsPageCount, setCurrentCardsPage, setCurrentPackName, setSortCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { SearchBar } from '../Filter/SearchBar/SearchBar';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -21,12 +12,12 @@ import { cardType } from '../../api/cards-api';
 import Popover from '../../components/common/Popover/Popover';
 import { deletePack, updatedPack } from '../../store/packs-reducer';
 import EditableTitle from '../../components/common/EditableTitle/EditableTitle';
-import Modal from '../../components/common/Modal/Modal';
-import Input from '../../components/common/Input/Input';
 import Card from './Card';
-import ModalsForCreatedCard from './Modals/ModalsForCreatedCard';
+import ModalForCreatedCard from './Modals/ModalsForCreatedCard';
 
 const Cards = () => {
+    const dispatch = useAppDispatch();
+
     const [sortAnswer, setSortAnswer] = useState<boolean>(false)
     const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
     const [editMode, setEditMode] = useState(false)
@@ -34,8 +25,6 @@ const Cards = () => {
     const [modalActive, setModalActive] = useState(false)
     const [valueInputQuestion, setValueInputQuestion] = useState('')
     const [valueInputAnswer, setValueInputAnswer] = useState('')
-
-    const dispatch = useAppDispatch();
 
     const cards = useAppSelector<cardType[]>(state => state.cards.cards)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -49,11 +38,8 @@ const Cards = () => {
     const authId = useAppSelector(state => state.auth.profile?._id);
     const packUserId = useAppSelector(state => state.cards.packUserId);
     const packTitle = useAppSelector(state => state.cards.cardsPackName)
-    const packTitle2 = useAppSelector(state => state.cards)
 
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(packTitle2);
-    
     const isMyCards = authId === packUserId;
     const id = searchParams.get('cardsPack_id')
 
@@ -114,33 +100,31 @@ const Cards = () => {
                         <BsArrowLeft />
                         <span className='b-title bt14'>Back to Packs List</span>
                     </NavLink>
-                    {
-                        isMyCards
-                            ? <div className="top">
-                                <div className='title-wrapper'>
-                                    <EditableTitle
-                                        editMode={editMode}
-                                        setEditMode={setEditMode}
-                                        title={packTitle}
-                                        callback={(newTitle: string) => onClickEditHandler(newTitle)}
-                                        className={"title b-title bt22 semibold"}
-                                    />
-                                    <Popover onClickEdit={() => setEditMode(true)} onClickDelete={onClickDeleteHandler} />
-                                </div>
-                                <div className={classNames(
-                                    "styled-btn styled-btn-1",
-                                    { 'disabled': status === 'loading' }
-                                )} onClick={() => setModalActive(true)}>Created New Card</div>
+                    {isMyCards
+                        ? <div className="top">
+                            <div className='title-wrapper'>
+                                <EditableTitle
+                                    editMode={editMode}
+                                    setEditMode={setEditMode}
+                                    title={packTitle}
+                                    callback={(newTitle: string) => onClickEditHandler(newTitle)}
+                                    className={"title b-title bt22 semibold"}
+                                />
+                                <Popover onClickEdit={() => setEditMode(true)} onClickDelete={onClickDeleteHandler} />
                             </div>
-                            : <div className="top">
-                                <div className="title b-title bt22 semibold">{packTitle}</div>
-                                <div className={classNames(
-                                    "styled-btn styled-btn-1",
-                                    { 'disabled': status === 'loading' }
-                                )}>Learn to pack</div>
-                            </div>
-                    }
-                    <ModalsForCreatedCard
+                            <div className={classNames(
+                                "styled-btn styled-btn-1",
+                                { 'disabled': status === 'loading' }
+                            )} onClick={() => setModalActive(true)}>Created New Card</div>
+                        </div>
+                        : <div className="top">
+                            <div className="title b-title bt22 semibold">{packTitle}</div>
+                            <div className={classNames(
+                                "styled-btn styled-btn-1",
+                                { 'disabled': status === 'loading' }
+                            )}>Learn to pack</div>
+                        </div>}
+                    <ModalForCreatedCard
                         modalActive={modalActive}
                         setModalActive={setModalActive}
                         valueInputQuestion={valueInputQuestion}
