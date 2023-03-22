@@ -1,7 +1,7 @@
-import { cardsAPI, CreateDataType, UpdateCardType } from "../api/cards-api";
+import { cardsAPI, cardType, CreateDataType, UpdateCardType } from "../api/cards-api";
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
-import { AppThunkType } from "./store";
+import { AppThunkType, RootStateType } from "./store";
 
 const initState = {
     cards: [],
@@ -24,7 +24,7 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
         case 'SET-CURRENT-PACK-NAME':
-            return { ...state, cardsPackName: action.packName }
+            return { ...state, packName: action.packName }
         case 'CARDS/GET-PACK-USER-ID':
             return { ...state, packUserId: action.packUserId }
         case 'CARDS/SET-CURRENT-PAGE':

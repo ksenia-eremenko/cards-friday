@@ -37,7 +37,7 @@ const Cards = () => {
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
     const authId = useAppSelector(state => state.auth.profile?._id);
     const packUserId = useAppSelector(state => state.cards.packUserId);
-    const packTitle = useAppSelector(state => state.cards.cardsPackName)
+    const packTitle = useAppSelector(state => state.cards.packName)
 
     const [searchParams, setSearchParams] = useSearchParams();
     const isMyCards = authId === packUserId;
