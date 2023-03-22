@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './FlashCards.scss'
 import {useAppDispatch, useAppSelector} from "../../store/store";
-import {createdCard, getCards, updateCard} from "../../store/cards-reducer";
+import {getCards, updateGradeCard} from "../../store/cards-reducer";
 import {cardType} from "../../api/cards-api";
 import {getCard} from "./getCardSmartRandom";
+import {NavLink} from "react-router-dom";
+import {BsArrowLeft} from "react-icons/bs";
 
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer']
@@ -30,85 +32,74 @@ export const FlashCards = () => {
     })
 
 
-    console.log(cards.length)
-
-    console.log(cardsPack_id)
-
     useEffect(() => {
         dispatch(getCards(cardsPack_id))
-    }, [dispatch, cardsPack_id, getCards])
+    }, [dispatch, cardsPack_id])
 
 
     const showHandler = () => {
         setShow(!show)
     }
 
-   const onNextHandler = () => {
-       setShow(false)
-       setFirst(true)
-       if (cards.length > 0) {
-           const newCard = {
-               _id: card._id,
-              grade: valueRadio,
-               shots: card.shots
-           }
-           dispatch(
-               updateCard(newCard)
-           )
-           setCard(getCard(cards))
-       }
-   }
+    const onNextHandler = () => {
+        setShow(false)
+        setFirst(true)
+        if (cards.length > 0) {
+            dispatch(
+                updateGradeCard({card_id: card._id, grade: valueRadio, shots: card.shots})
+            )
+            setCard(getCard(cards))
+        }
+    }
     return (
-        <>
-            {cards.length ? cards.map((el, index) =>{
-                console.log(el)
-               return <div>
-
-                <div key={index} className={'b-title bt16 semibold bt22 align-center'}>Learn: {packName} </div>
-                <div className={'form-wrapper auth-form'}>
-                    <div className={'question b-title bt16 semibold align-center'}>Question:
-                        <span className={' b-title bt16 align-center color10 light'}> {el.question}</span>
-                    </div>
-                    <div className={'b-title bt14 color6 align-center'}>Количество попыток ответов на вопрос: <span
-                        className={'b-title bt14 color9'}>{el.shots}</span></div>
-
-                    {show ? (<>
-                        <div className={'question b-title bt16 semibold align-center'}>
-                            Answer: <span
-                            className={' b-title bt16 align-center color10 light'}>{el.answer}</span>
-                        </div>
-                        <div className={'b-title bt16 align-center'}>Rate yourself:
-                            <div>
-                                {grades.map((el,index)=> {
-                                    const onClickHandler = () => {
-                                        setValueRadio(index + 1 )
-                                    }
-
-                                    return (
-                                        <div key={index}>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    value={index + 1}
-                                                    checked={valueRadio === index + 1}
-                                                    onClick={onClickHandler}
-                                                />
-                                                {el}
-                                            </label>
-                                        </div>
-                                    )
-                                })}
-
-                            </div>
-                        </div>
-                        <button className={'styled-btn styled-btn-1'} onClick={onNextHandler}>Next</button>
-                    </>) : (<>
-                        <button className={'styled-btn styled-btn-1'} onClick={showHandler}>Show answer</button>
-                    </>)}
+        <div className={'profile'}>
+            <div className={'in'}>
+                <NavLink to='/packs' className="link-to-back">
+                    <BsArrowLeft />
+                    <span className='b-title bt14'>Back to Packs List</span>
+                </NavLink>
+            <div className={'b-title bt16 semibold bt22 align-center'}>Learn: {packName} </div>
+            <div className={'form-wrapper auth-form'}>
+                <div className={'question b-title bt16 semibold align-center'}>Question:
+                    <span className={' b-title bt16 align-center color10 light'}> {card.question}</span>
                 </div>
-            </div>}) : ''}
+                <div className={'b-title bt14 color6 align-center'}>Количество попыток ответов на вопрос: <span
+                    className={'b-title bt14 color9'}>{card.shots}</span></div>
 
-        </>
+                {show ? (<>
+                    <div className={'question b-title bt16 semibold align-center'}>
+                        Answer: <span
+                        className={' b-title bt16 align-center color10 light'}>{card.answer}</span>
+                    </div>
+                    <div className={'b-title bt16 align-center'}>Rate yourself:
+                        <div>
+                            {grades.map((el, index) => {
+                                const onClickHandler = () => {
+                                    setValueRadio(index + 1)
+                                }
+
+                                return (
+                                    <div key={index}>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                value={index + 1}
+                                                checked={valueRadio === index + 1}
+                                                onClick={onClickHandler}
+                                            />
+                                            {el}
+                                        </label>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <button className={'styled-btn styled-btn-1'} onClick={onNextHandler}>Next</button>
+                </>) : (<>
+                    <button className={'styled-btn styled-btn-1'} onClick={showHandler}>Show answer</button>
+                </>)}
+            </div>
+            </div>
+        </div>
     );
-
 }

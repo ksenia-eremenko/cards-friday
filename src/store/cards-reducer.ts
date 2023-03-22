@@ -1,4 +1,11 @@
-import { cardsAPI, cardType, CreateDataType, UpdateCardType } from "../api/cards-api";
+import {
+    CardLearnType,
+    cardsAPI,
+    cardType,
+    CreateDataType,
+    UpdateCardType,
+    UpdatedGradeCartType
+} from "../api/cards-api";
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus, SetAppStatusActionType } from "./app-reducer";
 import { AppThunkType, RootStateType } from "./store";
@@ -23,7 +30,7 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
             return { ...state, cards: action.payload.cards, cardsTotalCount: action.payload.cardsTotalCount,packName:action.payload.packName }
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
-        case 'CARDS/SET-CURRENT-PACK-NAME':
+        case 'SET-CURRENT-PACK-NAME':
             return { ...state, packName: action.packName }
         case 'CARDS/GET-PACK-USER-ID':
             return { ...state, packUserId: action.packUserId }
@@ -38,13 +45,13 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
             };
         case 'CARDS/SET-SEARCH-CARDS':
             return { ...state, queryParams: { ...state.queryParams, cardQuestion: action.cardQuestion } }
-        case 'CARDS/SET-CARD-GRADE':
+        case 'CARD/SET-UPDATE-GRADE-CARD':
             return {
                 ...state,
-                cards: state.cards.map(card => card._id === action.cardId
-                    ? {...card, grade: action.grade, shots: action.shots}
-                    : card)
+                cards: state.cards.map(el=> el._id === action.data.card_id ? {...el, grade: action.data.grade, shots: action.data.shots}
+                : el)
             }
+
         default: {
             return state;
         }
@@ -60,8 +67,8 @@ type SetCardsPageCount = ReturnType<typeof setCardsPageCount>
 type SetSortCards = ReturnType<typeof setSortCards>
 type SetSearchCards = ReturnType<typeof setSearchCards>
 type SetCurrentPackName = ReturnType<typeof setCurrentPackName>
-type SetCardGrade = ReturnType<typeof setCardGrade>
-type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards | SetSearchCards | GetPackUserIdType | SetCurrentPackName | SetCardGrade
+type SetUpdateGradeCard = ReturnType<typeof setUpdateGradeCard>
+type CardsActionsType = SetCardsType | SetAppStatusActionType | GetPackIdType | SetCurrentCardsPage | SetCardsPageCount | SetSortCards | SetSearchCards | GetPackUserIdType | SetCurrentPackName | SetUpdateGradeCard
 
 // AC
 export const setCards = (data: any) => ({ type: 'CARDS/SET-CARDS', payload: data} as const)
@@ -71,8 +78,8 @@ export const setCardsPageCount = (pageCount: number) => ({ type: 'CARDS/SET-PAGE
 export const setSortCards = (sortCards: string) => ({ type: 'CARDS/SET-SORT-CARDS', sortCards } as const);
 export const setSearchCards = (cardQuestion: string) => ({ type: 'CARDS/SET-SEARCH-CARDS', cardQuestion } as const)
 export const getPackUserId = (packUserId: string) => ({ type: 'CARDS/GET-PACK-USER-ID', packUserId } as const)
-export const setCurrentPackName = (packName: string) => ({ type: 'CARDS/SET-CURRENT-PACK-NAME', packName } as const)
-export const setCardGrade = (cardId: string, grade: number, shots: number) => ({type: 'CARDS/SET-CARD-GRADE', cardId, grade, shots} as const)
+export const setCurrentPackName = (packName: string) => ({ type: 'SET-CURRENT-PACK-NAME', packName } as const)
+export const setUpdateGradeCard = (data: UpdatedGradeCartType ) => ({type:  'CARD/SET-UPDATE-GRADE-CARD', data }as const)
 
 
 // TC
@@ -81,6 +88,7 @@ export const getCards = (cardsPack_id: string): AppThunkType => async (dispatch,
     try {
         const { cardQuestion, page, pageCount, sortCards } = getState().cards.queryParams
         const res = await cardsAPI.getCards({
+            //@ts-ignore
             cardsPack_id,
             cardQuestion,
             sortCards,
@@ -135,15 +143,16 @@ export const updateCard = (cardId: UpdateCardType): AppThunkType => async (dispa
     }
 };
 
-export const updateGrade = (cardId: string, grade: number): AppThunkType => async (dispatch) => {
+export const updateGradeCard = (data: CardLearnType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-        const res = await cardsAPI.updateCardGrade(cardId, grade);
-        dispatch(setCardGrade(res.data.updatedGrade.card_id, res.data.updatedGrade.grade, res.data.updatedGrade.shots))
-        dispatch(setAppStatus('succeeded'));
+        const res = await cardsAPI.updateGradeCard(data);
+        dispatch(setUpdateGradeCard(res.data.updatedGrade));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
         dispatch(setAppStatus('failed'))
     }
-}
+};
+
+
 

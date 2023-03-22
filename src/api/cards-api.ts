@@ -13,9 +13,9 @@ export const cardsAPI = {
   updateCard(card: UpdateCardType) {
     return instance.put('/cards/card', { card });
   },
-  updateCardGrade(cardId: string, grade: number) {
-    return instance.put('/cards/grade', {cardId, grade})
-  }
+  updateGradeCard(data: CardLearnType) {
+    return instance.put<ResponseCardsLearnType>('cards/grade', data)
+  },
 };
 
 export type GetParamsType = {
@@ -34,24 +34,23 @@ export type CreateDataType = {
 
 export type UpdateCardType = {
   _id: string
-  cardsPack_id?: string
-  user_id?: string
-  answer?: string
-  question?: string
-  grade?: number
-  shots?: number
-  comments?: string
-  // type: QuestionType
-  rating?: number
-  more_id?: string
-  created?: string
-  updated?: string
-  __v?: number
-  answerImg?: string
-  answerVideo?: string
-  questionImg?: string
-  questionVideo?: string
+  question: string
+
 };
+
+export type UpdatedGradeCartType = {
+  _id: string
+  cardsPack_id: string
+  card_id: string
+  user_id: string
+  grade: number
+  shots: number
+  more_id: string
+  created: string
+  updated: string
+  __v: number
+}
+
 
 export type ResponseCardsType = {
   cards: cardType[],
@@ -88,36 +87,5 @@ export type ResponseCardsLearnType = {
   token: string
   tokenDeathTime: number
 }
-export type UpdatedGradeCartType = {
-  _id: string
-  cardsPack_id: string
-  card_id: string
-  user_id: string
-  grade: number
-  shots: number
-  more_id: string
-  created: string
-  updated: string
-  __v: number
-}
 
-// export type UpdatedCardType = {
-//   _id: string
-//   cardsPack_id: string
-//   user_id: string
-//   answer: string
-//   question: string
-//   grade: number
-//   shots: number
-//   comments: string
-//   // type: QuestionType
-//   rating: number
-//   more_id: string
-//   created: string
-//   updated: string
-//   __v: number
-//   answerImg: string
-//   answerVideo: string
-//   questionImg: string
-//   questionVideo: string
-// }
+
