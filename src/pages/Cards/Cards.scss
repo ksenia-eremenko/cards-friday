@@ -1,74 +1,79 @@
 .cards {
-    .in {
-        position: relative;
-        padding-top: 40px;
+  .in {
+    position: relative;
+    padding-top: 40px;
 
-        .error {
-            top: 140px;
-        }
+    .error {
+      top: 140px;
+    }
+  }
+
+  .filter {
+    padding: 40px 0 25px 0;
+
+    @include nb {
+      padding: 30px 0 20px 0;
     }
 
-    .filter {
-        padding: 40px 0 25px 0;
-
-        @include nb {
-            padding: 30px 0 20px 0;
-        }
-
-        @include tb {
-            padding: 20px 0 15px 0;
-        }
-
-        @include mb {
-            padding: 15px 0;
-        }
+    @include tb {
+      padding: 20px 0 15px 0;
     }
 
-    .link-to-back {
-        color: inherit;
-        text-decoration: none;
-        position: absolute;
-        left: 0;
-        top: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    @include mb {
+      padding: 15px 0;
+    }
+  }
 
-        span {
-            @include animate;
-        }
+  .link-to-back {
+    color: inherit;
+    text-decoration: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-        svg {
-            @include animate;
-        }
-
-        &:not(:first-child) {
-            margin-top: 15px;
-        }
-
-        &:hover {
-            svg {
-                fill: $color4;
-            }
-
-            span {
-                color: $color4;
-            }
-        }
+    span {
+      @include animate;
     }
 
-    .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
+    svg {
+      @include animate;
+    }
 
-        .title-wrapper {
-            display: flex;
-            align-items: center;
-            height: 27px;
-        }
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
 
+    &:hover {
+      svg {
+        fill: $color4;
+      }
+
+      span {
+        color: $color4;
+      }
+    }
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      height: 27px;
+    }
+
+    @include mb {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
         .title {
             word-break: break-all;
         }
@@ -79,125 +84,147 @@
         }
     }
 
-    .table-wrapper {
-        @include mb {
-            overflow-x: auto;
-        }
-
-        .table {
-            border: 1px solid $color10;
-
-            @include mb {
-                min-width: 700px;
-            }
-
-            .table-head,
-            .table-body {
-                .item {
-                    padding: 15px 0;
-
-                    @include mb {
-                        padding: 10px 0;
-                    }
-
-                    &:not(:first-child) {
-                        padding-left: 10px;
-                    }
-
-                    &:not(:last-child) {
-                        padding-right: 10px;
-                    }
-                }
-            }
-
-            .table-head,
-            .table-body .items {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr 140px;
-                padding: 0 30px;
-
-                @include mb {
-                    padding: 0 15px;
-                }
-            }
-
-            .table-head {
-                background: $color9;
-
-                .item {
-                    &.with-sort {
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        gap: 5px;
-
-                        span {
-                            &.active {
-                                svg {
-                                    transform: rotate(180deg);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            .table-body {
-                border-top: 1px solid $color10;
-
-                .items {
-                    &+.items {
-                        border-top: 1px solid $color10;
-                    }
-                }
-
-                .item {
-                    padding: 15px 0;
-                    word-break: break-all;
-                }
-
-                .actions {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 10px;
-
-                    .grades {
-                        display: flex;
-                        gap: 2px;
-
-                        svg {
-                            cursor: pointer;
-                        }
-                    }
-
-                    .action-item {
-                        cursor: pointer;
-
-                        svg {
-                            @include animate;
-                        }
-
-                        &:hover {
-                            svg {
-                                fill: $color4;
-                            }
-                        }
-
-                        &.disabled {
-                            cursor: not-allowed;
-
-                            svg {
-                                fill: rgba($color8, 0.5);
-                            }
-                        }
-                    }
-                }
-
-                .empty {
-                    padding: 15px;
-                }
-            }
-        }
+  .table-wrapper {
+    @include mb {
+      overflow-x: auto;
     }
+
+    .table {
+      border: 1px solid $color10;
+
+      @include mb {
+        min-width: 700px;
+      }
+
+      .table-head,
+      .table-body {
+        .item {
+          padding: 15px 0;
+
+          @include mb {
+            padding: 10px 0;
+          }
+
+          &:not(:first-child) {
+            padding-left: 10px;
+          }
+
+          &:not(:last-child) {
+            padding-right: 10px;
+          }
+        }
+      }
+
+      .table-head,
+      .table-body .items {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 140px;
+        padding: 0 30px;
+
+        @include mb {
+          padding: 0 15px;
+        }
+      }
+
+      .table-head {
+        background: $color9;
+
+        .item {
+          &.with-sort {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            span {
+              &.active {
+                svg {
+                  transform: rotate(180deg);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .table-body {
+        border-top: 1px solid $color10;
+
+        .items {
+          & + .items {
+            border-top: 1px solid $color10;
+          }
+        }
+
+        .item {
+          padding: 15px 0;
+          word-break: break-all;
+        }
+
+        .actions {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+
+          .grades {
+            position: relative;
+            overflow: hidden;
+            font-size: 18px;
+            color: #DADADA;
+
+            &::before {
+              content: '★★★★★';
+              display: block;
+            }
+
+            & .grades-active {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              overflow: hidden;
+
+              &::before {
+                content: '★★★★★';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                color: #FFC700;
+              }
+            }
+          }
+
+          .action-item {
+            cursor: pointer;
+
+            svg {
+              @include animate;
+            }
+
+            &:hover {
+              svg {
+                fill: $color4;
+              }
+            }
+
+            &.disabled {
+              cursor: not-allowed;
+
+              svg {
+                fill: rgba($color8, 0.5);
+              }
+            }
+          }
+        }
+
+        .empty {
+          padding: 15px;
+        }
+      }
+    }
+  }
 }
