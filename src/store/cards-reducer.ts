@@ -24,7 +24,7 @@ export const CardsReducer = (state: InitStateType = initState, action: CardsActi
         case 'CARDS/GET-PACKS-ID':
             return { ...state, cardsPack_id: action.id }
         case 'CARDS/SET-CURRENT-PACK-NAME':
-            return { ...state, cardsPackName: action.packName }
+            return { ...state, packName: action.packName }
         case 'CARDS/GET-PACK-USER-ID':
             return { ...state, packUserId: action.packUserId }
         case 'CARDS/SET-CURRENT-PAGE':
