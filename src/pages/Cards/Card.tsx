@@ -6,8 +6,15 @@ import Modal from '../../components/common/Modal/Modal';
 import Input from '../../components/common/Input/Input';
 import { deleteCard, updateCard } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
+import {countRatingInPercent} from '../../utils/countRatingInPercent';
+import {cardType} from '../../api/cards-api';
 
-const Card = ({ item, isMyCards }: any) => {
+type CardPropsType = {
+    item: cardType
+    isMyCards: boolean
+}
+
+const Card = ({ item, isMyCards }: CardPropsType) => {
     const [modalEditActive, setModalEditActive] = useState(false)
     const [valueInputEditQuestion, setValueInputEditQuestion] = useState('')
     const [valueInputEditAnswer, setValueInputEditAnswer] = useState('')
@@ -39,11 +46,7 @@ const Card = ({ item, isMyCards }: any) => {
 
         <div className="actions">
             <div className="grades">
-                <AiOutlineStar />
-                <AiOutlineStar />
-                <AiOutlineStar />
-                <AiOutlineStar />
-                <AiOutlineStar />
+                <div className='grades-active' style={{width: `${countRatingInPercent(item.grade, 5)}%`}}></div>
             </div>
             {isMyCards
                 ? <div className={classNames(

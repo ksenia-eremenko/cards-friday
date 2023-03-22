@@ -12,6 +12,9 @@ export const cardsAPI = {
   },
   updateCard(card: UpdateCardType) {
     return instance.put('/cards/card', { card });
+  },
+  updateCardGrade(cardId: string, grade: number) {
+    return instance.put('/cards/grade', {cardId, grade})
   }
 };
 
