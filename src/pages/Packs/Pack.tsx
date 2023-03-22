@@ -1,33 +1,44 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineDeleteForever } from 'react-icons/md'
 import { GiHatchets } from 'react-icons/gi'
 import { AiFillEdit } from 'react-icons/ai'
+import { getPackId, setCurrentPackName } from '../../store/cards-reducer'
 import {getCards, getPackId} from '../../store/cards-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
 import classNames from 'classnames'
-import Modal from '../../components/common/Modal/Modal'
-import Input from '../../components/common/Input/Input'
+import ModalEditPack from './Modals/ModalEditPack'
 
 type PackDataType = {
     item: PackType
     userId: string | undefined
 }
 
-const Pack = ({ item, userId }: PackDataType) => {
+export const Pack = ({ item, userId }: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
-    const [valueInput, setValueInput] = useState('')
+    const [valueInput, setValueInput] = useState<string>('')
 
+    const pack = useAppSelector(state => state.packs.cardPacks)
     const status = useAppSelector(state => state.app.status)
-
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const toCardsClickHandler = (cardsPack_id: string) => {
+    useEffect(() => {
+        setValueInput('qwdqwd')
+    }, [])
+
+    const getNameById = (id: string) => {
+        const name = pack.find(e => e._id === id)?.name
+        setValueInput(name ? name : '')
+    }
+
+    const toCardsClickHandler = (cardsPack_id: string, title: string) => {
         dispatch(getPackId(cardsPack_id))
+        dispatch(setCurrentPackName(title))
         navigate('/cards')
     }
+
     const deletePackHandler = (id: string) => {
         dispatch(deletePack(id))
     }
@@ -35,8 +46,8 @@ const Pack = ({ item, userId }: PackDataType) => {
     const updatePackHandler = (id: string) => {
         dispatch(updatedPack(id, valueInput))
         setModalActive(false)
+        setValueInput('')
     }
-
 
     const setPackIdHandler=(packId:string)=>{
 
@@ -48,11 +59,8 @@ const Pack = ({ item, userId }: PackDataType) => {
     return (
         <div className="items">
             <div
-                className={classNames(
-                    "item name b-title bt14",
-                    { "disabled": !item.cardsCount }
-                )}
-                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id)}>{item.name}</div>
+                className={item.cardsCount || (userId === item.user_id) ? 'item name b-title bt14' : 'item name b-title bt14 disabled'}
+                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id, item.name)}>{item.name}</div>
             <div className="item b-title bt14">{item.cardsCount}</div>
             <div className="item b-title bt14">{new Date(item.updated).toLocaleDateString('ua')}</div>
             <div className="item b-title bt14">{item.user_name}</div>
@@ -74,10 +82,12 @@ const Pack = ({ item, userId }: PackDataType) => {
                         'action-item',
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
-                    onClick={() => setModalActive(!modalActive) }>
+                    onClick={() => {
+                        setModalActive(!modalActive)
+                        getNameById(item._id)
+                    }}>
                     <AiFillEdit />
                 </div>
-
                 <div
                     className={classNames(
                         'action-item',
@@ -87,29 +97,16 @@ const Pack = ({ item, userId }: PackDataType) => {
                     <MdOutlineDeleteForever />
                 </div>
             </div>
-            <Modal modalActive={modalActive} setModalActive={setModalActive} title="Edit pack">
-                <form className="form-style">
-                    <Input
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setValueInput(e.currentTarget.value)}
-                        value={valueInput}
-                        placeholder='Name Pack'
-                    />
-                    <div className="styled-checkbox">
-                        <Input
-                            id="private"
-                            type="checkbox"
-                        />
-                        <label htmlFor="private" className="b-title bt16 medium">Private pack</label>
-                    </div>
-                    <div className="btns">
-                        <div className="styled-btn styled-btn-2" onClick={() => setModalActive(false)}>Cancel</div>
-                        <div className="styled-btn styled-btn-1" onClick={() => item.user_id === userId && updatePackHandler(item._id)}>Save</div>
-                    </div>
-                </form>
-            </Modal>
+            <ModalEditPack
+                modalActive={modalActive}
+                setModalActive={setModalActive}
+                valueInput={valueInput}
+                setValueInput={setValueInput}
+                userId={userId}
+                userIdCard={item.user_id}
+                id={item._id}
+                updatePackHandler={updatePackHandler}
+            />
         </div>
     )
 }
-
-export default Pack
-

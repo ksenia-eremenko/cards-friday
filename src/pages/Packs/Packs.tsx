@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import {
@@ -15,9 +15,8 @@ import Filter from '../Filter/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
-import Pack from './Pack';
-import Modal from '../../components/common/Modal/Modal';
-import Input from '../../components/common/Input/Input';
+import { Pack } from './Pack';
+import ModalAddNewPack from './Modals/ModalAddNewPack';
 
 const Packs = () => {
     const [sortСardsCount, setSortСardsCount] = useState<boolean>(false)
@@ -70,7 +69,6 @@ const Packs = () => {
         (!sortUpdate) ? dispatch(setSortPacks('1updated')) : dispatch(setSortPacks('0updated'))
     }
 
-   
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -87,31 +85,15 @@ const Packs = () => {
                         <div className={classNames(
                             "styled-btn styled-btn-1",
                             { 'disabled': status === 'loading' }
-                        )} onClick={() => setModalActive(!modalActive)}>Add new pack</div>
+                        )} onClick={() => setModalActive(true)}>Add new pack</div>
                     </div>
-                    <Modal modalActive={modalActive} setModalActive={setModalActive} title="Add new pack">
-                        <form className="form-style">
-                            <Input
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => setValueInput(e.currentTarget.value)}
-                                value={valueInput}
-                                placeholder='Name Pack'
-                            />
-                            <div className="styled-checkbox">
-                                <Input
-                                    id="private"
-                                    type="checkbox"
-                                />
-                                <label htmlFor="private" className="b-title bt16 medium">Private pack</label>
-                            </div>
-                            <div className="btns">
-                                <div
-                                    className="styled-btn styled-btn-2"
-                                    onClick={() => setModalActive(false)}
-                                >Cancel</div>
-                                <div className="styled-btn styled-btn-1" onClick={createPackHandler}>Save</div>
-                            </div>
-                        </form>
-                    </Modal>
+                    <ModalAddNewPack
+                        modalActive={modalActive}
+                        setModalActive={setModalActive}
+                        valueInput={valueInput}
+                        setValueInput={setValueInput}
+                        createPackHandler={createPackHandler}
+                    />
                     <div className="filter">
                         <Filter />
                     </div>
@@ -143,7 +125,11 @@ const Packs = () => {
                             </div>
                             <div className="table-body">
                                 {packs.length
-                                    ? packs.map((e, i) => <Pack item={e} userId={userId} key={i} />)
+                                    ? packs.map((e, i) => <Pack
+                                        item={e}
+                                        userId={userId}
+                                        key={i}
+                                    />)
                                     : <div className="empty">Nothing found</div>}
                             </div>
                         </div>

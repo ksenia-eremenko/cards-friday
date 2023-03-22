@@ -47,36 +47,36 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
             }
         case 'PACKS/SET-SEARCH':
             return {
-                ...state, queryParams: { ...state.queryParams, packName: action.payload }
+                ...state, queryParams: {...state.queryParams, packName: action.payload}
             }
         case 'PACKS/SET_USER_ID':
             return {
                 ...state,
-                queryParams: { ...state.queryParams, user_id: action.payload },
+                queryParams: {...state.queryParams, user_id: action.payload},
             };
         case 'PACKS/SET-MIN':
             return {
                 ...state,
-                queryParams: { ...state.queryParams, min: action.payload },
+                queryParams: {...state.queryParams, min: action.payload},
             };
         case 'PACKS/SET-MAX':
             return {
                 ...state,
-                queryParams: { ...state.queryParams, max: action.payload },
+                queryParams: {...state.queryParams, max: action.payload},
             };
         case 'PACKS/SET-CURRENT-PAGE':
             return {
-                ...state, queryParams: { ...state.queryParams, page: action.page }
+                ...state, queryParams: {...state.queryParams, page: action.page}
             };
         case 'PACKS/SET-PAGE-COUNT':
             return {
                 ...state,
-                queryParams: { ...state.queryParams, pageCount: action.pageCount }
+                queryParams: {...state.queryParams, pageCount: action.pageCount}
             }
         case 'PACKS/SET-SORT-PACKS':
             return {
                 ...state,
-                queryParams: { ...state.queryParams, sortPacks: action.payload },
+                queryParams: {...state.queryParams, sortPacks: action.payload},
             };
 
         case 'PACKS/RESET-FILTER':
@@ -86,7 +86,7 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 packName: '',
                 min: 0,
                 max: 110
-            } : { ...state.queryParams }
+            } : {...state.queryParams}
             return {
                 ...state,
                 queryParams: tests,
@@ -101,6 +101,18 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 minCardsCount: 0,
                 maxCardsCount: 110
             }
+        case 'PACKS/UPDATE-PACK-TITLE':
+            return {
+                ...state,
+                cardPacks: state.cardPacks.map(pack => pack._id === action.packId
+                    ? {...pack, name: action.newTitle}
+                    : pack)
+            }
+        case 'PACK/DELETE-CURRENT-PACK':
+            return {
+                ...state,
+                cardPacks: state.cardPacks.filter(pack => pack._id !== action.packId)
+            }
         default: {
             return state;
         }
@@ -108,16 +120,22 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
 };
 
 // AC
-export const setPacks = (data: PacksType) => ({ type: 'PACKS/SET-PACKS', payload: { ...data } } as const)
-export const setSearch = (packName: string) => ({ type: 'PACKS/SET-SEARCH', payload: packName } as const)
-export const setUserId = (user_id: string) => ({ type: 'PACKS/SET_USER_ID', payload: user_id } as const);
-export const setMin = (min: number) => ({ type: 'PACKS/SET-MIN', payload: min } as const);
-export const setMax = (max: number) => ({ type: 'PACKS/SET-MAX', payload: max } as const);
-export const setCurrentPage = (page: number) => ({ type: 'PACKS/SET-CURRENT-PAGE', page } as const)
-export const setPageCount = (pageCount: number) => ({ type: 'PACKS/SET-PAGE-COUNT', pageCount } as const)
-export const setSortPacks = (sortPacks: string) => ({ type: 'PACKS/SET-SORT-PACKS', payload: sortPacks } as const);
-export const resetFilter = (isReset?: boolean) => ({ type: 'PACKS/RESET-FILTER', payload: isReset } as const);
-export const resetCardCounts = () => ({ type: 'PACKS/RESET-CARD-COUNTS' } as const);
+export const setPacks = (data: PacksType) => ({type: 'PACKS/SET-PACKS', payload: {...data}} as const)
+export const setSearch = (packName: string) => ({type: 'PACKS/SET-SEARCH', payload: packName} as const)
+export const setUserId = (user_id: string) => ({type: 'PACKS/SET_USER_ID', payload: user_id} as const);
+export const setMin = (min: number) => ({type: 'PACKS/SET-MIN', payload: min} as const);
+export const setMax = (max: number) => ({type: 'PACKS/SET-MAX', payload: max} as const);
+export const setCurrentPage = (page: number) => ({type: 'PACKS/SET-CURRENT-PAGE', page} as const)
+export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT', pageCount} as const)
+export const setSortPacks = (sortPacks: string) => ({type: 'PACKS/SET-SORT-PACKS', payload: sortPacks} as const);
+export const resetFilter = (isReset?: boolean) => ({type: 'PACKS/RESET-FILTER', payload: isReset} as const);
+export const resetCardCounts = () => ({type: 'PACKS/RESET-CARD-COUNTS'} as const);
+export const updatePackTitle = (packId: string, newTitle: string) => ({
+    type: 'PACKS/UPDATE-PACK-TITLE',
+    packId,
+    newTitle
+} as const)
+export const deleteCurrentPack = (packId: string) => ({type: 'PACK/DELETE-CURRENT-PACK', packId} as const)
 
 
 //types
@@ -150,6 +168,8 @@ type SetPageCountActionType = ReturnType<typeof setPageCount>
 type SetSortPacksType = ReturnType<typeof setSortPacks>;
 type ResetFilterType = ReturnType<typeof resetFilter>;
 type ResetCardCountsType = ReturnType<typeof resetCardCounts>;
+type UpdatePackTitleType = ReturnType<typeof updatePackTitle>
+type DeleteCurrentPackType = ReturnType<typeof deleteCurrentPack>
 // type ResetUserIdType = ReturnType<typeof resetUserId>
 
 type PacksActionsType = SetPacksType
@@ -163,12 +183,14 @@ type PacksActionsType = SetPacksType
     | SetSortPacksType
     | ResetFilterType
     | ResetCardCountsType
+    | UpdatePackTitleType
+    | DeleteCurrentPackType
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatus('loading'))
     try {
-        const { pageCount, page, min, max, user_id, packName, sortPacks } = getState().packs.queryParams
+        const {pageCount, page, min, max, user_id, packName, sortPacks} = getState().packs.queryParams
 
         const res = await packsAPI.getPacks({
             page,
@@ -190,8 +212,8 @@ export const getPacks = (): AppThunkType => async (dispatch, getState) => {
 export const deletePack = (packId: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-        await packsAPI.deletePack(packId);
-        dispatch(getPacks());
+        const res = await packsAPI.deletePack(packId);
+        dispatch(deleteCurrentPack(res.data.deletedCardsPack._id))
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
@@ -212,8 +234,9 @@ export const createdPack = (name: string): AppThunkType => async (dispatch) => {
 export const updatedPack = (id: string, name: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-        await packsAPI.updatedPack(id, name);
+        const res = await packsAPI.updatedPack(id, name);
         dispatch(getPacks());
+        dispatch(updatePackTitle(res.data.updatedCardsPack._id, res.data.updatedCardsPack.name))
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);

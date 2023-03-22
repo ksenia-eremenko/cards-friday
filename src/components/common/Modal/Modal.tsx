@@ -1,6 +1,6 @@
 import { RxCross2 } from 'react-icons/rx'
 import classNames from 'classnames'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, KeyboardEvent } from 'react'
 
 type ModalPropsType = {
     modalActive: boolean
@@ -10,12 +10,19 @@ type ModalPropsType = {
 }
 
 const Modal = ({ modalActive, setModalActive, title, children }: ModalPropsType) => {
+    const onKeyDownhandler = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Escape') {
+            setModalActive(false)
+        }
+    }
     return (
         <div className={classNames(
             "modal",
             { "active": modalActive }
         )}
             onClick={() => setModalActive(false)}
+            onKeyDown={onKeyDownhandler}
+            tabIndex={0}
         >
             <div className={classNames(
                 "modal-content",

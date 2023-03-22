@@ -63,6 +63,16 @@
         align-items: center;
         gap: 10px;
 
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            height: 27px;
+        }
+
+        .title {
+            word-break: break-all;
+        }
+
         @include mb {
             flex-direction: column;
             align-items: flex-start;
