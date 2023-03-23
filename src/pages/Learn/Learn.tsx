@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { LearnCard } from "./LearnCard/LearnCard";
-import { cardType } from "../../api/cards-api";
-import { getCard } from "./GetRandomCard/getRandomCard";
+import React, {useEffect, useState} from 'react';
+import './LearnCard/LearnCard.scss';
+import {useAppDispatch, useAppSelector} from "../../store/store";
+import {LearnCard} from "./LearnCard/LearnCard";
+import {cardType} from "../../api/cards-api";
+import {getCard} from "./GetRandomCard/getRandomCard";
 import LinkBack from '../../components/common/LinkBack/LinkBack';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 
 export const Learn = () => {
@@ -25,7 +26,7 @@ export const Learn = () => {
         _id: ''
     })
 
-    const { id } = useParams()
+    const {id} = useParams()
     useEffect(() => {
         if (first) {
             setFirst(false)
@@ -35,20 +36,22 @@ export const Learn = () => {
             setCard(getCard(cards))
         }
 
-        return () => { }
+        return () => {
+        }
     }, [dispatch, id, cards, first])
     return (
-        <div className={'profile'}>
+        <div className='learn'>
             <div className="container">
-                <div className={'in'}>
+                <div className='in'>
                     <LinkBack
                         title='Back to Packs List'
                         url='/packs'
                     />
-                    <div className={'b-title bt16 semibold bt22 align-center'}>Learn: "{packName}" </div>
+                    <div className={'b-title bt16 semibold bt22 align-center'}>Learn: "{packName}"</div>
                     {cards.length > 0 ? (
-                        <LearnCard cards={cards} card={card} setCard={setCard} setFirst={setFirst} />
-                    ) : (<div className={'align-center b-title bt22 semibold color6'}>No available cards in the pack</div>)}
+                        <LearnCard cards={cards} card={card} setCard={setCard} setFirst={setFirst}/>
+                    ) : (<div className={'align-center b-title bt22 semibold color6'}>No available cards in the
+                        pack</div>)}
                 </div>
             </div>
         </div>
