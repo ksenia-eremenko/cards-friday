@@ -1,12 +1,13 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import avatar from '../../assets/images/image-2.png'
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { logout } from '../../store/auth-reducer';
-import { Navigate, NavLink } from 'react-router-dom';
-import { BsArrowLeft, BsCamera } from 'react-icons/bs';
+import { Navigate } from 'react-router-dom';
+import { BsCamera } from 'react-icons/bs';
 import { EditableSpan } from '../../components/common/EditableSpan/EditableSpan';
 import { changeUserData } from '../../store/profile-reducer';
+import LinkBack from '../../components/common/LinkBack/LinkBack';
 
 const Profile = () => {
     const dispatch = useAppDispatch()
@@ -30,10 +31,10 @@ const Profile = () => {
         <div className="profile">
             <div className="container">
                 <div className="in">
-                    <NavLink to='/packs' className="link-to-back">
-                        <BsArrowLeft />
-                        <span className='b-title bt14'>Back to Packs List</span>
-                    </NavLink>
+                    <LinkBack
+                        title='Back to Packs List'
+                        url='/packs'
+                    />
                     <div className="auth-form">
                         <h1 className="title b-title bt26 semibold align-center">Personal Information</h1>
                         <div className="avatar-wrapper">

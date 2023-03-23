@@ -1,9 +1,8 @@
-import React, {FC, useState} from 'react';
-import './LearnCard.scss'
-import {useAppDispatch} from "../../../store/store";
-import {updateGradeCard} from "../../../store/cards-reducer";
-import {cardType} from "../../../api/cards-api";
-import {getCard} from "../GetRandomCard/getRandomCard";
+import React, { FC, useState } from 'react';
+import { useAppDispatch } from "../../../store/store";
+import { updateGradeCard } from "../../../store/cards-reducer";
+import { cardType } from "../../../api/cards-api";
+import { getCard } from "../GetRandomCard/getRandomCard";
 
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer']
@@ -14,7 +13,7 @@ type LearnCardPropsType = {
     card: cardType
     setCard: (value: any) => void
 }
-export const LearnCard: FC<LearnCardPropsType> = ({setFirst, cards, card, setCard}) => {
+export const LearnCard: FC<LearnCardPropsType> = ({ setFirst, cards, card, setCard }) => {
     const [show, setShow] = useState(false)
     const [valueRadio, setValueRadio] = useState<number>(1)
     const dispatch = useAppDispatch();
@@ -28,7 +27,7 @@ export const LearnCard: FC<LearnCardPropsType> = ({setFirst, cards, card, setCar
         setFirst(true)
         if (cards.length > 0) {
             dispatch(
-                updateGradeCard({card_id: card._id, grade: valueRadio, shots: card.shots})
+                updateGradeCard({ card_id: card._id, grade: valueRadio, shots: card.shots })
             )
             setCard(getCard(cards))
         }

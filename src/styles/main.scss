@@ -14,22 +14,25 @@
         "../components/common/Preloader/Preloader",
         "../components/common/Pagination/Pagination",
         "../components/common/Modal/Modal",
+        "../components/common/LinkBack/LinkBack",
         "../components/common/BgOverlay/BgOverlay";
 
 // blocks
-@import "../components/Header/Header";
+@import "../components/Header/Header",
+        "../components/FilterBar/SearchBar/SearchBar",
+        "../components/FilterBar/SearchBar/SearchBar",
+        "../components/FilterBar/FilterRemove/FilterRemove",
+        "../components/FilterBar/DeckOfCards/DeckOfCards",
+        "../components/FilterBar/SliderFilter/SliderFilter";
        
 // pages
 @import "../pages/Profile/Profile",
         "../pages/RecoveryPassword/RecoveryPassword",
         "../pages/Login/Login",
         "../pages/NewPassword/NewPassword",
+        "../pages/Learn/LearnCard/LearnCard",
         "../pages/Packs/Packs",
         "../pages/Cards/Cards",
-"../components/FilterBar/SearchBar/SearchBar",
-"../components/FilterBar/FilterRemove/FilterRemove",
-"../components/FilterBar/DeckOfCards/DeckOfCards",
-"../components/FilterBar/SliderFilter/SliderFilter",
         "../pages/PaginationBlock/PaginationBlock",
         "../pages/NotFound/NotFound";
        
