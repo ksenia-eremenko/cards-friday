@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
+import {Navigate, NavLink, useNavigate, useSearchParams} from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { createdCard, getCards, setCardsPageCount, setCurrentCardsPage, setCurrentPackName, setSortCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -14,6 +14,7 @@ import { deletePack, updatedPack } from '../../store/packs-reducer';
 import EditableTitle from '../../components/common/EditableTitle/EditableTitle';
 import Card from './Card';
 import ModalForCreatedCard from './Modals/ModalsForCreatedCard';
+import ModalDeletePack from '../Packs/Modals/ModalDeletePack';
 
 const Cards = () => {
     const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const Cards = () => {
     const [editMode, setEditMode] = useState(false)
 
     const [modalActive, setModalActive] = useState(false)
+    const [modalDeleteActive, setModalDeleteActive] = useState(false)
     const [valueInputQuestion, setValueInputQuestion] = useState('')
     const [valueInputAnswer, setValueInputAnswer] = useState('')
 
@@ -42,6 +44,7 @@ const Cards = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const isMyCards = authId === packUserId;
     const id = searchParams.get('cardsPack_id')
+    const navigate = useNavigate()
 
     useEffect(() => {
         id && dispatch(getCards(id));
@@ -82,8 +85,17 @@ const Cards = () => {
         dispatch(setCurrentPackName(packTitle))
     }
 
-    const onClickDeleteHandler = () => {
-        dispatch(deletePack(cardsPack_id))
+    const onClickDeleteHandler = (id: string) => {
+        dispatch(deletePack(id))
+        setModalDeleteActive(!modalDeleteActive)
+        setTimeout(() => {
+            navigate('/packs')
+        }, 1000)
+    }
+
+    const onClickLearnHandler = () => {
+        dispatch(getCards(cardsPack_id))
+        navigate('/learn')
     }
 
     if (!isLoggedIn) {
@@ -110,7 +122,7 @@ const Cards = () => {
                                     callback={(newTitle: string) => onClickEditHandler(newTitle)}
                                     className={"title b-title bt22 semibold"}
                                 />
-                                <Popover onClickEdit={() => setEditMode(true)} onClickDelete={onClickDeleteHandler} />
+                                <Popover onClickEdit={() => setEditMode(true)} onClickDelete={()=>setModalDeleteActive(true)} onClickLearn={onClickLearnHandler}/>
                             </div>
                             <div className={classNames(
                                 "styled-btn styled-btn-1",
@@ -183,6 +195,13 @@ const Cards = () => {
                         : null}
                 </div>
             </div>
+            <ModalDeletePack
+                modalActive={modalDeleteActive}
+                setModalActive={setModalDeleteActive}
+                packName={packTitle}
+                id={cardsPack_id}
+                deletePackHandler={(cardsPack_id:string)=>onClickDeleteHandler(cardsPack_id)}
+            />
         </div>
     )
 }

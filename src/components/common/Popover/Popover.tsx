@@ -28,7 +28,7 @@ const Popover = (props: PopoverPropsType) => {
                             <MdOutlineDeleteForever size='22px'/>
                             <span>Delete</span>
                         </li>
-                        <li className="popover-item">
+                        <li className="popover-item" onClick={props.onClickLearn}>
                             <GiHatchets size='22px'/>
                             Learn
                         </li>
