@@ -4,7 +4,7 @@ import {BsArrowLeft} from "react-icons/bs";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import {LearnCard} from "./LearnCard/LearnCard";
 import {cardType} from "../../api/cards-api";
-import {getCard} from "./getRandomCard";
+import {getCard} from "./GetRandomCard/getRandomCard";
 
 
 export const Learn = () => {
@@ -44,7 +44,7 @@ export const Learn = () => {
                     <BsArrowLeft />
                     <span className='b-title bt14'>Back to Packs List</span>
                 </NavLink>
-                <div className={'b-title bt16 semibold bt22 align-center'}>Learn: {packName} </div>
+                <div className={'b-title bt16 semibold bt22 align-center'}>Learn: "{packName}" </div>
                 {cards.length > 0 ? (
                     <LearnCard cards={cards} card={card} setCard={setCard} setFirst={setFirst}/>
                 ) : ( <div className={'align-center b-title bt22 semibold color6'}>No available cards in the pack</div>)}

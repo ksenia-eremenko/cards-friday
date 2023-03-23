@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
-import '../LearnCard.scss'
+import './LearnCard.scss'
 import {useAppDispatch} from "../../../store/store";
 import {updateGradeCard} from "../../../store/cards-reducer";
 import {cardType} from "../../../api/cards-api";
-import {getCard} from "../getRandomCard";
+import {getCard} from "../GetRandomCard/getRandomCard";
 
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer']
@@ -37,16 +37,15 @@ export const LearnCard: FC<LearnCardPropsType> = ({setFirst, cards, card, setCar
         <>
             <div className={'form-wrapper auth-form'}>
                 <div className={'question b-title bt16 semibold align-center'}>Question:
-                    <span className={' b-title bt16 align-center color10 light'}> {card.question}</span>
+                    <span className={'question-item b-title bt16 align-center color10 light'}>{card.question}</span>
                 </div>
                 <div className={'b-title bt14 color6 align-center'}>Количество попыток ответов на вопрос: <span
                     className={'b-title bt14 color9'}>{card.shots}</span></div>
                 {show ? (<>
-                    <div className={'question b-title bt16 semibold align-center'}>
-                        Answer: <span
-                        className={' b-title bt16 align-center color10 light'}>{card.answer}</span>
+                    <div className={'question b-title bt16 semibold align-center'}>Answer:
+                        <span className={'question-item b-title bt16 align-center color10 light'}>{card.answer}</span>
                     </div>
-                    <div className={'b-title bt16 align-center'}>Rate yourself:
+                    <div className={'b-title bt16 '}>Rate yourself:
                         <div>
                             {grades.map((el, index) => {
                                 const onClickHandler = () => {
