@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../store/store";
 import {getCards, updateGradeCard} from "../../store/cards-reducer";
 import {cardType} from "../../api/cards-api";
 import {getCard} from "./getCardSmartRandom";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {BsArrowLeft} from "react-icons/bs";
 
 
@@ -31,10 +31,18 @@ export const FlashCards = () => {
         _id: ''
     })
 
-
+    const { id } = useParams()
     useEffect(() => {
-        dispatch(getCards(cardsPack_id))
-    }, [dispatch, cardsPack_id])
+        if (first) {
+            setFirst(false)
+        }
+
+        if (cards.length > 0) {
+            setCard(getCard(cards))
+        }
+
+        return () => {}
+    }, [dispatch, id, cards, first])
 
 
     const showHandler = () => {
