@@ -16,7 +16,7 @@ import {me} from '../store/auth-reducer';
 import Preloader from '../components/common/Preloader/Preloader';
 import Packs from '../pages/Packs/Packs';
 import Cards from '../pages/Cards/Cards';
-import {FlashCards} from "../pages/FlashCards/FlashCards";
+import {Learn} from "../pages/Learn/Learn";
 
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
                         <Route path="/check-email" element={<CheckEmail/>}/>
                         <Route path="/packs" element={<Packs/>}/>
                         <Route path="/cards" element={<Cards/>}/>
-                        <Route path="/learn" element={<FlashCards/>}/>
+                        <Route path="/learn" element={<Learn/>}/>
                         <Route path="/*" element={<NotFound/>}/>
                     </Routes>
                 </div>

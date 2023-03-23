@@ -22,9 +22,6 @@ function useDebounce(num1: number, num2: number, delay: number = 800) {
 
 
 const SliderFilter = () => {
-
-    const min = useAppSelector(state => state.packs.queryParams.min)
-    const max = useAppSelector(state => state.packs.queryParams.max)
     const minCardCount = useAppSelector(state => state.packs.minCardsCount)
     const maxCardCount = useAppSelector(state => state.packs.maxCardsCount)
     const isReset = useAppSelector(state => state.packs.isReset)
@@ -51,8 +48,8 @@ const SliderFilter = () => {
 
     useEffect(() => {
         if (isReset) {
-            setValue1(min)
-            setValue2(max)
+            setValue1(minCardCount)
+            setValue2(maxCardCount)
         }
         isReset && dispatch(resetFilter(false))
     }, [dispatch, isReset])

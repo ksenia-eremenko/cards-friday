@@ -3,7 +3,7 @@ import { Navigate, NavLink, useSearchParams } from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { createdCard, getCards, setCardsPageCount, setCurrentCardsPage, setCurrentPackName, setSortCards } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { SearchBar } from '../Filter/SearchBar/SearchBar';
+import { SearchBar } from '../../components/FilterBar/SearchBar/SearchBar';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';

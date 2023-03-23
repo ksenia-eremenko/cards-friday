@@ -11,7 +11,7 @@ import {
 } from '../../store/packs-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
-import Filter from '../Filter/Filter';
+import Filter from '../../components/FilterBar/Filter';
 import PaginationBlock from '../PaginationBlock/PaginationBlock';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
