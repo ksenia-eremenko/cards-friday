@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import classNames from 'classnames';
-import { AiFillEdit, AiOutlineStar } from 'react-icons/ai';
+import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { deleteCard, updateCard } from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import {countRatingInPercent} from '../../utils/countRatingInPercent';
-import {cardType} from '../../api/cards-api';
+import { countRatingInPercent } from '../../utils/countRatingInPercent';
+import { cardType } from '../../api/cards-api';
 import ModalEditCard from './Modals/ModalEditCard';
+import ModalDeleteCard from './Modals/ModalDeleteCard';
 
 type CardPropsType = {
     item: cardType
@@ -15,6 +16,7 @@ type CardPropsType = {
 
 const Card = ({ item, isMyCards }: CardPropsType) => {
     const [modalEditActive, setModalEditActive] = useState(false)
+    const [modalDeleteActive, setModalDeleteActive] = useState(false)
     const [valueInputEditQuestion, setValueInputEditQuestion] = useState('')
     const [valueInputEditAnswer, setValueInputEditAnswer] = useState('')
 
@@ -23,6 +25,7 @@ const Card = ({ item, isMyCards }: CardPropsType) => {
 
     const deleteCardHandler = (cardId: string) => {
         dispatch(deleteCard(cardId));
+        setModalDeleteActive(false);
     }
     const updateCardHandler = (cardId: string) => {
         setModalEditActive(false)
@@ -48,7 +51,7 @@ const Card = ({ item, isMyCards }: CardPropsType) => {
 
         <div className="actions">
             <div className="grades">
-                <div className='grades-active' style={{width: `${countRatingInPercent(item.grade, 5)}%`}}></div>
+                <div className='grades-active' style={{ width: `${countRatingInPercent(item.grade, 5)}%` }}></div>
             </div>
             {isMyCards
                 ? <div className={classNames(
@@ -62,7 +65,7 @@ const Card = ({ item, isMyCards }: CardPropsType) => {
                 ? <div className={classNames(
                     'action-item',
                     { 'disabled': status === 'loading' }
-                )} onClick={() => deleteCardHandler(item._id)}>
+                )} onClick={() => setModalDeleteActive(true)}>
                     <MdOutlineDeleteForever />
                 </div>
                 : ''}
@@ -77,6 +80,12 @@ const Card = ({ item, isMyCards }: CardPropsType) => {
             setValueInputEditAnswer={setValueInputEditAnswer}
             updateCardHandler={updateCardHandler}
             id={item._id}
+        />
+        <ModalDeleteCard
+            modalActive={modalDeleteActive}
+            setModalActive={setModalDeleteActive}
+            id={item._id}
+            deleteCardHandler={deleteCardHandler}
         />
     </div >
 }

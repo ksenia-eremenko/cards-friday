@@ -1,6 +1,6 @@
 import React from 'react';
-import {Pagination} from '../../components/common/Pagination/Pagination';
-import Select from '../../components/common/Select/Select';
+import {Pagination} from '../common/Pagination/Pagination';
+import Select from '../common/Select/Select';
 
 type PaginationBlockPropsType = {
     totalItemsCount?: number | undefined

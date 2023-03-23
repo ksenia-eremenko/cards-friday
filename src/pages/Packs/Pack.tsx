@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
 import classNames from 'classnames'
 import ModalEditPack from './Modals/ModalEditPack'
+import ModalDeletePack from './Modals/ModalDeletePack'
 
 type PackDataType = {
     item: PackType
@@ -17,6 +18,7 @@ type PackDataType = {
 
 export const Pack = ({ item, userId }: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
+    const [modalDeleteActive, setModalDeleteActive] = useState(false)
     const [valueInput, setValueInput] = useState<string>('')
 
     const pack = useAppSelector(state => state.packs.cardPacks)
@@ -41,6 +43,7 @@ export const Pack = ({ item, userId }: PackDataType) => {
 
     const deletePackHandler = (id: string) => {
         dispatch(deletePack(id))
+        setModalDeleteActive(false)
     }
 
     const updatePackHandler = (id: string) => {
@@ -49,7 +52,7 @@ export const Pack = ({ item, userId }: PackDataType) => {
         setValueInput('')
     }
 
-    const setPackIdHandler=(packId:string)=>{
+    const setPackIdHandler = (packId: string) => {
 
         dispatch(getCards(packId))
         navigate('/learn')
@@ -71,7 +74,7 @@ export const Pack = ({ item, userId }: PackDataType) => {
                             'action-item',
                             { 'disabled': status === 'loading' }
                         )}
-                        onClick={()=>setPackIdHandler(item._id)}
+                        onClick={() => setPackIdHandler(item._id)}
                     >
                         <GiHatchets />
                     </div>
@@ -93,7 +96,8 @@ export const Pack = ({ item, userId }: PackDataType) => {
                         'action-item',
                         { 'disabled': item.user_id !== userId || status === 'loading' }
                     )}
-                    onClick={() => item.user_id === userId && deletePackHandler(item._id)}>
+                    // onClick={() => item.user_id === userId && deletePackHandler(item._id)}>
+                    onClick={() => item.user_id === userId && setModalDeleteActive(!modalDeleteActive)}>
                     <MdOutlineDeleteForever />
                 </div>
             </div>
@@ -106,6 +110,13 @@ export const Pack = ({ item, userId }: PackDataType) => {
                 userIdCard={item.user_id}
                 id={item._id}
                 updatePackHandler={updatePackHandler}
+            />
+            <ModalDeletePack
+                modalActive={modalDeleteActive}
+                setModalActive={setModalDeleteActive}
+                packName={item.name}
+                id={item._id}
+                deletePackHandler={deletePackHandler}
             />
         </div>
     )

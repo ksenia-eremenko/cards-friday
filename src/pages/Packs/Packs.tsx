@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Error } from '../../components/common/Error/Error';
 import Filter from '../../components/FilterBar/Filter';
-import PaginationBlock from '../PaginationBlock/PaginationBlock';
+import PaginationBlock from '../../components/PaginationBlock/PaginationBlock';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
 import { Pack } from './Pack';

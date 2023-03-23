@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { SearchBar } from '../../components/FilterBar/SearchBar/SearchBar';
 import { IoIosArrowDown } from 'react-icons/io';
 import classNames from 'classnames';
-import PaginationBlock from '../PaginationBlock/PaginationBlock';
+import PaginationBlock from '../../components/PaginationBlock/PaginationBlock';
 import { BsArrowLeft } from 'react-icons/bs';
 import { cardType } from '../../api/cards-api';
 import Popover from '../../components/common/Popover/Popover';
