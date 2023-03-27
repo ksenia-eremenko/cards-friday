@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import avatar from '../../assets/images/image-2.png'
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -10,13 +10,13 @@ import { changeUserData } from '../../store/profile-reducer';
 import LinkBack from '../../components/common/LinkBack/LinkBack';
 import {InputTypeFile} from '../../components/common/InputTypeFile/InputTypeFile';
 import Avatar from '../../components/common/Avatar/Avatar';
+import {Error} from '../../components/common/Error/Error';
 
 const Profile = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const profile = useAppSelector(state => state.auth.profile)
-    const name = useAppSelector(state => state.auth.profile?.name)
-    const profileAva = useAppSelector(state => state.profile.avatar)
+    const profile = useAppSelector(state => state.profile.profile)
+    const error = useAppSelector(state => state.app.error)
 
     const onClickHandler = () => {
         dispatch(logout())
@@ -27,7 +27,7 @@ const Profile = () => {
     }
 
     const editAvatar = (avatar: string) => {
-        dispatch(changeUserData({name, avatar}))
+        dispatch(changeUserData({avatar}))
     }
 
     if (!isLoggedIn) {
@@ -43,15 +43,16 @@ const Profile = () => {
                         url='/packs'
                     />
                     <div className="auth-form">
+                        <Error errorText={error} />
                         <h1 className="title b-title bt26 semibold align-center">Personal Information</h1>
                         <div className="avatar-wrapper">
-                            <Avatar image={profileAva}/>
+                            <Avatar image={profile?.avatar}/>
                             <div className="icon">
                                 <InputTypeFile children={<BsCamera/>} changeFile={editAvatar}/>
                             </div>
                         </div>
                         <div className="name-wrapper">
-                            <EditableSpan callback={editName} name={name ? name : ''} />
+                            <EditableSpan callback={editName} name={profile?.name ? profile.name : ''} />
                         </div>
                         <div className="email b-title bt14 color6 align-center">{profile?.email}</div>
                         <div className="email b-title bt14 color6 align-center">Created packs: {profile?.publicCardPacksCount}</div>

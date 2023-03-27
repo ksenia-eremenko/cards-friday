@@ -1,4 +1,5 @@
 import { instance } from './instance';
+import {ProfileType} from '../store/profile-reducer';
 
 export const profileAPI = {
   editUserData(data: EditDataUserType) {
@@ -15,14 +16,5 @@ type UpdateDataResponseType = {
   data: UpdateResponseType
 };
 type UpdateResponseType = {
-  updatedUser: UpdatedUserType;
-};
-
-export type UpdatedUserType = {
-  _id: string;
-  email: string;
-  rememberMe: boolean;
-  name: string;
-  avatar: string;
-  publicCardPacksCount: number;
+  updatedUser: ProfileType;
 };

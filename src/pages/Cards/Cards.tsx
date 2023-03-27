@@ -37,7 +37,7 @@ const Cards = () => {
     const currentPage = useAppSelector(state => state.cards.queryParams.page);
     const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const sortCards = useAppSelector(state => state.cards.queryParams.sortCards);
-    const authId = useAppSelector(state => state.auth.profile?._id);
+    const authId = useAppSelector(state => state.profile.profile?._id);
     const packUserId = useAppSelector(state => state.cards.packUserId);
     const packTitle = useAppSelector(state => state.cards.packName)
 

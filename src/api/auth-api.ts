@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import {LoginDataType} from '../pages/Login/Login';
 import { instance } from './instance';
-import {ProfileType} from '../store/auth-reducer';
+import {ProfileType} from '../store/profile-reducer';
 
 export type RegisterParamsType = {
     email: string

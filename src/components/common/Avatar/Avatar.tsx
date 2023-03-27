@@ -2,7 +2,7 @@ import React from 'react';
 import avatar from '../../../assets/images/image-2.png';
 
 type PropsType = {
-    image: string
+    image?: string
 }
 
 const Avatar = ({image}: PropsType) => {

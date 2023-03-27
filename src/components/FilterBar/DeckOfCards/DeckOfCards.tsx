@@ -17,7 +17,7 @@ const DeckOfCards = () => {
         color: onOff ? "#0a0a0a" : "#ffffff",
     }
     const dispatch = useAppDispatch();
-    const userId = useAppSelector(state => state.auth.profile?._id)
+    const userId = useAppSelector(state => state.profile.profile?._id)
 
 
     const handleMyCardsClick = () => {

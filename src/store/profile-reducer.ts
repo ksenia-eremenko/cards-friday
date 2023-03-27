@@ -1,47 +1,49 @@
 import {EditDataUserType, profileAPI} from '../api/profile-api';
 import { handleServerNetworkError } from "../utils/error-utils";
-import { setAppStatus } from "./app-reducer";
+import {setAppError, setAppStatus} from './app-reducer';
 import { AppThunkType } from "./store";
-import defaultAva from '../assets/images/image-2.png';
+import {LoginDataType} from '../pages/Login/Login';
+import {authAPI} from '../api/auth-api';
+import {setIsLoggedIn} from './auth-reducer';
 
 const initState = {
-    name: '',
-    _id: '',
-    avatar: defaultAva
+    profile: null as null | ProfileType
 };
 
 export const ProfileReducer = (state = initState, action: ProfileActionsType): InitStateType => {
     switch (action.type) {
-        case 'PROFILE/SET-USER-DATA':
-            return { ...state, ...action.payload.data };
+        case 'AUTH/SET-PROFILE':
+            return { ...state, profile: action.data }
+        case 'PROFILE/UPDATE-PROFILE-DATA':
+            return { ...state, profile: {...action.data} };
         default: {
             return state;
         }
     }
 };
 
-export const setUserData = (data: DataType) => {
-    return {
-        type: 'PROFILE/SET-USER-DATA',
-        payload: { data },
-    } as const;
-};
+//actions
+export const setProfile = (data: ProfileType) => ({ type: 'AUTH/SET-PROFILE', data } as const)
+export const updateProfileData = (data: ProfileType) => ({type: 'PROFILE/UPDATE-PROFILE-DATA', data } as const)
 
-type DataType = {
-    name: string
-    _id: string
-    avatar?: string
+//thunks
+export const getProfile = (data: LoginDataType): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus("loading"))
+    try {
+        const res = await authAPI.login(data)
+        dispatch(setIsLoggedIn(true))
+        dispatch(setProfile(res.data))
+        dispatch(setAppStatus('succeeded'))
+    } catch (error: any) {
+        dispatch(setAppStatus('failed'))
+        if (error.response.data.error === 'user not found /ᐠ-ꞈ-ᐟ\\') {
+            dispatch(setAppError('User not found'))
+        }
+        if (error.response.data.error === 'not correct password /ᐠ-ꞈ-ᐟ\\') {
+            dispatch(setAppError('Not correct password'))
+        }
+    }
 }
-
-type InitStateType = typeof initState
-/*type InitStateType = {
-    name: string
-    _id: string
-}*/
-
-type ProfileActionsType = SetUserDataType
-type SetUserDataType = ReturnType<typeof setUserData>;
-
 
 export const changeUserData = (data: EditDataUserType): AppThunkType => async (dispatch) => {
     console.log(data);
@@ -49,11 +51,38 @@ export const changeUserData = (data: EditDataUserType): AppThunkType => async (d
     dispatch(setAppStatus('loading'));
     try {
         const response = await profileAPI.editUserData(data);
-        const { name, _id, avatar } = response.data.updatedUser;
-        dispatch(setUserData({ name, _id, avatar }));
+        console.log(response)
+        dispatch(updateProfileData(response.data.updatedUser));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
     } finally {
         dispatch(setAppStatus('idle'));
     }
 };
+
+//types
+export type SetProfileType = ReturnType<typeof setProfile>
+export type SetUserDataType = ReturnType<typeof updateProfileData>
+
+type ProfileActionsType = SetProfileType | SetUserDataType
+type InitStateType = typeof initState
+
+type DataType = {
+    name: string
+    _id: string
+    avatar?: string
+}
+
+export type ProfileType = {
+    _id: string
+    email: string
+    name: string
+    avatar?: string
+    publicCardPacksCount: number
+    created: Date
+    updated: Date
+    isAdmin: boolean
+    verified: boolean
+    rememberMe: boolean
+    error?: string
+}

@@ -7,8 +7,8 @@ import Avatar from '../common/Avatar/Avatar';
 
 const Header = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const profile = useAppSelector(state => state.auth.profile)
-    const profileAva = useAppSelector(state => state.profile.avatar)
+    const profile = useAppSelector(state => state.profile.profile)
+    const profileAva = useAppSelector(state => state.profile.profile?.avatar)
 
     return (
         <div className="header">

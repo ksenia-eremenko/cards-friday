@@ -39,7 +39,7 @@ const Packs = () => {
     const max = useAppSelector(state => state.packs.queryParams.max)
     const sortPacks = useAppSelector(state => state.packs.queryParams.sortPacks)
     const status = useAppSelector(state => state.app.status)
-    const userId = useAppSelector(state => state.auth.profile?._id)
+    const userId = useAppSelector(state => state.profile.profile?._id)
 
     useEffect(() => {
         dispatch(getPacks())

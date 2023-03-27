@@ -4,7 +4,7 @@ import Input from '../../components/common/Input/Input'
 import { useFormik } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { getProfile } from '../../store/auth-reducer';
+import { getProfile } from '../../store/profile-reducer';
 import { Error } from '../../components/common/Error/Error';
 import Preloader from '../../components/common/Preloader/Preloader';
 import { setAppError, setAppStatus } from '../../store/app-reducer';
