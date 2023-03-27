@@ -33,16 +33,15 @@
         }
 
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
             .link-profile {
+                display: flex;
+                align-items: center;
+                gap: 12px;
                 text-decoration: none;
                 color: inherit;
             }
 
-            .image {
+            .avatar {
                 img {
                     width: 36px;
                     height: 36px;

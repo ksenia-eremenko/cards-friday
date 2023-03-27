@@ -222,6 +222,7 @@
                 width: 96px;
                 height: 96px;
                 object-fit: cover;
+                border-radius: 50%;
 
                 @include nbtb {
                     width: 86px;
@@ -247,7 +248,7 @@
             height: 32px;
             border-radius: 50%;
             border: 1px solid $color1;
-            background: $color8;
+            background: lighten($color8, 20%);
             @include animate;
 
             svg {
@@ -256,6 +257,10 @@
 
             &:hover {
                 opacity: 0.9;
+            }
+
+            &:active {
+                background-color: darken($color8, 20%);
             }
         }
     }

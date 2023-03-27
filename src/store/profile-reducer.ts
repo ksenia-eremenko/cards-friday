@@ -1,11 +1,13 @@
-import { profileAPI } from "../api/profile-api";
+import {EditDataUserType, profileAPI} from '../api/profile-api';
 import { handleServerNetworkError } from "../utils/error-utils";
 import { setAppStatus } from "./app-reducer";
 import { AppThunkType } from "./store";
+import defaultAva from '../assets/images/image-2.png';
 
 const initState = {
     name: '',
-    _id: ''
+    _id: '',
+    avatar: defaultAva
 };
 
 export const ProfileReducer = (state = initState, action: ProfileActionsType): InitStateType => {
@@ -28,26 +30,27 @@ export const setUserData = (data: DataType) => {
 type DataType = {
     name: string
     _id: string
+    avatar?: string
 }
 
-// type InitStateType = typeof initState
-type InitStateType = {
+type InitStateType = typeof initState
+/*type InitStateType = {
     name: string
     _id: string
-}
+}*/
 
 type ProfileActionsType = SetUserDataType
 type SetUserDataType = ReturnType<typeof setUserData>;
 
 
-export const changeUserData = (data: any): AppThunkType => async (dispatch) => {
+export const changeUserData = (data: EditDataUserType): AppThunkType => async (dispatch) => {
     console.log(data);
-    
+
     dispatch(setAppStatus('loading'));
     try {
         const response = await profileAPI.editUserData(data);
-        const { name, _id } = response.data.updatedUser;
-        dispatch(setUserData({ name, _id }));
+        const { name, _id, avatar } = response.data.updatedUser;
+        dispatch(setUserData({ name, _id, avatar }));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
     } finally {

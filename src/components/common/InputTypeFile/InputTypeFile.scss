@@ -1,0 +1,12 @@
+.input-type-file {
+  & button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+}

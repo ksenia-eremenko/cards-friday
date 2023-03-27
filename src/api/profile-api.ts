@@ -7,7 +7,8 @@ export const profileAPI = {
 };
 
 export type EditDataUserType = {
-  name: string;
+  name?: string
+  avatar?: string
 };
 
 type UpdateDataResponseType = {

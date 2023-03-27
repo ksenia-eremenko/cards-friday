@@ -8,12 +8,15 @@ import { BsCamera } from 'react-icons/bs';
 import { EditableSpan } from '../../components/common/EditableSpan/EditableSpan';
 import { changeUserData } from '../../store/profile-reducer';
 import LinkBack from '../../components/common/LinkBack/LinkBack';
+import {InputTypeFile} from '../../components/common/InputTypeFile/InputTypeFile';
+import Avatar from '../../components/common/Avatar/Avatar';
 
 const Profile = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const profile = useAppSelector(state => state.auth.profile)
     const name = useAppSelector(state => state.auth.profile?.name)
+    const profileAva = useAppSelector(state => state.profile.avatar)
 
     const onClickHandler = () => {
         dispatch(logout())
@@ -21,6 +24,10 @@ const Profile = () => {
 
     const editName = (name: string) => {
         dispatch(changeUserData({ name }))
+    }
+
+    const editAvatar = (avatar: string) => {
+        dispatch(changeUserData({name, avatar}))
     }
 
     if (!isLoggedIn) {
@@ -38,17 +45,16 @@ const Profile = () => {
                     <div className="auth-form">
                         <h1 className="title b-title bt26 semibold align-center">Personal Information</h1>
                         <div className="avatar-wrapper">
-                            <div className="avatar">
-                                <img src={avatar} alt="" />
-                            </div>
+                            <Avatar image={profileAva}/>
                             <div className="icon">
-                                <BsCamera />
+                                <InputTypeFile children={<BsCamera/>} changeFile={editAvatar}/>
                             </div>
                         </div>
                         <div className="name-wrapper">
                             <EditableSpan callback={editName} name={name ? name : ''} />
                         </div>
                         <div className="email b-title bt14 color6 align-center">{profile?.email}</div>
+                        <div className="email b-title bt14 color6 align-center">Created packs: {profile?.publicCardPacksCount}</div>
                         <button className='styled-btn styled-btn-2' onClick={onClickHandler}><AiOutlineLogout />Log out</button>
                     </div>
                 </div>

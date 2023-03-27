@@ -3,10 +3,12 @@ import {NavLink} from 'react-router-dom'
 import {useAppSelector} from '../../store/store'
 import logo from '../../assets/images/logo.svg'
 import avatar from '../../assets/images/image-2.png'
+import Avatar from '../common/Avatar/Avatar';
 
 const Header = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const profile = useAppSelector(state => state.auth.profile)
+    const profileAva = useAppSelector(state => state.profile.avatar)
 
     return (
         <div className="header">
@@ -17,10 +19,10 @@ const Header = () => {
                     </div>
                     {isLoggedIn
                         ? <div className="user-info">
-                            <NavLink to={'/profile'} className="link-profile">{profile?.name}</NavLink>
-                            <div className="image">
-                                <img src={avatar} alt="" />
-                            </div>
+                            <NavLink to={'/profile'} className="link-profile">
+                                {profile?.name}
+                                <Avatar image={profileAva ? profileAva : avatar} />
+                            </NavLink>
                         </div>
                         : <NavLink to={'/login'} className="styled-btn styled-btn-1">Sign in</NavLink>
                     }
