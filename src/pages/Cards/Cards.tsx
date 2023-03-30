@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import {Navigate, NavLink, useNavigate, useSearchParams} from 'react-router-dom';
+import {Navigate, NavLink, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import Preloader from '../../components/common/Preloader/Preloader';
-import { createdCard, getCards, setCardsPageCount, setCurrentCardsPage, setCurrentPackName, setSortCards } from '../../store/cards-reducer';
+import {
+    createdCard,
+    getCards,
+    setCards,
+    setCardsPageCount,
+    setCurrentCardsPage,
+    setCurrentPackName,
+    setSortCards
+} from '../../store/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { SearchBar } from '../../components/FilterBar/SearchBar/SearchBar';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -15,10 +23,11 @@ import EditableTitle from '../../components/common/EditableTitle/EditableTitle';
 import Card from './Card';
 import ModalForCreatedCard from './Modals/ModalsForCreatedCard';
 import ModalDeletePack from '../Packs/Modals/ModalDeletePack';
+import {packsAPI} from "../../api/packs-api";
 
 const Cards = () => {
     const dispatch = useAppDispatch();
-
+    const { packID } = useParams()
     const [sortAnswer, setSortAnswer] = useState<boolean>(false)
     const [sortUpdateCards, setSortUpdateCards] = useState<boolean>(false)
     const [editMode, setEditMode] = useState(false)
@@ -80,9 +89,13 @@ const Cards = () => {
         dispatch(setCardsPageCount(option))
     }
 
-    const onClickEditHandler = (packTitle: string) => {
-        dispatch(updatedPack(cardsPack_id, packTitle))
-        dispatch(setCurrentPackName(packTitle))
+    const onClickEditHandler = async (name: string, deckCover: string) => {
+        if(packID){
+            await  packsAPI.updatedPack({ cardsPack: { _id: packID, name, deckCover } })
+            dispatch(setCards({cardPack_id: packID}))
+        }
+
+
     }
 
     const onClickDeleteHandler = (id: string) => {
@@ -119,7 +132,7 @@ const Cards = () => {
                                     editMode={editMode}
                                     setEditMode={setEditMode}
                                     title={packTitle}
-                                    callback={(newTitle: string) => onClickEditHandler(newTitle)}
+                                    callback={(name: string, deckCover: string) => onClickEditHandler(name, deckCover)}
                                     className={"title b-title bt22 semibold"}
                                 />
                                 <Popover onClickEdit={() => setEditMode(true)} onClickDelete={()=>setModalDeleteActive(true)} onClickLearn={onClickLearnHandler}/>

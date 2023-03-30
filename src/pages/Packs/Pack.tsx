@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { MdOutlineDeleteForever } from 'react-icons/md'
-import { GiHatchets } from 'react-icons/gi'
-import { AiFillEdit } from 'react-icons/ai'
-import { getPackId, setCurrentPackName } from '../../store/cards-reducer'
-import { getCards } from '../../store/cards-reducer'
-import { useAppDispatch, useAppSelector } from '../../store/store'
-import { useNavigate } from 'react-router-dom'
-import { deletePack, PackType, updatedPack } from '../../store/packs-reducer'
+import React, {useEffect, useState} from 'react'
+import {MdOutlineDeleteForever} from 'react-icons/md'
+import {GiHatchets} from 'react-icons/gi'
+import {AiFillEdit} from 'react-icons/ai'
+import {getCards, getPackId, setCurrentPackName} from '../../store/cards-reducer'
+import {useAppDispatch, useAppSelector} from '../../store/store'
+import {useNavigate} from 'react-router-dom'
+import {deletePack, PackType, updatedPack} from '../../store/packs-reducer'
 import classNames from 'classnames'
 import ModalEditPack from './Modals/ModalEditPack'
 import ModalDeletePack from './Modals/ModalDeletePack'
+import Mask from '../../assets/images/Mask.png'
 
 type PackDataType = {
     item: PackType
     userId: string | undefined
+    _id: string
 }
 
-export const Pack = ({ item, userId }: PackDataType) => {
+export const Pack = ({item, userId, _id,}: PackDataType) => {
     const [modalActive, setModalActive] = useState(false)
     const [modalDeleteActive, setModalDeleteActive] = useState(false)
     const [valueInput, setValueInput] = useState<string>('')
@@ -46,14 +47,17 @@ export const Pack = ({ item, userId }: PackDataType) => {
         setModalDeleteActive(false)
     }
 
-    const updatePackHandler = (id: string) => {
-        dispatch(updatedPack(id, valueInput))
+    const updatePackHandler = (name: string, deckCover: string) => {
+        dispatch(updatedPack({
+            cardsPack: {
+                _id, name, deckCover
+            }
+        }))
         setModalActive(false)
         setValueInput('')
     }
 
     const setPackIdHandler = (packId: string) => {
-
         dispatch(getCards(packId))
         navigate('/learn')
     }
@@ -63,7 +67,15 @@ export const Pack = ({ item, userId }: PackDataType) => {
         <div className="items">
             <div
                 className={item.cardsCount || (userId === item.user_id) ? 'item name b-title bt14' : 'item name b-title bt14 disabled'}
-                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id, item.name)}>{item.name}</div>
+                onClick={() => (item.cardsCount || (userId === item.user_id)) && toCardsClickHandler(item._id, item.name)}>
+                <span className={'deck-cover-column'}>
+                      <img
+                          style={{width: '57px', height: '36px'}}
+                          src={item.deckCover ? item.deckCover : Mask}
+                          alt="img"
+                      />
+                </span>
+                {item.name}</div>
             <div className="item b-title bt14">{item.cardsCount}</div>
             <div className="item b-title bt14">{new Date(item.updated).toLocaleDateString('ua')}</div>
             <div className="item b-title bt14">{item.user_name}</div>
@@ -72,33 +84,32 @@ export const Pack = ({ item, userId }: PackDataType) => {
                     ? <div
                         className={classNames(
                             'action-item',
-                            { 'disabled': status === 'loading' }
+                            {'disabled': status === 'loading'}
                         )}
                         onClick={() => setPackIdHandler(item._id)}
                     >
-                        <GiHatchets />
+                        <GiHatchets/>
                     </div>
-                    : <div className="action-item disabled"><GiHatchets /></div>
+                    : <div className="action-item disabled"><GiHatchets/></div>
                 }
                 <div
                     className={classNames(
                         'action-item',
-                        { 'disabled': item.user_id !== userId || status === 'loading' }
+                        {'disabled': item.user_id !== userId || status === 'loading'}
                     )}
                     onClick={() => {
                         setModalActive(!modalActive)
                         getNameById(item._id)
                     }}>
-                    <AiFillEdit />
+                    <AiFillEdit/>
                 </div>
                 <div
                     className={classNames(
                         'action-item',
-                        { 'disabled': item.user_id !== userId || status === 'loading' }
+                        {'disabled': item.user_id !== userId || status === 'loading'}
                     )}
-                    // onClick={() => item.user_id === userId && deletePackHandler(item._id)}>
                     onClick={() => item.user_id === userId && setModalDeleteActive(!modalDeleteActive)}>
-                    <MdOutlineDeleteForever />
+                    <MdOutlineDeleteForever/>
                 </div>
             </div>
             <ModalEditPack
@@ -110,6 +121,7 @@ export const Pack = ({ item, userId }: PackDataType) => {
                 userIdCard={item.user_id}
                 id={item._id}
                 updatePackHandler={updatePackHandler}
+                deckCover={item.deckCover}
             />
             <ModalDeletePack
                 modalActive={modalDeleteActive}

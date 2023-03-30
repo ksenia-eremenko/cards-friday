@@ -1,4 +1,4 @@
-import {packsAPI} from '../api/packs-api';
+import {AddNewPackDatatype, packsAPI, UpdatePackDataType} from '../api/packs-api';
 import {handleServerNetworkError} from '../utils/error-utils';
 import {setAppStatus, SetAppStatusActionType} from './app-reducer';
 import {AppThunkType} from './store';
@@ -8,6 +8,9 @@ type InitStateType = {
     cardPacksTotalCount: number,
     minCardsCount: number,
     maxCardsCount: number,
+    name: string,
+    deckCover: string,
+    private: boolean
     queryParams: {
         pageCount: number,
         page: number,
@@ -25,6 +28,9 @@ const initState = {
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 110,
+    name: '',
+    deckCover: '',
+    private: false,
     queryParams: {
         pageCount: 10,
         page: 1,
@@ -101,17 +107,22 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
                 minCardsCount: 0,
                 maxCardsCount: 110
             }
-        case 'PACKS/UPDATE-PACK-TITLE':
+        case 'PACKS/UPDATE_PACK':
             return {
                 ...state,
-                cardPacks: state.cardPacks.map(pack => pack._id === action.packId
-                    ? {...pack, name: action.newTitle}
-                    : pack)
+                cardPacks: [...state.cardPacks.map(pack => pack._id === action.newPack._id
+                    ? {...action.newPack}
+                    : pack)],
             }
         case 'PACK/DELETE-CURRENT-PACK':
             return {
                 ...state,
                 cardPacks: state.cardPacks.filter(pack => pack._id !== action.packId)
+            }
+        case 'PACK/CREATED-PACK':
+            return {
+                ...state,
+                cardPacks: [action.newPack, ...state.cardPacks]
             }
         default: {
             return state;
@@ -130,26 +141,39 @@ export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT
 export const setSortPacks = (sortPacks: string) => ({type: 'PACKS/SET-SORT-PACKS', payload: sortPacks} as const);
 export const resetFilter = (isReset?: boolean) => ({type: 'PACKS/RESET-FILTER', payload: isReset} as const);
 export const resetCardCounts = () => ({type: 'PACKS/RESET-CARD-COUNTS'} as const);
-export const updatePackTitle = (packId: string, newTitle: string) => ({
-    type: 'PACKS/UPDATE-PACK-TITLE',
-    packId,
-    newTitle
-} as const)
+// export const updatePack = (packId: string, newTitle: string) => ({
+//     type: 'PACKS/UPDATE-PACK-TITLE',
+//     packId,
+//     newTitle
+// } as const)
+export const updatePack = (newPack: PackType) =>
+    ({
+        type: 'PACKS/UPDATE_PACK',
+        newPack,
+    } as const)
 export const deleteCurrentPack = (packId: string) => ({type: 'PACK/DELETE-CURRENT-PACK', packId} as const)
+export const createdNewPack = (newPack: PackType ) => ({type: 'PACK/CREATED-PACK', newPack} as const)
+// export const updateImagePack = (data: {name: string, deckCover: string, private: boolean}) => ({type:  'PACK/UPDATE-IMAGE-PACK', data } as const)
 
 
 //types
 export type PackType = {
-    _id: string;
-    user_id: string | null;
-    name: string;
-    user_name: string;
-    cardsCount: number;
-    created: string;
-    updated: string;
-    grade: number;
-    rating: number;
-    shots: number;
+    _id: string
+    user_id: string | null
+    user_name?: string
+    private?: boolean
+    name: string
+    path?: string
+    grade: number
+    shots: number
+    cardsCount?: number
+    type?: string
+    rating?: number
+    created?: string
+    updated: string
+    more_id?: string
+    __v?: number
+    deckCover: string
 }
 type PacksType = {
     cardPacks: PackType[];
@@ -168,9 +192,11 @@ type SetPageCountActionType = ReturnType<typeof setPageCount>
 type SetSortPacksType = ReturnType<typeof setSortPacks>;
 type ResetFilterType = ReturnType<typeof resetFilter>;
 type ResetCardCountsType = ReturnType<typeof resetCardCounts>;
-type UpdatePackTitleType = ReturnType<typeof updatePackTitle>
+type UpdatePackType = ReturnType<typeof updatePack>
 type DeleteCurrentPackType = ReturnType<typeof deleteCurrentPack>
-// type ResetUserIdType = ReturnType<typeof resetUserId>
+type CreatedNewPackType = ReturnType<typeof createdNewPack>
+// type UpdateImagePackType = ReturnType<typeof updateImagePack>
+
 
 type PacksActionsType = SetPacksType
     | SetAppStatusActionType
@@ -183,8 +209,10 @@ type PacksActionsType = SetPacksType
     | SetSortPacksType
     | ResetFilterType
     | ResetCardCountsType
-    | UpdatePackTitleType
+    | UpdatePackType
     | DeleteCurrentPackType
+|CreatedNewPackType
+    // | UpdateImagePackType
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState) => {
@@ -220,10 +248,10 @@ export const deletePack = (packId: string): AppThunkType => async (dispatch) => 
         dispatch(setAppStatus('failed'))
     }
 };
-export const createdPack = (name: string): AppThunkType => async (dispatch) => {
+export const createdPack = (data: AddNewPackDatatype): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-        await packsAPI.createPack(name);
+        await packsAPI.createPack(data);
         dispatch(getPacks());
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
@@ -231,15 +259,29 @@ export const createdPack = (name: string): AppThunkType => async (dispatch) => {
         dispatch(setAppStatus('failed'))
     }
 };
-export const updatedPack = (id: string, name: string): AppThunkType => async (dispatch) => {
+export const updatedPack = (data: UpdatePackDataType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-        const res = await packsAPI.updatedPack(id, name);
+       await packsAPI.updatedPack(data);
         dispatch(getPacks());
-        dispatch(updatePackTitle(res.data.updatedCardsPack._id, res.data.updatedCardsPack.name))
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
         handleServerNetworkError(err.response.data.error, dispatch);
         dispatch(setAppStatus('failed'))
     }
 };
+
+
+
+// export const addNewPack = (): AppThunkType => async (dispatch) => {
+//     dispatch(setAppStatus('loading'));
+//     try {
+//         const res = await packsAPI.addNewPack( );
+//         dispatch(getPacks());
+//         dispatch(updatePackTitle(res.data.updatedCardsPack._id, res.data.updatedCardsPack.name))
+//         dispatch(setAppStatus('succeeded'));
+//     } catch (err: any) {
+//         handleServerNetworkError(err.response.data.error, dispatch);
+//         dispatch(setAppStatus('failed'))
+//     }
+// };

@@ -1,13 +1,12 @@
 import React, {ChangeEvent, ReactNode, useRef} from 'react';
 import './InputTypeFile.scss';
 import {convertFileToBase64} from './convertFileToBase64';
-import login from '../../../pages/Login/Login';
 import {useAppDispatch} from '../../../store/store';
 import {setAppError} from '../../../store/app-reducer';
 
 type PropsType = {
     changeFile: (file: string) => void
-    children: ReactNode
+    children?: ReactNode
 }
 
 export const InputTypeFile = ({children, changeFile}: PropsType) => {
