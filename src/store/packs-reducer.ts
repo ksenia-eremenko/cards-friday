@@ -63,12 +63,12 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
         case 'PACKS/SET-MIN':
             return {
                 ...state,
-                queryParams: {...state.queryParams, min: action.payload},
+                queryParams: {...state.queryParams, min: action.payload}
             };
         case 'PACKS/SET-MAX':
             return {
                 ...state,
-                queryParams: {...state.queryParams, max: action.payload},
+                queryParams: {...state.queryParams, max: action.payload}
             };
         case 'PACKS/SET-CURRENT-PAGE':
             return {
@@ -96,16 +96,8 @@ export const PacksReducer = (state: InitStateType = initState, action: PacksActi
             return {
                 ...state,
                 queryParams: tests,
-                minCardsCount: action.payload ? 0 : state.minCardsCount,
-                maxCardsCount: action.payload ? 110 : state.minCardsCount,
                 isReset: action.payload
 
-            }
-        case 'PACKS/RESET-CARD-COUNTS':
-            return {
-                ...state,
-                minCardsCount: 0,
-                maxCardsCount: 110
             }
         case 'PACKS/UPDATE_PACK':
             return {
@@ -140,20 +132,9 @@ export const setCurrentPage = (page: number) => ({type: 'PACKS/SET-CURRENT-PAGE'
 export const setPageCount = (pageCount: number) => ({type: 'PACKS/SET-PAGE-COUNT', pageCount} as const)
 export const setSortPacks = (sortPacks: string) => ({type: 'PACKS/SET-SORT-PACKS', payload: sortPacks} as const);
 export const resetFilter = (isReset?: boolean) => ({type: 'PACKS/RESET-FILTER', payload: isReset} as const);
-export const resetCardCounts = () => ({type: 'PACKS/RESET-CARD-COUNTS'} as const);
-// export const updatePack = (packId: string, newTitle: string) => ({
-//     type: 'PACKS/UPDATE-PACK-TITLE',
-//     packId,
-//     newTitle
-// } as const)
-export const updatePack = (newPack: PackType) =>
-    ({
-        type: 'PACKS/UPDATE_PACK',
-        newPack,
-    } as const)
+export const updatePack = (newPack: PackType) => ({type: 'PACKS/UPDATE_PACK', newPack,} as const)
 export const deleteCurrentPack = (packId: string) => ({type: 'PACK/DELETE-CURRENT-PACK', packId} as const)
-export const createdNewPack = (newPack: PackType ) => ({type: 'PACK/CREATED-PACK', newPack} as const)
-// export const updateImagePack = (data: {name: string, deckCover: string, private: boolean}) => ({type:  'PACK/UPDATE-IMAGE-PACK', data } as const)
+export const createdNewPack = (newPack: PackType) => ({type: 'PACK/CREATED-PACK', newPack} as const)
 
 
 //types
@@ -183,7 +164,7 @@ type PacksType = {
 }
 // type InitStateType = typeof initState;
 type SetPacksType = ReturnType<typeof setPacks>;
-export type SetSearchType = ReturnType<typeof setSearch>
+type SetSearchType = ReturnType<typeof setSearch>
 type SetUserIdType = ReturnType<typeof setUserId>
 type SetMinType = ReturnType<typeof setMin>
 type SetMaxType = ReturnType<typeof setMax>
@@ -191,11 +172,9 @@ type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
 type SetPageCountActionType = ReturnType<typeof setPageCount>
 type SetSortPacksType = ReturnType<typeof setSortPacks>;
 type ResetFilterType = ReturnType<typeof resetFilter>;
-type ResetCardCountsType = ReturnType<typeof resetCardCounts>;
 type UpdatePackType = ReturnType<typeof updatePack>
 type DeleteCurrentPackType = ReturnType<typeof deleteCurrentPack>
 type CreatedNewPackType = ReturnType<typeof createdNewPack>
-// type UpdateImagePackType = ReturnType<typeof updateImagePack>
 
 
 type PacksActionsType = SetPacksType
@@ -208,18 +187,16 @@ type PacksActionsType = SetPacksType
     | SetPageCountActionType
     | SetSortPacksType
     | ResetFilterType
-    | ResetCardCountsType
     | UpdatePackType
     | DeleteCurrentPackType
-|CreatedNewPackType
-    // | UpdateImagePackType
+    | CreatedNewPackType
+
 
 //thunks
 export const getPacks = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatus('loading'))
     try {
         const {pageCount, page, min, max, user_id, packName, sortPacks} = getState().packs.queryParams
-
         const res = await packsAPI.getPacks({
             page,
             pageCount,
@@ -230,6 +207,7 @@ export const getPacks = (): AppThunkType => async (dispatch, getState) => {
             packName
         })
         dispatch(setPacks(res.data));
+        dispatch(setMax(res.data.queryParams.max))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
         dispatch(setAppStatus('failed'))
@@ -262,7 +240,7 @@ export const createdPack = (data: AddNewPackDatatype): AppThunkType => async (di
 export const updatedPack = (data: UpdatePackDataType): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus('loading'));
     try {
-       await packsAPI.updatedPack(data);
+        await packsAPI.updatedPack(data);
         dispatch(getPacks());
         dispatch(setAppStatus('succeeded'));
     } catch (err: any) {
@@ -272,16 +250,3 @@ export const updatedPack = (data: UpdatePackDataType): AppThunkType => async (di
 };
 
 
-
-// export const addNewPack = (): AppThunkType => async (dispatch) => {
-//     dispatch(setAppStatus('loading'));
-//     try {
-//         const res = await packsAPI.addNewPack( );
-//         dispatch(getPacks());
-//         dispatch(updatePackTitle(res.data.updatedCardsPack._id, res.data.updatedCardsPack.name))
-//         dispatch(setAppStatus('succeeded'));
-//     } catch (err: any) {
-//         handleServerNetworkError(err.response.data.error, dispatch);
-//         dispatch(setAppStatus('failed'))
-//     }
-// };

@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { resetFilter, setMax, setMin } from "../../../store/packs-reducer";
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {resetFilter, setMax, setMin} from "../../../store/packs-reducer";
 
 
 function useDebounce(num1: number, num2: number, delay: number = 800) {
@@ -22,15 +22,15 @@ function useDebounce(num1: number, num2: number, delay: number = 800) {
 
 
 const SliderFilter = () => {
-    const minCardCount = useAppSelector(state => state.packs.minCardsCount)
-    const maxCardCount = useAppSelector(state => state.packs.maxCardsCount)
+    const min = useAppSelector(state => state.packs.minCardsCount)
+    const max = useAppSelector(state => state.packs.maxCardsCount)
     const isReset = useAppSelector(state => state.packs.isReset)
-    
+
     const dispatch = useAppDispatch();
 
-    const [value1, setValue1] = useState(minCardCount);
-    const [value2, setValue2] = useState(maxCardCount);
-
+    const [value1, setValue1] = useState(min);
+    const [value2, setValue2] = useState(max);
+    console.log(max)
 
     const debouncedSearchTerm = useDebounce(value1, value2, 1500);
 
@@ -43,13 +43,12 @@ const SliderFilter = () => {
     const onChangeHandler2 = (e: ChangeEvent<HTMLInputElement>) => {
         const max = parseInt(e.currentTarget.value);
         setValue2(max)
-
     }
 
     useEffect(() => {
         if (isReset) {
-            setValue1(minCardCount)
-            setValue2(maxCardCount)
+            setValue1(min)
+            setValue2(max)
         }
         isReset && dispatch(resetFilter(false))
     }, [dispatch, isReset])
@@ -63,6 +62,7 @@ const SliderFilter = () => {
         [debouncedSearchTerm]
     );
 
+
     return (
         <div className={'slider-container'}>
             <div className={'slider-title b-title bt14 medium'}>Number of cards</div>
@@ -72,10 +72,12 @@ const SliderFilter = () => {
                     <div className="range-slider">
                         <span className="full-range">
                             <span className="incl-range"
-                                style={{ width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%` }}></span>
+                                  style={{width: `${value2 - value1}%`, maxWidth: '110%', left: `${value1}%`}}></span>
                         </span>
-                        <input className='rangeOne' name="rangeOne" onChange={onChangeHandler} value={value1} type="range" />
-                        <input className='rangeTwo' name="rangeTwo" onChange={onChangeHandler2} value={value2} type="range" />
+                        <input className='rangeOne' name="rangeOne" onChange={onChangeHandler} value={value1}
+                               type="range"/>
+                        <input className='rangeTwo' name="rangeTwo" onChange={onChangeHandler2} value={value2}
+                               type="range"/>
                     </div>
                 </div>
                 <span className="output outputTwo b-title bt14 medium">{value2}</span>

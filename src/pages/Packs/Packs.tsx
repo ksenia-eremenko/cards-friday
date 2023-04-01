@@ -16,7 +16,7 @@ const Packs = () => {
     const [sortUpdate, setSortUpdate] = useState<boolean>(false)
     const [modalActive, setModalActive] = useState(false)
     const [valueInput, setValueInput] = useState('')
-    // const [deckCover, setDeckCover] = useState(defaultPackCover)
+
 
     const dispatch = useAppDispatch()
 
